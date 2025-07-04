@@ -11,6 +11,8 @@
 
 ## 代码：
 
+- main.c
+
 ```c
 /* USER CODE BEGIN PV */
 atk_ms601m_attitude_data_t attitude_dat;
@@ -18,9 +20,6 @@ atk_ms601m_gyro_data_t gyro_dat;
 atk_ms601m_accelerometer_data_t accelerometer_dat;
 /* USER CODE END PV */
 
-/* USER CODE BEGIN PFP */
-void delay_us_hal(uint16_t nus);
-/* USER CODE END PFP */
 
   /* USER CODE BEGIN 2 */
 	atk_ms601m_init(115200);
@@ -56,7 +55,17 @@ void delay_us_hal(uint16_t nus)
 /* USER CODE END 4 */
 ```
 
-- **需要在stm32h7xx_it.c中将void USART2_IRQHandler(void)函数注释防止冲突**
+- main.h
+
+  ```c
+  /* USER CODE BEGIN EFP */
+  void delay_us_hal(uint16_t nus);
+  /* USER CODE END EFP */
+  ```
 
   
+
+- **需要在stm32h7xx_it.c中将void USARTX_IRQHandler(void)函数注释防止冲突**
+
+- **需要在atk_ms601m_uart.h中将引脚定义替换成所用串口引脚**
 

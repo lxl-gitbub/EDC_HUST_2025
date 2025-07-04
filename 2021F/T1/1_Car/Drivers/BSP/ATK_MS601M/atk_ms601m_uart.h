@@ -1,19 +1,19 @@
 /**
  ****************************************************************************************************
  * @file        atk_ms601m_uart.h
- * @author      ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½Å¶ï¿½(ALIENTEK)
+ * @author      ÕýµãÔ­×ÓÍÅ¶Ó(ALIENTEK)
  * @version     V1.0
  * @date        2022-06-21
- * @brief       ATK-MS601MÄ£ï¿½ï¿½UARTï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
- * @license     Copyright (c) 2020-2032, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿Æ¼ï¿½ï¿½ï¿½ï¿½Þ¹ï¿½Ë¾
+ * @brief       ATK-MS601MÄ£¿éUART½Ó¿ÚÇý¶¯´úÂë
+ * @license     Copyright (c) 2020-2032, ¹ãÖÝÊÐÐÇÒíµç×Ó¿Æ¼¼ÓÐÏÞ¹«Ë¾
  ****************************************************************************************************
  * @attention
  *
- * Êµï¿½ï¿½Æ½Ì¨:ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ F767ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
- * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµ:www.yuanzige.com
- * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì³:www.openedv.com
- * ï¿½ï¿½Ë¾ï¿½ï¿½Ö·:www.alientek.com
- * ï¿½ï¿½ï¿½ï¿½ï¿½Ö·:openedv.taobao.com
+ * ÊµÑéÆ½Ì¨:ÕýµãÔ­×Ó °¢²¨ÂÞ F767¿ª·¢°å
+ * ÔÚÏßÊÓÆµ:www.yuanzige.com
+ * ¼¼ÊõÂÛÌ³:www.openedv.com
+ * ¹«Ë¾ÍøÖ·:www.alientek.com
+ * ¹ºÂòµØÖ·:openedv.taobao.com
  *
  ****************************************************************************************************
  */
@@ -23,7 +23,7 @@
 
 #include "AllHeader.h"
 
-/* ï¿½ï¿½ï¿½Å¶ï¿½ï¿½ï¿½ */
+/* Òý½Å¶¨Òå */
 //#define ATK_MS601M_UART_TX_GPIO_PORT            GPIOA
 //#define ATK_MS601M_UART_TX_GPIO_PIN             GPIO_PIN_2
 #define ATK_MS601M_UART_TX_GPIO_AF              GPIO_AF7_USART2
@@ -35,14 +35,14 @@
 #define ATK_MS601M_UART_INTERFACE               USART2
 #define ATK_MS601M_UART_IRQn                    USART2_IRQn
 #define ATK_MS601M_UART_IRQHandler              USART2_IRQHandler
-/* UARTï¿½ï¿½ï¿½ï¿½FIFOï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ */
+/* UART½ÓÊÕFIFO»º³å´óÐ¡ */
 #define ATK_MS601M_UART_RX_FIFO_BUF_SIZE        128
 
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
-uint8_t atk_ms601m_uart_rx_fifo_write(uint8_t *dat, uint16_t len);  /* ATK-MS601M UARTï¿½ï¿½ï¿½ï¿½FIFOÐ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
-uint16_t atk_ms601m_uart_rx_fifo_read(uint8_t *dat, uint16_t len);  /* ATK-MS601M UARTï¿½ï¿½ï¿½ï¿½FIFOï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ */
-void atk_ms601m_rx_fifo_flush(void);                                /* ATK-MS601M UARTï¿½ï¿½ï¿½ï¿½FIFOï¿½ï¿½ï¿½ */
-void atk_ms601m_uart_send(uint8_t *dat, uint8_t len);               /* ATK-MS601M UARTï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
-void atk_ms601m_uart_init(uint32_t baudrate);                       /* ATK-MS601M UARTï¿½ï¿½Ê¼ï¿½ï¿½ */
+/* ²Ù×÷º¯Êý */
+uint8_t atk_ms601m_uart_rx_fifo_write(uint8_t *dat, uint16_t len);  /* ATK-MS601M UART½ÓÊÕFIFOÐ´ÈëÊý¾Ý */
+uint16_t atk_ms601m_uart_rx_fifo_read(uint8_t *dat, uint16_t len);  /* ATK-MS601M UART½ÓÊÕFIFO¶ÁÈ¡Êý¾Ý */
+void atk_ms601m_rx_fifo_flush(void);                                /* ATK-MS601M UART½ÓÊÕFIFOÇå¿Õ */
+void atk_ms601m_uart_send(uint8_t *dat, uint8_t len);               /* ATK-MS601M UART·¢ËÍÊý¾Ý */
+void atk_ms601m_uart_init(uint32_t baudrate);                       /* ATK-MS601M UART³õÊ¼»¯ */
 
 #endif
