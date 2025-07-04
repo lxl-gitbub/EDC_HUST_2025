@@ -49,6 +49,7 @@
 atk_ms601m_attitude_data_t attitude_dat;
 atk_ms601m_gyro_data_t gyro_dat;
 atk_ms601m_accelerometer_data_t accelerometer_dat;
+char message[256]; 
 
 //八路巡线数据变量
 extern uint8_t g_new_package_flag;
@@ -118,18 +119,30 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	//陀螺仪初始化
 	atk_ms601m_init(115200);
+	
 	//等待红外稳定，将八路巡线器初始化
 	HAL_Delay(1000);
 	HAL_UART_Receive_IT(&huart6, &Rx_Temp, 1);
 	HAL_UART_Transmit(&huart6, (uint8_t *)"$0,0,1#", 7, HAL_MAX_DELAY);
 	HAL_UART_Receive_IT(&huart6, &Rx_Temp, 1);
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
+		//陀螺仪数据读取
+		atk_ms601m_get_attitude(&attitude_dat, 100);                            /* 姿态角 attitude_dat.roll, attitude_dat.pitch, attitude_dat.yaw */
+    atk_ms601m_get_gyro_accelerometer(&gyro_dat, &accelerometer_dat, 100);  /* 陀螺仪和加速度 gyro_dat.x, gyro_dat.y, gyro_dat.z,
+		
+																																					accelerometer_dat.x, accelerometer_dat.y, accelerometer_dat.z*/
+		//八路灰度传感器数据读取
+		if(g_new_package_flag == 1)
+		{
+			g_new_package_flag = 0;
+			Deal_Usart_Data();			//数据存在IR_Data_number[]数组中
+		}
 
     /* USER CODE BEGIN 3 */
   }
@@ -209,6 +222,19 @@ void delay_us_hal(uint16_t nus)
     HAL_TIM_Base_Stop(&htim6);        
 }
 
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    // 判断中断是否来自USART6
+    if (huart->Instance == USART6)
+    {
+        // 此时，接收到的一个字节数据已经由HAL库自动存入了Rx3_Temp变量中
+        // 调用您的数据处理函数
+        Deal_IR_Usart(Rx_Temp);
+        
+        // 【关键】必须再次调用HAL_UART_Receive_IT()函数，以准备下一次的数据接收
+        HAL_UART_Receive_IT(&huart6, &Rx_Temp, 1);
+    }
+}
 /* USER CODE END 4 */
 
 /* MPU Configuration */
