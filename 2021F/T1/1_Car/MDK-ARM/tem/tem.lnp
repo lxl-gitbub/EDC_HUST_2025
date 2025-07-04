@@ -30,6 +30,9 @@
 "tem\atk_ms601m.o"
 "tem\atk_ms601m_uart.o"
 "tem\app_usart2.o"
+"tem\tb6612fng.o"
+"tem\mem.o"
+"tem\hall_encoder.o"
 --library_type=microlib --strict --scatter "tem\tem.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

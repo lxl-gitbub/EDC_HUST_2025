@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Drivers/BSP/ATK_MS601M;../Drivers/BSP/IR_Tracking</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Drivers/BSP/ATK_MS601M;../Drivers/BSP/IR_Tracking;../Hall_Encoder;../Memory;../TB6612FNG</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -567,6 +567,36 @@
               <FileName>app_usart2.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Drivers\BSP\IR_Tracking\app_usart2.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>motor</GroupName>
+          <Files>
+            <File>
+              <FileName>tb6612fng.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TB6612FNG\tb6612fng.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Memory</GroupName>
+          <Files>
+            <File>
+              <FileName>Mem.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Memory\Mem.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>encoder</GroupName>
+          <Files>
+            <File>
+              <FileName>Hall_Encoder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hall_Encoder\Hall_Encoder.c</FilePath>
             </File>
           </Files>
         </Group>

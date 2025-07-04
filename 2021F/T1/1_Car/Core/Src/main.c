@@ -55,6 +55,8 @@ char message[256];
 extern uint8_t g_new_package_flag;
 uint8_t Rx_Temp; // 用于接收USART数据的临时变量
 
+//TB6612电机驱动变量
+Motor Left, Right;  // 定义两个电机
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -120,29 +122,63 @@ int main(void)
 	//陀螺仪初始化
 	atk_ms601m_init(115200);
 	
-	//等待红外稳定，将八路巡线器初始化
+	//等待传感器稳定，八路巡线传感器初始化
 	HAL_Delay(1000);
 	HAL_UART_Receive_IT(&huart6, &Rx_Temp, 1);
 	HAL_UART_Transmit(&huart6, (uint8_t *)"$0,0,1#", 7, HAL_MAX_DELAY);
 	HAL_UART_Receive_IT(&huart6, &Rx_Temp, 1);
 	
+	//TB6612电机驱动初始化
+	// 电机A初始化: AIN1(PE9), AIN2(PE11), PWM(TIM5_CH1)
+	MotorInit(&Left, GPIOB, GPIO_PIN_1, GPIOC, GPIO_PIN_5, &htim5, TIM_CHANNEL_1, 0);
+	// 电机B初始化: BIN1(PA6), BIN2(PA7), PWM(TIM5_CH2) 
+	MotorInit(&Right, GPIOB, GPIO_PIN_0, GPIOC, GPIO_PIN_4, &htim5, TIM_CHANNEL_2, 0);
+	
+  uint8_t test_state = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		//陀螺仪数据读取
-		atk_ms601m_get_attitude(&attitude_dat, 100);                            /* 姿态角 attitude_dat.roll, attitude_dat.pitch, attitude_dat.yaw */
-    atk_ms601m_get_gyro_accelerometer(&gyro_dat, &accelerometer_dat, 100);  /* 陀螺仪和加速度 gyro_dat.x, gyro_dat.y, gyro_dat.z,
-		
-																																					accelerometer_dat.x, accelerometer_dat.y, accelerometer_dat.z*/
-		//八路灰度传感器数据读取
-		if(g_new_package_flag == 1)
-		{
-			g_new_package_flag = 0;
-			Deal_Usart_Data();			//数据存在IR_Data_number[]数组中
-		}
+		test_state = (test_state + 1) % 8;
+    switch(test_state)
+    {
+        case 0: // 前进
+            MotorSet(FOR, 300, &Left);  // 电机A前进，速度300
+            MotorSet(FOR, 300, &Right);  // 电机B前进，速度300
+            break;
+        case 1: // 停止
+            MotorSet(BREAK, 0, &Left);
+            MotorSet(BREAK, 0, &Right);
+            break;
+        case 2: // 后退
+            MotorSet(BACK, 300, &Left);  // 电机A后退，速度300
+            MotorSet(BACK, 300, &Right);  // 电机B后退，速度300
+            break;
+        case 3: // 停止
+            MotorSet(BREAK, 0, &Left);
+            MotorSet(BREAK, 0, &Right);
+            break;
+        case 4: // 左转 (右轮前进，左轮停止)
+            MotorSet(SLIDE, 0, &Left);   // 电机A(左轮)停止
+            MotorSet(FOR, 400, &Right);   // 电机B(右轮)前进
+            break;
+        case 5: // 停止
+            MotorSet(BREAK, 0, &Left);
+            MotorSet(BREAK, 0, &Right);
+            break;
+        case 6: // 右转 (左轮前进，右轮停止)
+            MotorSet(FOR, 400, &Left);   // 电机A(左轮)前进
+            MotorSet(SLIDE, 0, &Right);   // 电机B(右轮)停止
+            break;
+        case 7: // 停止
+            MotorSet(BREAK, 0, &Left);
+            MotorSet(BREAK, 0, &Right);
+            break;
+    }
+		HAL_Delay(1000);
+    /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }
@@ -213,7 +249,7 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-//陀螺仪所需1us定时器
+//??????????1us?????
 void delay_us_hal(uint16_t nus)
 {
     __HAL_TIM_SET_COUNTER(&htim6, 0);
@@ -224,14 +260,14 @@ void delay_us_hal(uint16_t nus)
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-    // 判断中断是否来自USART6
+    // ?ж??ж????????USART6
     if (huart->Instance == USART6)
     {
-        // 此时，接收到的一个字节数据已经由HAL库自动存入了Rx3_Temp变量中
-        // 调用您的数据处理函数
+        // ???????????????????????????HAL???????????Rx3_Temp??????
+        // ???????????????????
         Deal_IR_Usart(Rx_Temp);
         
-        // 【关键】必须再次调用HAL_UART_Receive_IT()函数，以准备下一次的数据接收
+        // ?????????????ε???HAL_UART_Receive_IT()???????????????ε????????
         HAL_UART_Receive_IT(&huart6, &Rx_Temp, 1);
     }
 }

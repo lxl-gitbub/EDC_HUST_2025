@@ -57,14 +57,14 @@ void delay_us_hal(uint16_t nus);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define E2A_Pin GPIO_PIN_4
-#define E2A_GPIO_Port GPIOC
-#define E1A_Pin GPIO_PIN_5
-#define E1A_GPIO_Port GPIOC
-#define E2B_Pin GPIO_PIN_0
-#define E2B_GPIO_Port GPIOB
-#define E1B_Pin GPIO_PIN_1
-#define E1B_GPIO_Port GPIOB
+#define BIN2_Pin GPIO_PIN_4
+#define BIN2_GPIO_Port GPIOC
+#define AIN2_Pin GPIO_PIN_5
+#define AIN2_GPIO_Port GPIOC
+#define PB0_Pin GPIO_PIN_0
+#define PB0_GPIO_Port GPIOB
+#define AIN1_Pin GPIO_PIN_1
+#define AIN1_GPIO_Port GPIOB
 #define KEY_Pin GPIO_PIN_15
 #define KEY_GPIO_Port GPIOB
 #define Light_D_Pin GPIO_PIN_1

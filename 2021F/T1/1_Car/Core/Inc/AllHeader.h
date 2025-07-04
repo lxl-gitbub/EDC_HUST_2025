@@ -7,9 +7,18 @@
 #include <stdio.h>
 #include <string.h>
 
-//ÍÓÂÝÒÇÍ·ÎÄ¼þ
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½Ä¼ï¿½
 #include "atk_ms601m.h"
 #include "atk_ms601m_uart.h"
 
-//°ËÂ·Ñ²Ïß´«¸ÐÆ÷Í·ÎÄ¼þ
+//ï¿½ï¿½Â·Ñ²ï¿½ß´ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½Ä¼ï¿½
 #include "app_usart2.h"
+
+//ï¿½ï¿½ï¿½Í·ï¿½Ä¼ï¿½
+#include "tb6612fng.h"
+
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½Ä¼ï¿½
+#include "Hall_Encoder.h"
+
+//ï¿½ï¿½ï¿½ä¹¦ï¿½ï¿½Í·ï¿½Ä¼ï¿½
+#include "Mem.h"

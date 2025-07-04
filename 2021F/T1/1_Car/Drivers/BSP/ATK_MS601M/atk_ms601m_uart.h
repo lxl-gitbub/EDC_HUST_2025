@@ -34,7 +34,7 @@
                                                 
 #define ATK_MS601M_UART_INTERFACE               USART2
 #define ATK_MS601M_UART_IRQn                    USART2_IRQn
-#define ATK_MS601M_UART_IRQHandler              USART2_IRQHandler
+//#define ATK_MS601M_UART_IRQHandler              USART2_IRQHandler
 /* UART接收FIFO缓冲大小 */
 #define ATK_MS601M_UART_RX_FIFO_BUF_SIZE        128
 
