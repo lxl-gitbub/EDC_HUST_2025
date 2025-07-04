@@ -33,6 +33,12 @@ int getTIMx_DetaCnt(TIM_HandleTypeDef *htim);
 void UpdateSpeed(int i, TIM_HandleTypeDef *reload_tim);
 void UpdateAllSpeed(TIM_HandleTypeDef *reload_tim);
 double getSpeed(int index);
+double cSpeed();
+double lSpeed();
+double rSpeed();
+void LRInit(TIM_HandleTypeDef *LTimer, uint32_t Lchan1, uint32_t Lchan2,
+			TIM_HandleTypeDef *RTimer, uint32_t Rchan1, uint32_t Rchan2,
+			TIM_HandleTypeDef *realTimer);
 uint32_t ReloadTime(TIM_TypeDef* tim);
 
 #endif // HALL_ENCODER_H

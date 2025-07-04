@@ -2,8 +2,7 @@
 
 EncoderSpeed encoders[MAXENCODERNUM]; // Array to store encoder data
 int numEncoders = 0; // Number of encoders initialized
-
-extern Mem *speedMem;
+int LRFlag = 0; // Flag to indicate if left and right encoders are initialized
 
 void EncoderInit(TIM_HandleTypeDef *Timer, uint32_t chan1, uint32_t chan2, TIM_HandleTypeDef *realTimer)
 	//set global variables for encoders
@@ -25,6 +24,17 @@ void EncoderInit(TIM_HandleTypeDef *Timer, uint32_t chan1, uint32_t chan2, TIM_H
 	encoders[numEncoders].reloadFre = ReloadTime(realTimer->Instance);
 	numEncoders++;
 	return;
+}
+
+void LRInit(TIM_HandleTypeDef *LTimer, uint32_t Lchan1, uint32_t Lchan2,//The first two parameters are for left encoder
+			TIM_HandleTypeDef *RTimer, uint32_t Rchan1, uint32_t Rchan2,//The second two parameters are for right encoder
+			TIM_HandleTypeDef *realTimer)
+	//set global variables for left and right encoders
+{
+	EncoderInit(LTimer, Lchan1, Lchan2, realTimer);
+	EncoderInit(RTimer, Rchan1, Rchan2, realTimer);
+	
+	LRFlag = 1; // Set flag to indicate left and right encoders are initialized
 }
 
 int getTIMx_DetaCnt(TIM_HandleTypeDef *htim)
@@ -66,9 +76,35 @@ double getSpeed(int index)
 	return encoders[index].speed * 
 		WHEEL_CIRCUMFERENCE * 
 		encoders[index].reloadFre / (PPR * 2);
-		//4.394215799e-3; 
+		//4.394215799e-3;
 		// Left number is computed by (length of the circle) * (frequence of the clock / (leftSpeed add number for every single circle
 		// which is (6.6e-2 * pi * (240e6 / ((65535 + 1) * (239 + 1)) / (360 * 2))
+}
+
+//Functions below are speciafic for left and right encoders
+double cSpeed()
+{
+	if(LRFlag == 0)
+	{
+		return 0.0; // No left and right encoders initialized
+	}
+	return (getSpeed(0) + getSpeed(1)) / 2.0; // Average speed of left and right encoders
+}
+double lSpeed()
+{
+	if(LRFlag == 0)
+	{
+		return 0.0; // No left encoder initialized
+	}
+	return getSpeed(0); // Speed of left encoder
+}
+double rSpeed()
+{
+	if(LRFlag == 0)
+	{
+		return 0.0; // No right encoder initialized
+	}
+	return getSpeed(1); // Speed of right encoder
 }
 
 uint32_t ReloadTime(TIM_TypeDef* tim)
