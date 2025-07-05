@@ -36,4 +36,12 @@ tem/stm32h7xx_it.o: ..\Core\Src\stm32h7xx_it.c ..\Core\Inc\main.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_tim_ex.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart_ex.h \
-  ..\Core\Inc\stm32h7xx_it.h
+  ..\Core\Inc\stm32h7xx_it.h ..\Core\Inc\AllHeader.h ..\Core\Inc\main.h \
+  ..\Core\Inc\tim.h ..\Core\Inc\usart.h ..\Core\Inc\gpio.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h \
+  ..\Drivers\BSP\ATK_MS601M\atk_ms601m.h \
+  ..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.h \
+  ..\Drivers\BSP\IR_Tracking\app_usart2.h ..\TB6612FNG\tb6612fng.h \
+  ..\Hall_Encoder\Hall_Encoder.h ..\Core\Inc\tim.h ..\Memory\Mem.h \
+  ..\Core\Inc\usart.h D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h

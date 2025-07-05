@@ -45,4 +45,5 @@ void atk_ms601m_rx_fifo_flush(void);                                /* ATK-MS601
 void atk_ms601m_uart_send(uint8_t *dat, uint8_t len);               /* ATK-MS601M UART发送数据 */
 void atk_ms601m_uart_init(uint32_t baudrate);                       /* ATK-MS601M UART初始化 */
 
+void ATK_MS601M_UART_IRQHandler(void); //把原来的宏定义变成函数，为了避免重复定义
 #endif

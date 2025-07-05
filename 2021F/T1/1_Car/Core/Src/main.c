@@ -133,33 +133,14 @@ int main(void)
 	MotorInit(&Right,  GPIOC, GPIO_PIN_5, GPIOB, GPIO_PIN_1, &htim5, TIM_CHANNEL_1, 0);
 	// 电机B初始化: BIN1(PA6), BIN2(PA7), PWM(TIM5_CH2) 
 	MotorInit(&Left,  GPIOC, GPIO_PIN_4, GPIOB, GPIO_PIN_0, &htim5, TIM_CHANNEL_2, 0);
-	LRInit( &htim3, TIM_CHANNEL_2, TIM_CHANNEL_1, &htim1, TIM_CHANNEL_1, TIM_CHANNEL_2, &htim7);
+	LRInit(&htim3, TIM_CHANNEL_2, TIM_CHANNEL_1, &htim1, TIM_CHANNEL_1, TIM_CHANNEL_2, &htim7);
 	
-  uint8_t test_state = 0;
-	char message[100];
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    test_state = (test_state + 1) % 2;
-    switch(test_state)
-    {
-      case 0: 
-        MotorSet(BACK, 300, &Left);  // 电机A前进，速度300
-        MotorSet(FOR, 300, &Right);  // 电机B前进，速度300
-        break;
-      case 1:
-        MotorSet(FOR, 500, &Left);  // 电机A前进，速度500
-        MotorSet(BACK, 100, &Right);  // 电机B后退，速度100
-        break;
-    }
-    
-
-    sprintf(message, "Left Speed: %f, Right Speed: %f\r\n", lSpeed(), rSpeed());
-    HAL_UART_Transmit(&huart3, (uint8_t *)message, strlen(message), HAL_MAX_DELAY);
-		HAL_Delay(1000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
