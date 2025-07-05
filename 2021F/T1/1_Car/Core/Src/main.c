@@ -130,53 +130,35 @@ int main(void)
 	
 	//TB6612电机驱动初始化
 	// 电机A初始化: AIN1(PE9), AIN2(PE11), PWM(TIM5_CH1)
-	MotorInit(&Left, GPIOB, GPIO_PIN_1, GPIOC, GPIO_PIN_5, &htim5, TIM_CHANNEL_1, 0);
+	MotorInit(&Right,  GPIOC, GPIO_PIN_5, GPIOB, GPIO_PIN_1, &htim5, TIM_CHANNEL_1, 0);
 	// 电机B初始化: BIN1(PA6), BIN2(PA7), PWM(TIM5_CH2) 
-	MotorInit(&Right, GPIOB, GPIO_PIN_0, GPIOC, GPIO_PIN_4, &htim5, TIM_CHANNEL_2, 0);
+	MotorInit(&Left,  GPIOC, GPIO_PIN_4, GPIOB, GPIO_PIN_0, &htim5, TIM_CHANNEL_2, 0);
+	LRInit( &htim3, TIM_CHANNEL_2, TIM_CHANNEL_1, &htim1, TIM_CHANNEL_1, TIM_CHANNEL_2, &htim7);
 	
   uint8_t test_state = 0;
+	char message[100];
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		test_state = (test_state + 1) % 8;
+    test_state = (test_state + 1) % 2;
     switch(test_state)
     {
-        case 0: // 前进
-            MotorSet(FOR, 300, &Left);  // 电机A前进，速度300
-            MotorSet(FOR, 300, &Right);  // 电机B前进，速度300
-            break;
-        case 1: // 停止
-            MotorSet(BREAK, 0, &Left);
-            MotorSet(BREAK, 0, &Right);
-            break;
-        case 2: // 后退
-            MotorSet(BACK, 300, &Left);  // 电机A后退，速度300
-            MotorSet(BACK, 300, &Right);  // 电机B后退，速度300
-            break;
-        case 3: // 停止
-            MotorSet(BREAK, 0, &Left);
-            MotorSet(BREAK, 0, &Right);
-            break;
-        case 4: // 左转 (右轮前进，左轮停止)
-            MotorSet(SLIDE, 0, &Left);   // 电机A(左轮)停止
-            MotorSet(FOR, 400, &Right);   // 电机B(右轮)前进
-            break;
-        case 5: // 停止
-            MotorSet(BREAK, 0, &Left);
-            MotorSet(BREAK, 0, &Right);
-            break;
-        case 6: // 右转 (左轮前进，右轮停止)
-            MotorSet(FOR, 400, &Left);   // 电机A(左轮)前进
-            MotorSet(SLIDE, 0, &Right);   // 电机B(右轮)停止
-            break;
-        case 7: // 停止
-            MotorSet(BREAK, 0, &Left);
-            MotorSet(BREAK, 0, &Right);
-            break;
+      case 0: 
+        MotorSet(BACK, 300, &Left);  // 电机A前进，速度300
+        MotorSet(FOR, 300, &Right);  // 电机B前进，速度300
+        break;
+      case 1:
+        MotorSet(FOR, 500, &Left);  // 电机A前进，速度500
+        MotorSet(BACK, 100, &Right);  // 电机B后退，速度100
+        break;
     }
+    
+
+    sprintf(message, "Left Speed: %f, Right Speed: %f\r\n", lSpeed(), rSpeed());
+    HAL_UART_Transmit(&huart3, (uint8_t *)message, strlen(message), HAL_MAX_DELAY);
 		HAL_Delay(1000);
     /* USER CODE END WHILE */
 
@@ -270,6 +252,11 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
         // ?????????????ε???HAL_UART_Receive_IT()???????????????ε????????
         HAL_UART_Receive_IT(&huart6, &Rx_Temp, 1);
     }
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef * htim)
+{
+	UpdateAllSpeed(htim);
 }
 /* USER CODE END 4 */
 
