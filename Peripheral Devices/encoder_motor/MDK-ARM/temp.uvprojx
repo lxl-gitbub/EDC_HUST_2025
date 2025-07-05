@@ -11,6 +11,7 @@
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pArmCC>6110000::V6.11::.\ARMCLANG</pArmCC>
+      <pCCUsed>6110000::V6.11::.\ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -338,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;..\TB6612FNG;..\Hall_Encoder</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;..\Drivers\BSP\Motor_Encoder</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -540,22 +541,22 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>encoder</GroupName>
-          <Files>
-            <File>
-              <FileName>Hall_Encoder.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hall_Encoder\Hall_Encoder.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>motor</GroupName>
+          <GroupName>Drivers/BSP/Motor_Encoder</GroupName>
           <Files>
             <File>
               <FileName>tb6612fng.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\TB6612FNG\tb6612fng.c</FilePath>
+              <FilePath>..\Drivers\BSP\Motor_Encoder\tb6612fng.c</FilePath>
+            </File>
+            <File>
+              <FileName>Hall_Encoder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\BSP\Motor_Encoder\Hall_Encoder.c</FilePath>
+            </File>
+            <File>
+              <FileName>Mem.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\BSP\Motor_Encoder\Mem.c</FilePath>
             </File>
           </Files>
         </Group>

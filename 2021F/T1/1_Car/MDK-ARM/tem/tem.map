@@ -1675,11 +1675,35 @@ Section Cross References
     app_usart2.o(.text.Deal_Usart_AData) refers to atoi.o(.text) for atoi
     app_usart2.o(.text.Deal_Usart_AData) refers to app_usart2.o(.bss.IR_Data_Anglo) for IR_Data_Anglo
     app_usart2.o(.ARM.exidx.text.Deal_Usart_AData) refers to app_usart2.o(.text.Deal_Usart_AData) for [Anonymous Symbol]
-    tb6612fng.o(.text.MotorInit) refers to stm32h7xx_hal_gpio.o(.text.HAL_GPIO_WritePin) for HAL_GPIO_WritePin
-    tb6612fng.o(.text.MotorInit) refers to stm32h7xx_hal_tim.o(.text.HAL_TIM_PWM_Start) for HAL_TIM_PWM_Start
-    tb6612fng.o(.ARM.exidx.text.MotorInit) refers to tb6612fng.o(.text.MotorInit) for [Anonymous Symbol]
-    tb6612fng.o(.text.MotorSet) refers to stm32h7xx_hal_gpio.o(.text.HAL_GPIO_WritePin) for HAL_GPIO_WritePin
-    tb6612fng.o(.ARM.exidx.text.MotorSet) refers to tb6612fng.o(.text.MotorSet) for [Anonymous Symbol]
+    hall_encoder.o(.text.EncoderInit) refers to hall_encoder.o(.bss.numEncoders) for numEncoders
+    hall_encoder.o(.text.EncoderInit) refers to hall_encoder.o(.bss.encoders) for encoders
+    hall_encoder.o(.text.EncoderInit) refers to stm32h7xx_hal_tim.o(.text.HAL_TIM_PWM_Start) for HAL_TIM_PWM_Start
+    hall_encoder.o(.text.EncoderInit) refers to stm32h7xx_hal_tim.o(.text.HAL_TIM_Base_Start_IT) for HAL_TIM_Base_Start_IT
+    hall_encoder.o(.text.EncoderInit) refers to hall_encoder.o(.text.ReloadTime) for ReloadTime
+    hall_encoder.o(.ARM.exidx.text.EncoderInit) refers to hall_encoder.o(.text.EncoderInit) for [Anonymous Symbol]
+    hall_encoder.o(.text.ReloadTime) refers to stm32h7xx_hal_rcc.o(.text.HAL_RCC_GetPCLK1Freq) for HAL_RCC_GetPCLK1Freq
+    hall_encoder.o(.ARM.exidx.text.ReloadTime) refers to hall_encoder.o(.text.ReloadTime) for [Anonymous Symbol]
+    hall_encoder.o(.text.LRInit) refers to hall_encoder.o(.text.EncoderInit) for EncoderInit
+    hall_encoder.o(.text.LRInit) refers to hall_encoder.o(.bss.LRFlag) for LRFlag
+    hall_encoder.o(.ARM.exidx.text.LRInit) refers to hall_encoder.o(.text.LRInit) for [Anonymous Symbol]
+    hall_encoder.o(.ARM.exidx.text.getTIMx_DetaCnt) refers to hall_encoder.o(.text.getTIMx_DetaCnt) for [Anonymous Symbol]
+    hall_encoder.o(.text.UpdateSpeed) refers to hall_encoder.o(.bss.encoders) for encoders
+    hall_encoder.o(.text.UpdateSpeed) refers to hall_encoder.o(.text.getTIMx_DetaCnt) for getTIMx_DetaCnt
+    hall_encoder.o(.ARM.exidx.text.UpdateSpeed) refers to hall_encoder.o(.text.UpdateSpeed) for [Anonymous Symbol]
+    hall_encoder.o(.text.UpdateAllSpeed) refers to hall_encoder.o(.bss.numEncoders) for numEncoders
+    hall_encoder.o(.text.UpdateAllSpeed) refers to hall_encoder.o(.text.UpdateSpeed) for UpdateSpeed
+    hall_encoder.o(.ARM.exidx.text.UpdateAllSpeed) refers to hall_encoder.o(.text.UpdateAllSpeed) for [Anonymous Symbol]
+    hall_encoder.o(.text.getSpeed) refers to hall_encoder.o(.bss.encoders) for encoders
+    hall_encoder.o(.ARM.exidx.text.getSpeed) refers to hall_encoder.o(.text.getSpeed) for [Anonymous Symbol]
+    hall_encoder.o(.text.cSpeed) refers to hall_encoder.o(.bss.LRFlag) for LRFlag
+    hall_encoder.o(.text.cSpeed) refers to hall_encoder.o(.text.getSpeed) for getSpeed
+    hall_encoder.o(.ARM.exidx.text.cSpeed) refers to hall_encoder.o(.text.cSpeed) for [Anonymous Symbol]
+    hall_encoder.o(.text.lSpeed) refers to hall_encoder.o(.bss.LRFlag) for LRFlag
+    hall_encoder.o(.text.lSpeed) refers to hall_encoder.o(.text.getSpeed) for getSpeed
+    hall_encoder.o(.ARM.exidx.text.lSpeed) refers to hall_encoder.o(.text.lSpeed) for [Anonymous Symbol]
+    hall_encoder.o(.text.rSpeed) refers to hall_encoder.o(.bss.LRFlag) for LRFlag
+    hall_encoder.o(.text.rSpeed) refers to hall_encoder.o(.text.getSpeed) for getSpeed
+    hall_encoder.o(.ARM.exidx.text.rSpeed) refers to hall_encoder.o(.text.rSpeed) for [Anonymous Symbol]
     mem.o(.text.MemInit) refers to mem.o(.rodata.str1.1) for .L.str
     mem.o(.text.MemInit) refers to stm32h7xx_hal_uart.o(.text.HAL_UART_Transmit) for HAL_UART_Transmit
     mem.o(.text.MemInit) refers to malloc.o(i.malloc) for malloc
@@ -1710,35 +1734,11 @@ Section Cross References
     mem.o(.text.destoryMemDefault) refers to mem.o(.bss.mem) for mem
     mem.o(.text.destoryMemDefault) refers to mem.o(.text.destoryMem) for destoryMem
     mem.o(.ARM.exidx.text.destoryMemDefault) refers to mem.o(.text.destoryMemDefault) for [Anonymous Symbol]
-    hall_encoder.o(.text.EncoderInit) refers to hall_encoder.o(.bss.numEncoders) for numEncoders
-    hall_encoder.o(.text.EncoderInit) refers to hall_encoder.o(.bss.encoders) for encoders
-    hall_encoder.o(.text.EncoderInit) refers to stm32h7xx_hal_tim.o(.text.HAL_TIM_PWM_Start) for HAL_TIM_PWM_Start
-    hall_encoder.o(.text.EncoderInit) refers to stm32h7xx_hal_tim.o(.text.HAL_TIM_Base_Start_IT) for HAL_TIM_Base_Start_IT
-    hall_encoder.o(.text.EncoderInit) refers to hall_encoder.o(.text.ReloadTime) for ReloadTime
-    hall_encoder.o(.ARM.exidx.text.EncoderInit) refers to hall_encoder.o(.text.EncoderInit) for [Anonymous Symbol]
-    hall_encoder.o(.text.ReloadTime) refers to stm32h7xx_hal_rcc.o(.text.HAL_RCC_GetPCLK1Freq) for HAL_RCC_GetPCLK1Freq
-    hall_encoder.o(.ARM.exidx.text.ReloadTime) refers to hall_encoder.o(.text.ReloadTime) for [Anonymous Symbol]
-    hall_encoder.o(.text.LRInit) refers to hall_encoder.o(.text.EncoderInit) for EncoderInit
-    hall_encoder.o(.text.LRInit) refers to hall_encoder.o(.bss.LRFlag) for LRFlag
-    hall_encoder.o(.ARM.exidx.text.LRInit) refers to hall_encoder.o(.text.LRInit) for [Anonymous Symbol]
-    hall_encoder.o(.ARM.exidx.text.getTIMx_DetaCnt) refers to hall_encoder.o(.text.getTIMx_DetaCnt) for [Anonymous Symbol]
-    hall_encoder.o(.text.UpdateSpeed) refers to hall_encoder.o(.bss.encoders) for encoders
-    hall_encoder.o(.text.UpdateSpeed) refers to hall_encoder.o(.text.getTIMx_DetaCnt) for getTIMx_DetaCnt
-    hall_encoder.o(.ARM.exidx.text.UpdateSpeed) refers to hall_encoder.o(.text.UpdateSpeed) for [Anonymous Symbol]
-    hall_encoder.o(.text.UpdateAllSpeed) refers to hall_encoder.o(.bss.numEncoders) for numEncoders
-    hall_encoder.o(.text.UpdateAllSpeed) refers to hall_encoder.o(.text.UpdateSpeed) for UpdateSpeed
-    hall_encoder.o(.ARM.exidx.text.UpdateAllSpeed) refers to hall_encoder.o(.text.UpdateAllSpeed) for [Anonymous Symbol]
-    hall_encoder.o(.text.getSpeed) refers to hall_encoder.o(.bss.encoders) for encoders
-    hall_encoder.o(.ARM.exidx.text.getSpeed) refers to hall_encoder.o(.text.getSpeed) for [Anonymous Symbol]
-    hall_encoder.o(.text.cSpeed) refers to hall_encoder.o(.bss.LRFlag) for LRFlag
-    hall_encoder.o(.text.cSpeed) refers to hall_encoder.o(.text.getSpeed) for getSpeed
-    hall_encoder.o(.ARM.exidx.text.cSpeed) refers to hall_encoder.o(.text.cSpeed) for [Anonymous Symbol]
-    hall_encoder.o(.text.lSpeed) refers to hall_encoder.o(.bss.LRFlag) for LRFlag
-    hall_encoder.o(.text.lSpeed) refers to hall_encoder.o(.text.getSpeed) for getSpeed
-    hall_encoder.o(.ARM.exidx.text.lSpeed) refers to hall_encoder.o(.text.lSpeed) for [Anonymous Symbol]
-    hall_encoder.o(.text.rSpeed) refers to hall_encoder.o(.bss.LRFlag) for LRFlag
-    hall_encoder.o(.text.rSpeed) refers to hall_encoder.o(.text.getSpeed) for getSpeed
-    hall_encoder.o(.ARM.exidx.text.rSpeed) refers to hall_encoder.o(.text.rSpeed) for [Anonymous Symbol]
+    tb6612fng.o(.text.MotorInit) refers to stm32h7xx_hal_gpio.o(.text.HAL_GPIO_WritePin) for HAL_GPIO_WritePin
+    tb6612fng.o(.text.MotorInit) refers to stm32h7xx_hal_tim.o(.text.HAL_TIM_PWM_Start) for HAL_TIM_PWM_Start
+    tb6612fng.o(.ARM.exidx.text.MotorInit) refers to tb6612fng.o(.text.MotorInit) for [Anonymous Symbol]
+    tb6612fng.o(.text.MotorSet) refers to stm32h7xx_hal_gpio.o(.text.HAL_GPIO_WritePin) for HAL_GPIO_WritePin
+    tb6612fng.o(.ARM.exidx.text.MotorSet) refers to tb6612fng.o(.text.MotorSet) for [Anonymous Symbol]
     entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry10a.o(.ARM.Collect$$$$0000000D) for __rt_final_cpp
     entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry11a.o(.ARM.Collect$$$$0000000F) for __rt_final_exit
     entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry7b.o(.ARM.Collect$$$$00000008) for _main_clock
@@ -3208,10 +3208,21 @@ Removing Unused input sections from the image.
     Removing app_usart2.o(.rodata.str1.1), (14 bytes).
     Removing app_usart2.o(.bss.IR_Data_number), (8 bytes).
     Removing app_usart2.o(.bss.IR_Data_Anglo), (16 bytes).
-    Removing tb6612fng.o(.text), (0 bytes).
-    Removing tb6612fng.o(.ARM.exidx.text.MotorInit), (8 bytes).
-    Removing tb6612fng.o(.text.MotorSet), (406 bytes).
-    Removing tb6612fng.o(.ARM.exidx.text.MotorSet), (8 bytes).
+    Removing hall_encoder.o(.text), (0 bytes).
+    Removing hall_encoder.o(.ARM.exidx.text.EncoderInit), (8 bytes).
+    Removing hall_encoder.o(.ARM.exidx.text.ReloadTime), (8 bytes).
+    Removing hall_encoder.o(.ARM.exidx.text.LRInit), (8 bytes).
+    Removing hall_encoder.o(.ARM.exidx.text.getTIMx_DetaCnt), (8 bytes).
+    Removing hall_encoder.o(.ARM.exidx.text.UpdateSpeed), (8 bytes).
+    Removing hall_encoder.o(.ARM.exidx.text.UpdateAllSpeed), (8 bytes).
+    Removing hall_encoder.o(.text.getSpeed), (80 bytes).
+    Removing hall_encoder.o(.ARM.exidx.text.getSpeed), (8 bytes).
+    Removing hall_encoder.o(.text.cSpeed), (74 bytes).
+    Removing hall_encoder.o(.ARM.exidx.text.cSpeed), (8 bytes).
+    Removing hall_encoder.o(.text.lSpeed), (48 bytes).
+    Removing hall_encoder.o(.ARM.exidx.text.lSpeed), (8 bytes).
+    Removing hall_encoder.o(.text.rSpeed), (48 bytes).
+    Removing hall_encoder.o(.ARM.exidx.text.rSpeed), (8 bytes).
     Removing mem.o(.text), (0 bytes).
     Removing mem.o(.text.MemInit), (230 bytes).
     Removing mem.o(.ARM.exidx.text.MemInit), (8 bytes).
@@ -3232,21 +3243,10 @@ Removing Unused input sections from the image.
     Removing mem.o(.bss.memCount), (4 bytes).
     Removing mem.o(.rodata.str1.1), (106 bytes).
     Removing mem.o(.bss.mem), (40 bytes).
-    Removing hall_encoder.o(.text), (0 bytes).
-    Removing hall_encoder.o(.ARM.exidx.text.EncoderInit), (8 bytes).
-    Removing hall_encoder.o(.ARM.exidx.text.ReloadTime), (8 bytes).
-    Removing hall_encoder.o(.ARM.exidx.text.LRInit), (8 bytes).
-    Removing hall_encoder.o(.ARM.exidx.text.getTIMx_DetaCnt), (8 bytes).
-    Removing hall_encoder.o(.ARM.exidx.text.UpdateSpeed), (8 bytes).
-    Removing hall_encoder.o(.ARM.exidx.text.UpdateAllSpeed), (8 bytes).
-    Removing hall_encoder.o(.text.getSpeed), (80 bytes).
-    Removing hall_encoder.o(.ARM.exidx.text.getSpeed), (8 bytes).
-    Removing hall_encoder.o(.text.cSpeed), (74 bytes).
-    Removing hall_encoder.o(.ARM.exidx.text.cSpeed), (8 bytes).
-    Removing hall_encoder.o(.text.lSpeed), (48 bytes).
-    Removing hall_encoder.o(.ARM.exidx.text.lSpeed), (8 bytes).
-    Removing hall_encoder.o(.text.rSpeed), (48 bytes).
-    Removing hall_encoder.o(.ARM.exidx.text.rSpeed), (8 bytes).
+    Removing tb6612fng.o(.text), (0 bytes).
+    Removing tb6612fng.o(.ARM.exidx.text.MotorInit), (8 bytes).
+    Removing tb6612fng.o(.text.MotorSet), (406 bytes).
+    Removing tb6612fng.o(.ARM.exidx.text.MotorSet), (8 bytes).
     Removing dadd.o(.text), (334 bytes).
     Removing dmul.o(.text), (228 bytes).
     Removing ddiv.o(.text), (222 bytes).
@@ -3945,7 +3945,7 @@ Memory Map of the image
     0x08000574   0x08000574   0x00000004   PAD
     0x08000578   0x08000578   0x00000002   Code   RO          119    .text.DebugMon_Handler  stm32h7xx_it.o
     0x0800057a   0x0800057a   0x00000006   PAD
-    0x08000580   0x08000580   0x000000aa   Code   RO         1755    .text.EncoderInit   hall_encoder.o
+    0x08000580   0x08000580   0x000000aa   Code   RO         1716    .text.EncoderInit   hall_encoder.o
     0x0800062a   0x0800062a   0x00000006   PAD
     0x08000630   0x08000630   0x0000000e   Code   RO           17    .text.Error_Handler  main.o
     0x0800063e   0x0800063e   0x00000002   PAD
@@ -4078,7 +4078,7 @@ Memory Map of the image
     0x08006d1c   0x08006d1c   0x00000004   PAD
     0x08006d20   0x08006d20   0x00000004   Code   RO          109    .text.HardFault_Handler  stm32h7xx_it.o
     0x08006d24   0x08006d24   0x00000004   PAD
-    0x08006d28   0x08006d28   0x0000005e   Code   RO         1759    .text.LRInit        hall_encoder.o
+    0x08006d28   0x08006d28   0x0000005e   Code   RO         1720    .text.LRInit        hall_encoder.o
     0x08006d86   0x08006d86   0x00000002   PAD
     0x08006d88   0x08006d88   0x000000d0   Code   RO           13    .text.MPU_Config    main.o
     0x08006e58   0x08006e58   0x00000174   Code   RO           41    .text.MX_GPIO_Init  gpio.o
@@ -4102,7 +4102,7 @@ Memory Map of the image
     0x0800750e   0x0800750e   0x00000002   PAD
     0x08007510   0x08007510   0x00000004   Code   RO          111    .text.MemManage_Handler  stm32h7xx_it.o
     0x08007514   0x08007514   0x00000004   PAD
-    0x08007518   0x08007518   0x0000016a   Code   RO         1716    .text.MotorInit     tb6612fng.o
+    0x08007518   0x08007518   0x0000016a   Code   RO         1774    .text.MotorInit     tb6612fng.o
     0x08007682   0x08007682   0x00000006   PAD
     0x08007688   0x08007688   0x00000004   Code   RO          107    .text.NMI_Handler   stm32h7xx_it.o
     0x0800768c   0x0800768c   0x00000004   PAD
@@ -4111,7 +4111,7 @@ Memory Map of the image
     0x08007712   0x08007712   0x00000006   PAD
     0x08007718   0x08007718   0x000001d8   Code   RO          268    .text.RCCEx_PLL2_Config  stm32h7xx_hal_rcc_ex.o
     0x080078f0   0x080078f0   0x000001d8   Code   RO          270    .text.RCCEx_PLL3_Config  stm32h7xx_hal_rcc_ex.o
-    0x08007ac8   0x08007ac8   0x00000056   Code   RO         1757    .text.ReloadTime    hall_encoder.o
+    0x08007ac8   0x08007ac8   0x00000056   Code   RO         1718    .text.ReloadTime    hall_encoder.o
     0x08007b1e   0x08007b1e   0x00000002   PAD
     0x08007b20   0x08007b20   0x00000002   Code   RO          117    .text.SVC_Handler   stm32h7xx_it.o
     0x08007b22   0x08007b22   0x00000006   PAD
@@ -4171,8 +4171,8 @@ Memory Map of the image
     0x0800a314   0x0800a314   0x00000004   PAD
     0x0800a318   0x0800a318   0x00000010   Code   RO          133    .text.USART3_IRQHandler  stm32h7xx_it.o
     0x0800a328   0x0800a328   0x00000010   Code   RO          137    .text.USART6_IRQHandler  stm32h7xx_it.o
-    0x0800a338   0x0800a338   0x00000038   Code   RO         1765    .text.UpdateAllSpeed  hall_encoder.o
-    0x0800a370   0x0800a370   0x0000007e   Code   RO         1763    .text.UpdateSpeed   hall_encoder.o
+    0x0800a338   0x0800a338   0x00000038   Code   RO         1726    .text.UpdateAllSpeed  hall_encoder.o
+    0x0800a370   0x0800a370   0x0000007e   Code   RO         1724    .text.UpdateSpeed   hall_encoder.o
     0x0800a3ee   0x0800a3ee   0x00000002   PAD
     0x0800a3f0   0x0800a3f0   0x00000004   Code   RO          115    .text.UsageFault_Handler  stm32h7xx_it.o
     0x0800a3f4   0x0800a3f4   0x00000004   PAD
@@ -4198,7 +4198,7 @@ Memory Map of the image
     0x0800aa82   0x0800aa82   0x00000006   PAD
     0x0800aa88   0x0800aa88   0x0000004c   Code   RO           19    .text.delay_us_hal  main.o
     0x0800aad4   0x0800aad4   0x00000004   PAD
-    0x0800aad8   0x0800aad8   0x00000022   Code   RO         1761    .text.getTIMx_DetaCnt  hall_encoder.o
+    0x0800aad8   0x0800aad8   0x00000022   Code   RO         1722    .text.getTIMx_DetaCnt  hall_encoder.o
     0x0800aafa   0x0800aafa   0x00000006   PAD
     0x0800ab00   0x0800ab00   0x0000021e   Code   RO           11    .text.main          main.o
     0x0800ad1e   0x0800ad1e   0x0000000e   Code   RO         1955    i.__scatterload_copy  mc_w.l(handlers.o)
@@ -4229,12 +4229,12 @@ Memory Map of the image
     0x24000010        -       0x00000001   Zero   RW         1701    .bss.Deal_IR_Usart.g_start  app_usart2.o
     0x24000011        -       0x00000001   Zero   RW         1702    .bss.Deal_IR_Usart.step  app_usart2.o
     0x24000012   0x0800adb0   0x00000002   PAD
-    0x24000014        -       0x00000004   Zero   RW         1776    .bss.LRFlag         hall_encoder.o
+    0x24000014        -       0x00000004   Zero   RW         1737    .bss.LRFlag         hall_encoder.o
     0x24000018        -       0x0000001c   Zero   RW           28    .bss.Left           main.o
     0x24000034        -       0x0000001c   Zero   RW           27    .bss.Right          main.o
     0x24000050        -       0x00000001   Zero   RW           25    .bss.Rx_Temp        main.o
     0x24000051   0x0800adb0   0x00000003   PAD
-    0x24000054        -       0x000000a0   Zero   RW         1777    .bss.encoders       hall_encoder.o
+    0x24000054        -       0x000000a0   Zero   RW         1738    .bss.encoders       hall_encoder.o
     0x240000f4        -       0x00000002   Zero   RW         1649    .bss.g_atk_ms601m_fsr  atk_ms601m.o
     0x240000f6        -       0x00000001   Zero   RW         1698    .bss.g_new_package_flag  app_usart2.o
     0x240000f7   0x0800adb0   0x00000001   PAD
@@ -4251,7 +4251,7 @@ Memory Map of the image
     0x240004b8        -       0x00000094   Zero   RW           97    .bss.huart3         usart.o
     0x2400054c        -       0x00000094   Zero   RW           98    .bss.huart6         usart.o
     0x240005e0        -       0x00000064   Zero   RW         1704    .bss.new_package    app_usart2.o
-    0x24000644        -       0x00000004   Zero   RW         1775    .bss.numEncoders    hall_encoder.o
+    0x24000644        -       0x00000004   Zero   RW         1736    .bss.numEncoders    hall_encoder.o
     0x24000648        -       0x00000064   Zero   RW         1703    .bss.rx_buff        app_usart2.o
     0x240006ac        -       0x00000004   Zero   RW          832    .bss.uwTick         stm32h7xx_hal.o
     0x240006b0        -       0x00007400   Zero   RW            1    STACK               startup_stm32h743xx.o
@@ -4264,33 +4264,33 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       260          0          0          0        203       2884   app_usart2.o
-       974         24          0          0          2       8310   atk_ms601m.o
-       596          0          0          0        282       5244   atk_ms601m_uart.o
-       372          0          0          0          0       3016   gpio.o
-       566          0          0          0        168       7682   hall_encoder.o
-      1284          0          8          0         57      13032   main.o
-        36          8        664          0      29696        812   startup_stm32h743xx.o
-       402          0          0          5          4      13875   stm32h7xx_hal.o
-       796          0          0          0          0      11376   stm32h7xx_hal_cortex.o
-      4194          0          0          0          0      12852   stm32h7xx_hal_dma.o
-      1052          0          0          0          0       6993   stm32h7xx_hal_gpio.o
-        38          0          0          0          0       2200   stm32h7xx_hal_msp.o
-       170          0          0          0          0      10376   stm32h7xx_hal_pwr_ex.o
-      5152         66          0          0          0      11932   stm32h7xx_hal_rcc.o
-      6744         96          0          0          0      19298   stm32h7xx_hal_rcc_ex.o
-      6246         22          0          0          0      37731   stm32h7xx_hal_tim.o
-       388          0          0          0          0      17578   stm32h7xx_hal_tim_ex.o
-      9516        258         24          0          0      29220   stm32h7xx_hal_uart.o
-       604          0         16          0          0       8875   stm32h7xx_hal_uart_ex.o
-       150          0          0          0          0       1677   stm32h7xx_it.o
-       346          0         16          8          0       5779   system_stm32h7xx.o
-       362          0          0          0          0       5352   tb6612fng.o
-      1350          0          0          0        380      12348   tim.o
-      1282          0          0          0        592      12267   usart.o
+       260          0          0          0        203       2912   app_usart2.o
+       974         24          0          0          2       8338   atk_ms601m.o
+       596          0          0          0        282       5272   atk_ms601m_uart.o
+       372          0          0          0          0       3044   gpio.o
+       566          0          0          0        168       7736   hall_encoder.o
+      1284          0          8          0         57      13076   main.o
+        36          8        664          0      29696        832   startup_stm32h743xx.o
+       402          0          0          5          4      13903   stm32h7xx_hal.o
+       796          0          0          0          0      11404   stm32h7xx_hal_cortex.o
+      4194          0          0          0          0      12880   stm32h7xx_hal_dma.o
+      1052          0          0          0          0       7021   stm32h7xx_hal_gpio.o
+        38          0          0          0          0       2228   stm32h7xx_hal_msp.o
+       170          0          0          0          0      10404   stm32h7xx_hal_pwr_ex.o
+      5152         66          0          0          0      11960   stm32h7xx_hal_rcc.o
+      6744         96          0          0          0      19326   stm32h7xx_hal_rcc_ex.o
+      6246         22          0          0          0      37759   stm32h7xx_hal_tim.o
+       388          0          0          0          0      17606   stm32h7xx_hal_tim_ex.o
+      9516        258         24          0          0      29248   stm32h7xx_hal_uart.o
+       604          0         16          0          0       8903   stm32h7xx_hal_uart_ex.o
+       150          0          0          0          0       1695   stm32h7xx_it.o
+       346          0         16          8          0       5807   system_stm32h7xx.o
+       362          0          0          0          0       5412   tb6612fng.o
+      1350          0          0          0        380      12376   tim.o
+      1282          0          0          0        592      12295   usart.o
 
     ----------------------------------------------------------------------
-     43362        486        760         16      31392     260709   Object Totals
+     43362        486        760         16      31392     261437   Object Totals
          0          0         32          0          0          0   (incl. Generated)
        482         12          0          3          8          0   (incl. Padding)
 
@@ -4334,8 +4334,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     43684        506        760         16      31392     260877   Grand Totals
-     43684        506        760         16      31392     260877   ELF Image Totals
+     43684        506        760         16      31392     261605   Grand Totals
+     43684        506        760         16      31392     261605   ELF Image Totals
      43684        506        760         16          0          0   ROM Totals
 
 ==============================================================================

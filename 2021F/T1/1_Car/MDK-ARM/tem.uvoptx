@@ -674,8 +674,8 @@
   </Group>
 
   <Group>
-    <GroupName>motor</GroupName>
-    <tvExp>0</tvExp>
+    <GroupName>Drivers\BSP\Motor_Encoder</GroupName>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -686,48 +686,32 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\TB6612FNG\tb6612fng.c</PathWithFileName>
-      <FilenameWithoutPath>tb6612fng.c</FilenameWithoutPath>
+      <PathWithFileName>..\Drivers\BSP\Motor_Encoder\Hall_Encoder.c</PathWithFileName>
+      <FilenameWithoutPath>Hall_Encoder.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
-  </Group>
-
-  <Group>
-    <GroupName>Memory</GroupName>
-    <tvExp>0</tvExp>
-    <tvExpOptDlg>0</tvExpOptDlg>
-    <cbSel>0</cbSel>
-    <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>8</GroupNumber>
+      <GroupNumber>7</GroupNumber>
       <FileNumber>34</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Memory\Mem.c</PathWithFileName>
+      <PathWithFileName>..\Drivers\BSP\Motor_Encoder\Mem.c</PathWithFileName>
       <FilenameWithoutPath>Mem.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
-  </Group>
-
-  <Group>
-    <GroupName>encoder</GroupName>
-    <tvExp>1</tvExp>
-    <tvExpOptDlg>0</tvExpOptDlg>
-    <cbSel>0</cbSel>
-    <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>9</GroupNumber>
+      <GroupNumber>7</GroupNumber>
       <FileNumber>35</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Hall_Encoder\Hall_Encoder.c</PathWithFileName>
-      <FilenameWithoutPath>Hall_Encoder.c</FilenameWithoutPath>
+      <PathWithFileName>..\Drivers\BSP\Motor_Encoder\tb6612fng.c</PathWithFileName>
+      <FilenameWithoutPath>tb6612fng.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
