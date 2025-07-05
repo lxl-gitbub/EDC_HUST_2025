@@ -1,15 +1,21 @@
-## ç¡¬ä»¶è¿æ¥ï¼š
+## Ó²¼şÁ¬½Ó£º
 
-- USART2è¿æ¥é™€èºä»ª
-- USART1è¿æ¥ä¸²å£åŠ©æ‰‹
+- USART2Á¬½ÓÍÓÂİÒÇ
+- USART1Á¬½Ó´®¿ÚÖúÊÖ
 
-## å·¥ç¨‹é…ç½®ï¼š
+## ¹¤³ÌÅäÖÃ£º
 
-- USART2éœ€è¦æ‰“å¼€global interruptï¼Œæ³¢ç‰¹ç‡115200
-- TIM6è®¾ç½®ä¸ºæ‰€éœ€å‡½æ•°delay_us_halçš„ä½¿èƒ½æ—¶é’Ÿï¼ˆ1usï¼‰ï¼Œprescalerä¸º240-1
-- Driveråº“ä¸­å¯¼å…¥BSPæ–‡ä»¶å¤¹ï¼Œå†…å«åº“æ–‡ä»¶
+- USART2ĞèÒª´ò¿ªglobal interrupt£¬²¨ÌØÂÊ115200
+- TIM6ÉèÖÃÎªËùĞèº¯Êıdelay_us_halµÄÊ¹ÄÜÊ±ÖÓ£¨1us£©£¬prescalerÎª240-1
+- Driver¿âÖĞµ¼ÈëBSPÎÄ¼ş¼Ğ£¬ÄÚº¬¿âÎÄ¼ş
 
-## ä»£ç ï¼š
+## ´úÂë£º
+- º¯ÊıÓÃ·¨
+```c
+    atk_ms601m_get_attitude(&attitude_dat, 100);                            /* ×ËÌ¬½Ç */
+    atk_ms601m_get_gyro_accelerometer(&gyro_dat, &accelerometer_dat, 100);  /* ½ÇËÙ¶ÈºÍ¼ÓËÙ¶È */
+```
+		ÕâÁ½¸öº¯Êı²¢²»·µ»ØÖµ£¬Êµ¼ÊÉÏ´«ÈëµÄ½á¹¹ÌåµÄÖµ½øĞĞ¸üĞÂ
 
 - main.c
 
@@ -28,14 +34,14 @@ atk_ms601m_accelerometer_data_t accelerometer_dat;
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	/* è·å–é™€èºä»ªæ•°æ® */
-    atk_ms601m_get_attitude(&attitude_dat, 100);                            /* å§¿æ€è§’ */
-    atk_ms601m_get_gyro_accelerometer(&gyro_dat, &accelerometer_dat, 100);  /* è§’é€Ÿåº¦å’ŒåŠ é€Ÿåº¦ */
+	/* »ñÈ¡ÍÓÂİÒÇÊı¾İ */
+    atk_ms601m_get_attitude(&attitude_dat, 100);                            /* ×ËÌ¬½Ç */
+    atk_ms601m_get_gyro_accelerometer(&gyro_dat, &accelerometer_dat, 100);  /* ½ÇËÙ¶ÈºÍ¼ÓËÙ¶È */
 		
 		
-	//åå¯å¼•ç”¨å§¿æ€è§’æ•°æ®attitude_dat.roll, attitude_dat.pitch, attitude_dat.yaw
-	//åå¯å¼•ç”¨è§’é€Ÿåº¦æ•°æ®gyro_dat.x, gyro_dat.y, gyro_dat.z
-	//åå¯å¼•ç”¨åŠ é€Ÿåº¦æ•°æ®accelerometer_dat.x, accelerometer_dat.y, accelerometer_dat.z)
+	//ºó¿ÉÒıÓÃ×ËÌ¬½ÇÊı¾İattitude_dat.roll, attitude_dat.pitch, attitude_dat.yaw
+	//ºó¿ÉÒıÓÃ½ÇËÙ¶ÈÊı¾İgyro_dat.x, gyro_dat.y, gyro_dat.z
+	//ºó¿ÉÒıÓÃ¼ÓËÙ¶ÈÊı¾İaccelerometer_dat.x, accelerometer_dat.y, accelerometer_dat.z)
 
     /* USER CODE END WHILE */
 
@@ -65,7 +71,7 @@ void delay_us_hal(uint16_t nus)
 
   
 
-- **éœ€è¦åœ¨stm32h7xx_it.cä¸­å°†void USARTX_IRQHandler(void)å‡½æ•°æ³¨é‡Šé˜²æ­¢å†²çª**
+- **ĞèÒªÔÚstm32h7xx_it.cÖĞ½«void USARTX_IRQHandler(void)º¯Êı×¢ÊÍ·ÀÖ¹³åÍ»**
 
-- **éœ€è¦åœ¨atk_ms601m_uart.hä¸­å°†å¼•è„šå®šä¹‰æ›¿æ¢æˆæ‰€ç”¨ä¸²å£å¼•è„š**
+- **ĞèÒªÔÚatk_ms601m_uart.hÖĞ½«Òı½Å¶¨ÒåÌæ»»³ÉËùÓÃ´®¿ÚÒı½Å**
 

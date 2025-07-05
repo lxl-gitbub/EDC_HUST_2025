@@ -22,3 +22,5 @@
 
 //���书��ͷ�ļ�
 #include "Mem.h"
+
+#include "Initialize.h"

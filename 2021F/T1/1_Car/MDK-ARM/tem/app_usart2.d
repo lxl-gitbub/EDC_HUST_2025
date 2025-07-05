@@ -7,17 +7,17 @@ tem/app_usart2.o: ..\Drivers\BSP\IR_Tracking\app_usart2.c \
   ..\Drivers\CMSIS\Device\ST\STM32H7xx\Include\stm32h7xx.h \
   ..\Drivers\CMSIS\Device\ST\STM32H7xx\Include\stm32h743xx.h \
   ..\Drivers\CMSIS\Include\core_cm7.h \
-  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\stdint.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdint.h \
   ..\Drivers\CMSIS\Include\cmsis_version.h \
   ..\Drivers\CMSIS\Include\cmsis_compiler.h \
   ..\Drivers\CMSIS\Include\cmsis_armclang.h \
-  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\arm_compat.h \
-  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\arm_acle.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\arm_compat.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\arm_acle.h \
   ..\Drivers\CMSIS\Include\mpu_armv7.h \
   ..\Drivers\CMSIS\Device\ST\STM32H7xx\Include\system_stm32h7xx.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\Legacy\stm32_hal_legacy.h \
-  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\stddef.h \
-  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\math.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stddef.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\math.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_rcc_ex.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_gpio.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_gpio_ex.h \
@@ -38,13 +38,14 @@ tem/app_usart2.o: ..\Drivers\BSP\IR_Tracking\app_usart2.c \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart_ex.h \
   ..\Core\Inc\tim.h ..\Core\Inc\usart.h ..\Core\Inc\gpio.h \
-  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\stdio.h \
-  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\string.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h \
   ..\Drivers\BSP\ATK_MS601M\atk_ms601m.h \
   ..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.h \
   ..\Drivers\BSP\IR_Tracking\app_usart2.h \
   ..\Drivers\BSP\Motor_Encoder\tb6612fng.h ..\Core\Inc\main.h \
   ..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h ..\Core\Inc\tim.h \
   ..\Drivers\BSP\Motor_Encoder\Mem.h ..\Core\Inc\usart.h \
-  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
-  ..\Drivers\BSP\Motor_Encoder\Mem.h
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
+  ..\Drivers\BSP\Motor_Encoder\Mem.h \
+  ..\Drivers\BSP\Motor_Encoder\Initialize.h

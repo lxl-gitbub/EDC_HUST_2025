@@ -33,6 +33,7 @@
 "tem\hall_encoder.o"
 "tem\mem.o"
 "tem\tb6612fng.o"
+"tem\initialize.o"
 --library_type=microlib --strict --scatter "tem\tem.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

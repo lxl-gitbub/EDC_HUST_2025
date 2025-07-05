@@ -4,7 +4,8 @@ EncoderSpeed encoders[MAXENCODERNUM]; // Array to store encoder data
 int numEncoders = 0; // Number of encoders initialized
 int LRFlag = 0; // Flag to indicate if left and right encoders are initialized
 
-void EncoderInit(TIM_HandleTypeDef *Timer, uint32_t chan1, uint32_t chan2, TIM_HandleTypeDef *realTimer)
+void EncoderInit(TIM_HandleTypeDef *Timer, uint32_t chan1, uint32_t chan2, TIM_HandleTypeDef *realTimer,
+	int wheelLength, int ppr)
 	//set global variables for encoders
 {
 	if (numEncoders >= MAXENCODERNUM)
@@ -22,17 +23,31 @@ void EncoderInit(TIM_HandleTypeDef *Timer, uint32_t chan1, uint32_t chan2, TIM_H
 	HAL_TIM_Base_Start_IT(realTimer);
 	
 	encoders[numEncoders].reloadFre = ReloadTime(realTimer->Instance);
+
+	EncoderParamInit(&encoders[numEncoders].param, wheelLength, ppr);
 	numEncoders++;
 	return;
 }
 
+void EncoderParamInit(EncoderParam *param, int wheelLength, int ppr)
+	//set the parameter of the encoder
+{
+	if (param == NULL)
+	{
+		return; // Parameter pointer is NULL
+	}
+	param->wheelLength = wheelLength; // Set wheel length in mm
+	param->ppr = ppr; // Set Pulses Per Revolution
+}
+
 void LRInit(TIM_HandleTypeDef *LTimer, uint32_t Lchan1, uint32_t Lchan2,//The first two parameters are for left encoder
 			TIM_HandleTypeDef *RTimer, uint32_t Rchan1, uint32_t Rchan2,//The second two parameters are for right encoder
+			int wheelLength, int ppr, // The last two parameters are for encoder parameters
 			TIM_HandleTypeDef *realTimer)
 	//set global variables for left and right encoders
 {
-	EncoderInit(LTimer, Lchan1, Lchan2, realTimer);
-	EncoderInit(RTimer, Rchan1, Rchan2, realTimer);
+	EncoderInit(LTimer, Lchan1, Lchan2, realTimer, wheelLength, ppr);
+	EncoderInit(RTimer, Rchan1, Rchan2, realTimer, wheelLength, ppr);
 	
 	LRFlag = 1; // Set flag to indicate left and right encoders are initialized
 }
@@ -74,8 +89,8 @@ void UpdateAllSpeed(TIM_HandleTypeDef *reload_tim)
 double getSpeed(int index)
 {
 	return encoders[index].speed * 
-		WHEEL_CIRCUMFERENCE * 
-		encoders[index].reloadFre / (PPR * 2);
+		encoders[index].param.wheelLength * 1e-3 * PI * 
+		encoders[index].reloadFre / (encoders[index].param.ppr * 2);
 		//4.394215799e-3;
 		// Left number is computed by (length of the circle) * (frequence of the clock / (leftSpeed add number for every single circle
 		// which is (6.6e-2 * pi * (240e6 / ((65535 + 1) * (239 + 1)) / (360 * 2))

@@ -128,19 +128,86 @@ int main(void)
 	HAL_UART_Transmit(&huart6, (uint8_t *)"$0,0,1#", 7, HAL_MAX_DELAY);
 	HAL_UART_Receive_IT(&huart6, &Rx_Temp, 1);
 	
-	//TB6612????????????
-	// ???A?????: AIN1(PE9), AIN2(PE11), PWM(TIM5_CH1)
-	MotorInit(&Right,  GPIOC, GPIO_PIN_5, GPIOB, GPIO_PIN_1, &htim5, TIM_CHANNEL_1, 0);
-	// ???B?????: BIN1(PA6), BIN2(PA7), PWM(TIM5_CH2) 
-	MotorInit(&Left,  GPIOC, GPIO_PIN_4, GPIOB, GPIO_PIN_0, &htim5, TIM_CHANNEL_2, 0);
-	LRInit(&htim3, TIM_CHANNEL_2, TIM_CHANNEL_1, &htim1, TIM_CHANNEL_1, TIM_CHANNEL_2, &htim7);
-	
+  Motor Left, Right;  
+	MEInit(&Left, &Right); // 电机和编码器初始化
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		//传感器数据读取
+		atk_ms601m_get_attitude(&attitude_dat, 100);
+		atk_ms601m_get_gyro_accelerometer(&gyro_dat, &accelerometer_dat, 100);
+		
+		//八路巡线传感器数据读取
+		if(g_new_package_flag == 1)
+		{
+			g_new_package_flag = 0;
+			Deal_Usart_Data();
+		}
+		
+		//电机和编码器测试代码
+		static uint32_t test_timer = 0;
+		static uint8_t test_phase = 0;
+		
+  
+    switch(test_phase)
+    {
+      case 0: // 前进测试
+        sprintf(message, "Phase 0: Forward - L=%.3f, R=%.3f m/s\r\n", lSpeed(), rSpeed());
+        HAL_UART_Transmit(&huart1, (uint8_t*)message, strlen(message), 1000);
+        
+        Motor_UI_Set(FOR, 300, &Left);   // 左轮前进
+        Motor_UI_Set(FOR, 300, &Right);  // 右轮前进
+        break;
+        
+      case 1: // 左转测试
+        sprintf(message, "Phase 1: Turn Left - L=%.3f, R=%.3f m/s\r\n", lSpeed(), rSpeed());
+        HAL_UART_Transmit(&huart1, (uint8_t*)message, strlen(message), 1000);
+        
+        Motor_UI_Set(SLIDE, 0, &Left);    // 左轮停止
+        Motor_UI_Set(FOR, 400, &Right);   // 右轮前进
+        break;
+        
+      case 2: // 右转测试
+        sprintf(message, "Phase 2: Turn Right - L=%.3f, R=%.3f m/s\r\n", lSpeed(), rSpeed());
+        HAL_UART_Transmit(&huart1, (uint8_t*)message, strlen(message), 1000);
+        
+        Motor_UI_Set(FOR, 400, &Left);    // 左轮前进
+        Motor_UI_Set(SLIDE, 0, &Right);   // 右轮停止
+        break;
+        
+      case 3: // 后退测试
+        sprintf(message, "Phase 3: Backward - L=%.3f, R=%.3f m/s\r\n", lSpeed(), rSpeed());
+        HAL_UART_Transmit(&huart1, (uint8_t*)message, strlen(message), 1000);
+        
+        Motor_UI_Set(BACK, 300, &Left);   // 左轮后退
+        Motor_UI_Set(BACK, 300, &Right);  // 右轮后退
+        break;
+        
+      case 4: // 停止测试
+        sprintf(message, "Phase 4: Stop - L=%.3f, R=%.3f m/s\r\n", lSpeed(), rSpeed());
+        HAL_UART_Transmit(&huart1, (uint8_t*)message, strlen(message), 1000);
+        
+        Motor_UI_Set(BREAK, 0, &Left);    // 左轮制动
+        Motor_UI_Set(BREAK, 0, &Right);   // 右轮制动
+        break;
+        
+      default: // 重启测试循环
+        test_phase = -1; // 下次会变成0
+        break;
+    }
+    test_phase++;
+  HAL_Delay(1000); // 每个测试阶段间隔1秒
+
+    
+  
+  // 实时速度显示（每1秒显示一次）
+  sprintf(message, "Speed: L=%.3f, R=%.3f, C=%.3f m/s\r\n", 
+          lSpeed(), rSpeed(), cSpeed());
+  HAL_UART_Transmit(&huart3, (uint8_t*)message, strlen(message), 1000);
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -223,21 +290,22 @@ void delay_us_hal(uint16_t nus)
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-    // ???????????????USART6
+    // 判断是否是USART6的中断
     if (huart->Instance == USART6)
     {
-        // ???????????????????????????HAL???????????Rx3_Temp??????
-        // ???????????????????
+        // 处理接收到的数据
         Deal_IR_Usart(Rx_Temp);
         
-        // ??????????????????HAL_UART_Receive_IT()?????????????????????????
+        // 重新启动UART接收中断
         HAL_UART_Receive_IT(&huart6, &Rx_Temp, 1);
     }
 }
 
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef * htim)
+// 定时器中断回调函数，用于更新编码器速度
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	UpdateAllSpeed(htim);
+    // 更新所有编码器的速度数据
+    UpdateAllSpeed(htim);
 }
 /* USER CODE END 4 */
 

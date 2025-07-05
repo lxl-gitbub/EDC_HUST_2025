@@ -588,6 +588,11 @@
               <FileType>1</FileType>
               <FilePath>..\Drivers\BSP\Motor_Encoder\tb6612fng.c</FilePath>
             </File>
+            <File>
+              <FileName>Initialize.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\BSP\Motor_Encoder\Initialize.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
