@@ -1,19 +1,19 @@
 /**
  ****************************************************************************************************
  * @file        atk_ms601m_uart.c
- * @author      正点原子团队(ALIENTEK)
+ * @author      ??????????(ALIENTEK)
  * @version     V1.0
  * @date        2022-06-21
- * @brief       ATK-MS601M模块UART接口驱动代码
- * @license     Copyright (c) 2020-2032, 广州市星翼电子科技有限公司
+ * @brief       ATK-MS601M???UART???????????
+ * @license     Copyright (c) 2020-2032, ??????????????????????
  ****************************************************************************************************
  * @attention
  *
- * 实验平台:正点原子 阿波罗 F767开发板
- * 在线视频:www.yuanzige.com
- * 技术论坛:www.openedv.com
- * 公司网址:www.alientek.com
- * 购买地址:openedv.taobao.com
+ * ?????:??????? ?????? F767??????
+ * ???????:www.yuanzige.com
+ * ???????:www.openedv.com
+ * ??????:www.alientek.com
+ * ??????:openedv.taobao.com
  *
  ****************************************************************************************************
  */
@@ -23,25 +23,25 @@
 static UART_HandleTypeDef g_uart_handle;            /* ATK-MS601M UART */
 static struct
 {
-    uint8_t buf[ATK_MS601M_UART_RX_FIFO_BUF_SIZE];  /* 缓冲 */
-    uint16_t size;                                  /* 缓冲大小 */
-    uint16_t reader;                                /* 读指针 */
-    uint16_t writer;                                /* 写指针 */
-} g_uart_rx_fifo;                                   /* UART接收FIFO */
+    uint8_t buf[ATK_MS601M_UART_RX_FIFO_BUF_SIZE];  /* ???? */
+    uint16_t size;                                  /* ?????С */
+    uint16_t reader;                                /* ????? */
+    uint16_t writer;                                /* д??? */
+} g_uart_rx_fifo;                                   /* UART????FIFO */
 
 /**
- * @brief       ATK-MS601M UART接收FIFO写入数据
- * @param       dat: 待写入数据
- *              len: 待写入数据的长度
- * @retval      0: 函数执行成功
- *              1: FIFO剩余空间不足
+ * @brief       ATK-MS601M UART????FIFOд??????
+ * @param       dat: ??д??????
+ *              len: ??д??????????
+ * @retval      0: ??????г??
+ *              1: FIFO???????
  */
 uint8_t atk_ms601m_uart_rx_fifo_write(uint8_t *dat, uint16_t len)
 {
     uint16_t i;
     
-    /* 将数据写入FIFO
-     * 并更新FIFO写入指针
+    /* ??????д??FIFO
+     * ??????FIFOд?????
      */
     for (i=0; i<len; i++)
     {
@@ -53,18 +53,18 @@ uint8_t atk_ms601m_uart_rx_fifo_write(uint8_t *dat, uint16_t len)
 }
 
 /**
- * @brief       ATK-MS601M UART接收FIFO读取数据
- * @param       dat: 读取数据存放位置
- *              len: 欲读取数据的长度
- * @retval      0: FIFO中无数据
- *              其他值: 实际读取的数据长度
+ * @brief       ATK-MS601M UART????FIFO???????
+ * @param       dat: ?????????λ??
+ *              len: ?????????????
+ * @retval      0: FIFO????????
+ *              ?????: ??????????????
  */
 uint16_t atk_ms601m_uart_rx_fifo_read(uint8_t *dat, uint16_t len)
 {
     uint16_t fifo_usage;
     uint16_t i;
     
-    /* 获取FIFO已使用大小 */
+    /* ???FIFO??????С */
     if (g_uart_rx_fifo.writer >= g_uart_rx_fifo.reader)
     {
         fifo_usage = g_uart_rx_fifo.writer - g_uart_rx_fifo.reader;
@@ -74,14 +74,14 @@ uint16_t atk_ms601m_uart_rx_fifo_read(uint8_t *dat, uint16_t len)
         fifo_usage = g_uart_rx_fifo.size - g_uart_rx_fifo.reader + g_uart_rx_fifo.writer;
     }
     
-    /* FIFO数据量不足 */
+    /* FIFO?????????? */
     if (len > fifo_usage)
     {
         len = fifo_usage;
     }
     
-    /* 从FIFO读取数据
-     * 并更新FIFO读取指针
+    /* ??FIFO???????
+     * ??????FIFO??????
      */
     for (i=0; i<len; i++)
     {
@@ -93,9 +93,9 @@ uint16_t atk_ms601m_uart_rx_fifo_read(uint8_t *dat, uint16_t len)
 }
 
 /**
- * @brief       ATK-MS601M UART接收FIFO清空
- * @param       无
- * @retval      无
+ * @brief       ATK-MS601M UART????FIFO???
+ * @param       ??
+ * @retval      ??
  */
 void atk_ms601m_rx_fifo_flush(void)
 {
@@ -103,10 +103,10 @@ void atk_ms601m_rx_fifo_flush(void)
 }
 
 /**
- * @brief       ATK-MS601M UART发送数据
- * @param       dat: 待发送的数据
- *              len: 待发送数据的长度
- * @retval      无
+ * @brief       ATK-MS601M UART????????
+ * @param       dat: ???????????
+ *              len: ??????????????
+ * @retval      ??
  */
 void atk_ms601m_uart_send(uint8_t *dat, uint8_t len)
 {
@@ -114,50 +114,50 @@ void atk_ms601m_uart_send(uint8_t *dat, uint8_t len)
 }
 
 /**
- * @brief       ATK-MS601M UART初始化
- * @param       baudrate: UART通讯波特率
- * @retval      无
+ * @brief       ATK-MS601M UART?????
+ * @param       baudrate: UART????????
+ * @retval      ??
  */
 void atk_ms601m_uart_init(uint32_t baudrate)
 {
     g_uart_handle.Instance          = ATK_MS601M_UART_INTERFACE;    /* ATK-MS601M UART */
-    g_uart_handle.Init.BaudRate     = baudrate;                     /* 波特率 */
-    g_uart_handle.Init.WordLength   = UART_WORDLENGTH_8B;           /* 数据位 */
-    g_uart_handle.Init.StopBits     = UART_STOPBITS_1;              /* 停止位 */
-    g_uart_handle.Init.Parity       = UART_PARITY_NONE;             /* 校验位 */
-    g_uart_handle.Init.Mode         = UART_MODE_TX_RX;              /* 收发模式 */
-    g_uart_handle.Init.HwFlowCtl    = UART_HWCONTROL_NONE;          /* 无硬件流控 */
-    g_uart_handle.Init.OverSampling = UART_OVERSAMPLING_16;         /* 过采样 */
-    HAL_UART_Init(&g_uart_handle);                                  /* 使能ATK-MS601M UART
-                                                                     * HAL_UART_Init()会调用函数HAL_UART_MspInit()
-                                                                     * 该函数定义在文件usart.c中
+    g_uart_handle.Init.BaudRate     = baudrate;                     /* ?????? */
+    g_uart_handle.Init.WordLength   = UART_WORDLENGTH_8B;           /* ????λ */
+    g_uart_handle.Init.StopBits     = UART_STOPBITS_1;              /* ??λ */
+    g_uart_handle.Init.Parity       = UART_PARITY_NONE;             /* У??λ */
+    g_uart_handle.Init.Mode         = UART_MODE_TX_RX;              /* ????? */
+    g_uart_handle.Init.HwFlowCtl    = UART_HWCONTROL_NONE;          /* ????????? */
+    g_uart_handle.Init.OverSampling = UART_OVERSAMPLING_16;         /* ?????? */
+    HAL_UART_Init(&g_uart_handle);                                  /* ???ATK-MS601M UART
+                                                                     * HAL_UART_Init()????ú???HAL_UART_MspInit()
+                                                                     * ?ú????????????usart.c??
                                                                      */
-    g_uart_rx_fifo.size = ATK_MS601M_UART_RX_FIFO_BUF_SIZE;         /* UART接收FIFO缓冲大小 */
-    g_uart_rx_fifo.reader = 0;                                      /* UART接收FIFO读指针 */
-    g_uart_rx_fifo.writer = 0;                                      /* UART接收FIFO写指针 */
-	  /* 使能UART的接收非空中断(RXNEIE) */
+    g_uart_rx_fifo.size = ATK_MS601M_UART_RX_FIFO_BUF_SIZE;         /* UART????FIFO?????С */
+    g_uart_rx_fifo.reader = 0;                                      /* UART????FIFO????? */
+    g_uart_rx_fifo.writer = 0;                                      /* UART????FIFOд??? */
+	  /* ???UART????????ж?(RXNEIE) */
     __HAL_UART_ENABLE_IT(&g_uart_handle, UART_IT_RXNE);
 }
 
 /**
- * @brief       ATK-MS601M UART中断回调函数
- * @param       无
- * @retval      无
+ * @brief       ATK-MS601M UART?ж???????
+ * @param       ??
+ * @retval      ??
  */
 void ATK_MS601M_UART_IRQHandler(void)
 {
     uint8_t tmp;
     
-    if (__HAL_UART_GET_FLAG(&g_uart_handle, UART_FLAG_ORE) != RESET)    /* UART接收过载错误中断 */
+    if (__HAL_UART_GET_FLAG(&g_uart_handle, UART_FLAG_ORE) != RESET)    /* UART???????????ж? */
     {
-        __HAL_UART_CLEAR_OREFLAG(&g_uart_handle);                       /* 清除接收过载错误中断标志 */
-        (void)g_uart_handle.Instance->ISR;                              /* 先读ISR寄存器，再读RDR寄存器 */
+        __HAL_UART_CLEAR_OREFLAG(&g_uart_handle);                       /* ??????????????ж??? */
+        (void)g_uart_handle.Instance->ISR;                              /* ???ISR??????????RDR????? */
         (void)g_uart_handle.Instance->RDR;
     }
     
-    if (__HAL_UART_GET_FLAG(&g_uart_handle, UART_FLAG_RXNE) != RESET)   /* UART接收中断 */
+    if (__HAL_UART_GET_FLAG(&g_uart_handle, UART_FLAG_RXNE) != RESET)   /* UART?????ж? */
     {
-        HAL_UART_Receive(&g_uart_handle, &tmp, 1, HAL_MAX_DELAY);       /* UART接收数据 */
-        atk_ms601m_uart_rx_fifo_write(&tmp, 1);                         /* 接收到的数据，写入UART接收FIFO */
+        HAL_UART_Receive(&g_uart_handle, &tmp, 1, HAL_MAX_DELAY);       /* UART???????? */
+        atk_ms601m_uart_rx_fifo_write(&tmp, 1);                         /* ????????????д??UART????FIFO */
     }
 }
