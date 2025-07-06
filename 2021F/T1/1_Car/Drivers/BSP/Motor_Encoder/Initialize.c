@@ -1,5 +1,7 @@
 #include "Initialize.h"
 
+Motor Left, Right;  // Declare motors for left and right
+
 void MEInit(Motor* L, Motor* R)
 {
     Motor_UI_Init(L, LEFT_MOTOR_IN1_PORT, LEFT_MOTOR_IN1_PIN,
@@ -13,4 +15,13 @@ void MEInit(Motor* L, Motor* R)
            RIGHT_ENCODER_TIMER, RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B,
            WHEEL_DIAMETER, PPR * REDUCE, ENCODER_REAL_TIMER ); // Initialize the encoders with wheel length and pulses per revolution
     // Set the initial speed to default
+}
+
+void LMotorSet(MOVETYPE type, uint16_t duty)
+{
+    Motor_UI_Set(type, duty, &Left);
+}
+void RMotorSet(MOVETYPE type, uint16_t duty)
+{
+    Motor_UI_Set(type, duty, &Right);
 }

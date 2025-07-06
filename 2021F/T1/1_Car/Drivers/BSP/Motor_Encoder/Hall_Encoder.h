@@ -16,6 +16,7 @@ typedef struct{
 
 typedef struct {
 	int speed; // The speed of wheel in m/s
+	float dis; // The distance traveled by the wheel in m
 	TIM_HandleTypeDef *timer; // The timer used to measure the speed
 	TIM_HandleTypeDef *realTimer; // The timer used to measure real time(reload time)
 	uint32_t reloadFre; // The frequency of the timer used to measure real time
@@ -43,9 +44,14 @@ void UpdateSpeed(int i, TIM_HandleTypeDef *reload_tim);
 void UpdateAllSpeed(TIM_HandleTypeDef *reload_tim);
 
 double getSpeed(int index);
+double getDis(int index);
 double cSpeed();
 double lSpeed();
 double rSpeed();
+double lDis();
+double rDis();
+
+double StoDis(EncoderSpeed e);
 
 uint32_t ReloadTime(TIM_TypeDef* tim);
 

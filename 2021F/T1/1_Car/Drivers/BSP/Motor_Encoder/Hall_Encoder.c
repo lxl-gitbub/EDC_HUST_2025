@@ -23,6 +23,8 @@ void EncoderInit(TIM_HandleTypeDef *Timer, uint32_t chan1, uint32_t chan2, TIM_H
 	HAL_TIM_Base_Start_IT(realTimer);
 	
 	encoders[numEncoders].reloadFre = ReloadTime(realTimer->Instance);
+	encoders[numEncoders].speed = 0; // Initialize speed to 0
+	encoders[numEncoders].dis = 0.0; // Initialize distance to 0
 
 	EncoderParamInit(&encoders[numEncoders].param, wheelLength, ppr);
 	numEncoders++;
@@ -71,6 +73,9 @@ void UpdateSpeed(int i, TIM_HandleTypeDef *reload_tim)
 	if(reload_tim == encoders[i].realTimer)
 	{
 		encoders[i].speed = getTIMx_DetaCnt(encoders[i].timer);
+		// Get the speed from the timer count
+		encoders[i].dis += StoDis(encoders[i]);
+		// Update the distance traveled by the wheel
 	}
 }
 
@@ -81,6 +86,13 @@ void UpdateAllSpeed(TIM_HandleTypeDef *reload_tim)
 	{
 		UpdateSpeed(i, reload_tim);
 	}
+}
+
+double StoDis(EncoderSpeed e)
+{
+	return e.speed * e.param.wheelLength * 1e-3 * PI 
+	/ (e.param.ppr * 2);
+	// Compute the distance traveled by the wheel
 }
 
 //Get wheels' speed with the unit of m/s
@@ -94,6 +106,12 @@ double getSpeed(int index)
 		//4.394215799e-3;
 		// Left number is computed by (length of the circle) * (frequence of the clock / (leftSpeed add number for every single circle
 		// which is (6.6e-2 * pi * (240e6 / ((65535 + 1) * (239 + 1)) / (360 * 2))
+}
+
+double getDis(int index)
+{
+	return encoders[index].dis; // Return the distance traveled by the wheel
+	// The distance is already updated in UpdateSpeed function
 }
 
 //Functions below are speciafic for left and right encoders
@@ -120,6 +138,23 @@ double rSpeed()
 		return 0.0; // No right encoder initialized
 	}
 	return getSpeed(1); // Speed of right encoder
+}
+
+double lDis()
+{
+	if(LRFlag == 0)
+	{
+		return 0.0; // No left encoder initialized
+	}
+	return getDis(0); // Distance traveled by left wheel
+}
+double rDis()
+{
+	if(LRFlag == 0)
+	{
+		return 0.0; // No right encoder initialized
+	}
+	return getDis(1); // Distance traveled by right wheel
 }
 
 uint32_t ReloadTime(TIM_TypeDef* tim)
