@@ -5,15 +5,15 @@
  * @version     V1.0
  * @date        2022-06-21
  * @brief       ATK-MS601Mģ��UART�ӿ���������
- * @license     Copyright (c) 2020-2032, �������������ӿƼ����޹�˾
+ * @license     Copyright (c) 2020-2032, �������������ӿƼ����޹�??
  ****************************************************************************************************
  * @attention
  *
- * ʵ��ƽ̨:����ԭ�� ������ F767������
- * ������Ƶ:www.yuanzige.com
+ * ʵ��ƽ̨:����ԭ�� ������?? F767������??
+ * ������???:www.yuanzige.com
  * ������̳:www.openedv.com
  * ��˾��ַ:www.alientek.com
- * �����ַ:openedv.taobao.com
+ * ������???:openedv.taobao.com
  *
  ****************************************************************************************************
  */
@@ -23,7 +23,7 @@
 
 #include "AllHeader.h"
 
-/* ���Ŷ��� */
+/* ����???����?? */
 //#define ATK_MS601M_UART_TX_GPIO_PORT            GPIOA
 //#define ATK_MS601M_UART_TX_GPIO_PIN             GPIO_PIN_2
 #define ATK_MS601M_UART_TX_GPIO_AF              GPIO_AF7_USART2
@@ -35,14 +35,14 @@
 #define ATK_MS601M_UART_INTERFACE               USART2
 #define ATK_MS601M_UART_IRQn                    USART2_IRQn
 #define ATK_MS601M_UART_IRQHandler              USART2_IRQHandler
-/* UART����FIFO�����С */
+/* UART����FIFO������??? */
 #define ATK_MS601M_UART_RX_FIFO_BUF_SIZE        128
 
 /* �������� */
 uint8_t atk_ms601m_uart_rx_fifo_write(uint8_t *dat, uint16_t len);  /* ATK-MS601M UART����FIFOд������ */
 uint16_t atk_ms601m_uart_rx_fifo_read(uint8_t *dat, uint16_t len);  /* ATK-MS601M UART����FIFO��ȡ���� */
-void atk_ms601m_rx_fifo_flush(void);                                /* ATK-MS601M UART����FIFO��� */
+void atk_ms601m_rx_fifo_flush(void);                                /* ATK-MS601M UART����FIFO���????? */
 void atk_ms601m_uart_send(uint8_t *dat, uint8_t len);               /* ATK-MS601M UART�������� */
-void atk_ms601m_uart_init(uint32_t baudrate);                       /* ATK-MS601M UART��ʼ�� */
+void atk_ms601m_uart_init(uint32_t baudrate);                       /* ATK-MS601M UART��???�� */
 
 #endif

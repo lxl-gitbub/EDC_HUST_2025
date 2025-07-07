@@ -75,7 +75,7 @@ void delay_us_hal(uint16_t nus)
 
   
 
-- **需要在stm32h7xx_it.c中将void USARTX_IRQHandler(void)函数注释防止冲突**
+- **需要将在atk_ms601m_uart.h有关#define ATK_MS601M_UART_IRQHandler              USART2_IRQHandler的宏定义注释或删除，并把这个函数给声明，然后再it文件中写入#include "AllHeader.h" 并在USART2_IRQHandler上中写入ATK_MS601M_UART_IRQHandler**
 
 - **需要在atk_ms601m_uart.h中将引脚定义替换成所用串口引脚**
 
