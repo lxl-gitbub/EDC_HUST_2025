@@ -7,4 +7,10 @@
 extern "C" {
 #endif
 
+typedef struct{
+    float error; // 误差
+    float sum; // 积分
+    float difference; // 微分
+}PIDdata;
+
 // 运动学函数声明
