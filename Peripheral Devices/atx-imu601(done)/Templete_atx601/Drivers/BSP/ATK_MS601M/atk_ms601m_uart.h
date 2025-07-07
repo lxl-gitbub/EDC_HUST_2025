@@ -34,7 +34,7 @@
                                                 
 #define ATK_MS601M_UART_INTERFACE               USART2
 #define ATK_MS601M_UART_IRQn                    USART2_IRQn
-#define ATK_MS601M_UART_IRQHandler              USART2_IRQHandler
+//#define ATK_MS601M_UART_IRQHandler              USART2_IRQHandler
 /* UARTï¿½ï¿½ï¿½ï¿½FIFOï¿½ï¿½ï¿½ï¿½ï¿½ï¿½??? */
 #define ATK_MS601M_UART_RX_FIFO_BUF_SIZE        128
 
@@ -44,5 +44,6 @@ uint16_t atk_ms601m_uart_rx_fifo_read(uint8_t *dat, uint16_t len);  /* ATK-MS601
 void atk_ms601m_rx_fifo_flush(void);                                /* ATK-MS601M UARTï¿½ï¿½ï¿½ï¿½FIFOï¿½ï¿½ï¿????? */
 void atk_ms601m_uart_send(uint8_t *dat, uint8_t len);               /* ATK-MS601M UARTï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 void atk_ms601m_uart_init(uint32_t baudrate);                       /* ATK-MS601M UARTï¿½ï¿½???ï¿½ï¿½ */
+void ATK_MS601M_UART_IRQHandler(void);
 
 #endif
