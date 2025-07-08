@@ -49,4 +49,5 @@ tem/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Drivers\BSP\Motor_Encoder\Mem.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
   ..\Drivers\BSP\Motor_Encoder\Mem.h \
-  ..\Drivers\BSP\Motor_Encoder\Initialize.h
+  ..\Drivers\BSP\Motor_Encoder\Initialize.h \
+  ..\Drivers\BSP\Motor_Encoder\kinematics.h

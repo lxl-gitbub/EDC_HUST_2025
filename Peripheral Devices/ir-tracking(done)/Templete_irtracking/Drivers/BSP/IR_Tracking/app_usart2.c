@@ -3,7 +3,7 @@
 #define Package_size 100
 
 //确认对应串口
-#define USART_IR huart6
+#define USART_IR huart3
 
 uint8_t rx_buff[Package_size];
 uint8_t new_package[Package_size];

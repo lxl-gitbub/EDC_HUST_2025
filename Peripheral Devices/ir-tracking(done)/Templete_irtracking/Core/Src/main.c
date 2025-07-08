@@ -103,6 +103,7 @@ int main(void)
   MX_TIM7_Init();
   MX_USART1_UART_Init();
   MX_USART3_UART_Init();
+  MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
 
 	//先等待红外稳定，再将八路巡线器初始化

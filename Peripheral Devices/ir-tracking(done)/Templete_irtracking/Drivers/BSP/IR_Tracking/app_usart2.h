@@ -6,6 +6,7 @@
 #include "stdio.h"
 #include "string.h"
 #include "stm32h7xx_hal.h" // 替换为HAL库头文件
+#include "AllHeader.h"
 
 
 #define IR_Num 8 //探头数量

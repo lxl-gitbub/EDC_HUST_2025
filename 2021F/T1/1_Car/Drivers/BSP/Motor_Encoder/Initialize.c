@@ -25,3 +25,11 @@ void RMotorSet(MOVETYPE type, uint16_t duty)
 {
     Motor_UI_Set(type, duty, &Right);
 }
+
+float getYaw()
+{
+    // Get the yaw angle from the MS601M sensor
+    atk_ms601m_attitude_data_t attitude_dat;
+    atk_ms601m_get_attitude(&attitude_dat, 100);
+    return attitude_dat.yaw; // Return the yaw angle
+}

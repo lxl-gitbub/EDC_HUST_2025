@@ -16,7 +16,7 @@
 // ====================初???化函数参数宏定??====================
 // 基于现有代码的初始化参数
 
-// 右轮电机初???化参数 (对应MotorInit(&Right, ...))
+// 右轮电机初始化参数 (对应MotorInit(&Right, ...))
 #define RIGHT_MOTOR_IN1_PORT    GPIOC
 #define RIGHT_MOTOR_IN1_PIN     GPIO_PIN_5
 #define RIGHT_MOTOR_IN2_PORT    GPIOB
@@ -25,7 +25,7 @@
 #define RIGHT_MOTOR_PWM_CHANNEL TIM_CHANNEL_1
 #define RIGHT_MOTOR_INIT_DUTY   0
 
-// 左轮电机初???化参数 (对应MotorInit(&Left, ...))
+// 左轮电机初始化参数 (对应MotorInit(&Left, ...))
 #define LEFT_MOTOR_IN1_PORT     GPIOC
 #define LEFT_MOTOR_IN1_PIN      GPIO_PIN_4
 #define LEFT_MOTOR_IN2_PORT     GPIOB

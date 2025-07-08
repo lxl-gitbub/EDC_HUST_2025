@@ -48,4 +48,5 @@ tem/atk_ms601m.o: ..\Drivers\BSP\ATK_MS601M\atk_ms601m.c \
   ..\Drivers\BSP\Motor_Encoder\Mem.h ..\Core\Inc\usart.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
   ..\Drivers\BSP\Motor_Encoder\Mem.h \
-  ..\Drivers\BSP\Motor_Encoder\Initialize.h
+  ..\Drivers\BSP\Motor_Encoder\Initialize.h \
+  ..\Drivers\BSP\Motor_Encoder\kinematics.h
