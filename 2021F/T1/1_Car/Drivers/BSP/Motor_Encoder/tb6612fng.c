@@ -87,7 +87,7 @@ void Motor_UI_Set(MOVETYPE type, uint16_t duty, Motor* M)
 		break;
 	}
 	M->speed.current_duty = duty;
-	__HAL_TIM_SET_COMPARE(M->speed.pwm_timer, M->speed.pwm_channel, M->speed.current_duty / 1000.0f * __HAL_TIM_GET_AUTORELOAD(M->speed.pwm_timer));
+	__HAL_TIM_SET_COMPARE(M->speed.pwm_timer, M->speed.pwm_channel, M->speed.current_duty );
 	return;
 }
 
@@ -139,3 +139,4 @@ void MotorSet(MOVETYPE type, double speed, Motor* M)
 	int duty = speed_to_duty(speed, M); // Convert speed to duty
 	Motor_UI_Set(type, duty, M);
 }
+

@@ -593,6 +593,11 @@
               <FileType>1</FileType>
               <FilePath>..\Drivers\BSP\Motor_Encoder\Initialize.c</FilePath>
             </File>
+            <File>
+              <FileName>kinematics.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\BSP\Motor_Encoder\kinematics.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

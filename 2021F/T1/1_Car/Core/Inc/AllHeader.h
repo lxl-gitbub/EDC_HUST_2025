@@ -1,3 +1,6 @@
+#ifndef ALLHEADER_H
+#define ALLHEADER_H
+
 #include "main.h"
 #include "tim.h"
 #include "usart.h"
@@ -28,3 +31,9 @@
 
 // 运动学头文件，包括常见的直行转弯函数
 #include "kinematics.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#endif /* ALLHEADER_H */

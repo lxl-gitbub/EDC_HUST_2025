@@ -1,5 +1,5 @@
-tem/initialize.o: ..\Drivers\BSP\Motor_Encoder\Initialize.c \
-  ..\Drivers\BSP\Motor_Encoder\Initialize.h ..\Core\Inc\AllHeader.h \
+tem/kinematics.o: ..\Drivers\BSP\Motor_Encoder\kinematics.c \
+  ..\Drivers\BSP\Motor_Encoder\kinematics.h ..\Core\Inc\AllHeader.h \
   ..\Core\Inc\main.h ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
   ..\Core\Inc\stm32h7xx_hal_conf.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_rcc.h \

@@ -13,6 +13,52 @@ typedef struct{
     float difference; // 微分
 }PIDdata;
 
+typedef struct{
+    float x; // x轴位置
+    float y; // y轴位置
+    float theta; // 方向角
+    float initial_theta; // 初始方向角
+}Pose;
+
+typedef struct{
+    float linear_velocity; // 线速度
+    float angular_velocity; // 角速度
+}Speed;
+
+typedef struct{
+    float left_wheel_speed; // 左轮速度
+    float right_wheel_speed; // 右轮速度
+}WheelSpeed;
+
+typedef struct{
+    Speed speed; // 线速度和角速度
+    float yaw; // 偏航角
+    float dt; // 时间间隔
+}Data; //这个数据结构用于从编码器和陀螺仪中获取数据
+
+typedef struct{
+    Pose pose; // 位置和方向
+    Speed speed; // 线速度和角速度
+    WheelSpeed wheel_speed; // 左右轮速度
+}CarState;
+
+typedef struct{
+    CarState car_state; // 汽车状态
+    PIDdata pid; // PID数据
+}CarKinematics;
+
+//PID 函数声明
+void PID_Init(PIDdata *pid);
+void PID_Update(PIDdata *pid, float target, float current, float dt);
+float PID_Compute(PIDdata *pid, float Kp, float Ki, float Kd);
+
+//小车状态处理函数声明
+void CarState_Init(CarState *state);
+void CarState_Update(CarState *state, float dt);
+
+// 获取数据函数声明
+Data getData();
+
 // 运动学函数声明
 
 

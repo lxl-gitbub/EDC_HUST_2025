@@ -1,6 +1,7 @@
 #include "Initialize.h"
 
-Motor Left, Right;  // Declare motors for left and right
+Motor Le, Ri;  // Declare motors for left and right
+CarKinematics car_kinematics; // Declare car kinematics structure
 
 void MEInit(Motor* L, Motor* R)
 {
@@ -14,22 +15,34 @@ void MEInit(Motor* L, Motor* R)
     LRInit(LEFT_ENCODER_TIMER, LEFT_ENCODER_CHANNEL_A, LEFT_ENCODER_CHANNEL_B,
            RIGHT_ENCODER_TIMER, RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B,
            WHEEL_DIAMETER, PPR * REDUCE, ENCODER_REAL_TIMER ); // Initialize the encoders with wheel length and pulses per revolution
+    
+    Le = *L;  // Assign the left motor to Le
+    Ri = *R;  // Assign the right motor to Ri
     // Set the initial speed to default
 }
 
 void LMotorSet(MOVETYPE type, uint16_t duty)
 {
-    Motor_UI_Set(type, duty, &Left);
+    Motor_UI_Set(type, duty, &Le);
 }
 void RMotorSet(MOVETYPE type, uint16_t duty)
 {
-    Motor_UI_Set(type, duty, &Right);
+    Motor_UI_Set(type, duty, &Ri);
 }
 
 float getYaw()
 {
     // Get the yaw angle from the MS601M sensor
     atk_ms601m_attitude_data_t attitude_dat;
-    atk_ms601m_get_attitude(&attitude_dat, 100);
+    atk_ms601m_get_attitude(&attitude_dat, 10);
     return attitude_dat.yaw; // Return the yaw angle
+}
+
+float getWz()
+{
+    // Get the angular velocity (wz) from the MS601M sensor
+    atk_ms601m_gyro_data_t gyro_dat;
+		atk_ms601m_accelerometer_data_t accelerometer_dat;
+    atk_ms601m_get_gyro_accelerometer(&gyro_dat, &accelerometer_dat, 10);
+    return gyro_dat.z; // Return the angular velocity around the z-axis
 }

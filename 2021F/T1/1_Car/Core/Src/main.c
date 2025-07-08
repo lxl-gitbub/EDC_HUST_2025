@@ -45,7 +45,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-//?????????????
+// MS601M 传感器数据结构体
 atk_ms601m_attitude_data_t attitude_dat;
 atk_ms601m_gyro_data_t gyro_dat;
 atk_ms601m_accelerometer_data_t accelerometer_dat;
@@ -55,6 +55,7 @@ char message[256];
 extern uint8_t g_new_package_flag;
 uint8_t Rx_Temp; // ???????USART????????????
 
+Data data = {0}; // 运动学数据结构体，初始值全部为0
 
 /* USER CODE END PV */
 
@@ -127,6 +128,7 @@ int main(void)
 	HAL_UART_Transmit(&huart6, (uint8_t *)"$0,0,1#", 7, HAL_MAX_DELAY);
 	HAL_UART_Receive_IT(&huart6, &Rx_Temp, 1);
 	
+	uint32_t last_time = 0;
   Motor Left, Right;  
 	MEInit(&Left, &Right); // 电机和编码器初始化
   /* USER CODE END 2 */
@@ -135,30 +137,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		//传感器数据读取
-		atk_ms601m_get_attitude(&attitude_dat, 100);
-		atk_ms601m_get_gyro_accelerometer(&gyro_dat, &accelerometer_dat, 100);
-		int message_len = snprintf(message, sizeof(message),
-															 "Roll: %.02f', Pitch: %.02f', Yaw: %.02f'\r\n"
-															 "Gx: %.02f'/s, Gy: %.02f'/s, Gz: %.02f'/s\r\n"
-															 "Ax: %.02fG, Ay: %.02fG, Az: %.02fG\r\n"
-															 "****************************************\r\n\r\n",
-															 attitude_dat.roll, attitude_dat.pitch, attitude_dat.yaw,
-															 gyro_dat.x, gyro_dat.y, gyro_dat.z,
-															 accelerometer_dat.x, accelerometer_dat.y, accelerometer_dat.z);
-		if (message_len > 0) 
-				HAL_UART_Transmit(&huart1, (uint8_t *)message, message_len, HAL_MAX_DELAY);
-		//八路巡线传感器数据读取
-		if(g_new_package_flag == 1)
-		{
-			g_new_package_flag = 0;
-			Deal_Usart_Data();
-      sprintf(message,"x1:%d,x2:%d,x3:%d,x4:%d,x5:%d,x6:%d,x7:%d,x8:%d\r\n",IR_Data_number[0],IR_Data_number[1],IR_Data_number[2],IR_Data_number[3],IR_Data_number[4],IR_Data_number[5],IR_Data_number[6],IR_Data_number[7]);
-			HAL_UART_Transmit(&huart1,(uint8_t *)message, strlen(message), HAL_MAX_DELAY);  
-		}
-		
-	
-  HAL_Delay(1000); // 每个测试阶段间隔1秒
+		uint32_t now = HAL_GetTick();
+    HAL_Delay(1000); // 延时1ms，避免过快循环
+    float dt = (now - last_time) / 1000.0f;  // 转为秒
+    last_time = now;
+    sprintf(message, "Time: %.2f s\n", now / 1000.0f);
+    HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), HAL_MAX_DELAY);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

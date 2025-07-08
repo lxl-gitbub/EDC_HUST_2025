@@ -43,10 +43,10 @@ tem/atk_ms601m_uart.o: ..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.c \
   ..\Drivers\BSP\ATK_MS601M\atk_ms601m.h \
   ..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.h \
   ..\Drivers\BSP\IR_Tracking\app_usart2.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
   ..\Drivers\BSP\Motor_Encoder\tb6612fng.h ..\Core\Inc\main.h \
   ..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h ..\Core\Inc\tim.h \
   ..\Drivers\BSP\Motor_Encoder\Mem.h ..\Core\Inc\usart.h \
-  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
   ..\Drivers\BSP\Motor_Encoder\Mem.h \
   ..\Drivers\BSP\Motor_Encoder\Initialize.h \
   ..\Drivers\BSP\Motor_Encoder\kinematics.h
