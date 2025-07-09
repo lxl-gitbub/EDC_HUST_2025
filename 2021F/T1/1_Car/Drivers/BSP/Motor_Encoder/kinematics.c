@@ -41,9 +41,57 @@ void CarState_Update(CarState *state, Data d) {
     state->pose.y += d.speed.linear_velocity * sin(state->pose.theta) * d.dt; // Update y position
 }
 
-int isGetPose(CarState *state, Pose *pose)
+WheelSpeed SpeedToWheelSpeed(Speed speed)
 {
+    WheelSpeed wheel_speed;
+    // Assuming a differential drive robot, calculate left and right wheel speeds
+    wheel_speed.left_wheel_speed = speed.linear_velocity - (speed.angular_velocity * WHEEL_DIAMETER / 2.0f);
+    wheel_speed.right_wheel_speed = speed.linear_velocity + (speed.angular_velocity * WHEEL_DIAMETER / 2.0f);
+    return wheel_speed;
+}
+
+float Straight(float dis, float speed)
+{
+    MOVETYPE type = FOR;
+    if(dis < 0) {
+        type = BACK; // 如果距离为负，则向后移动
+        dis = -dis; // 取绝对值
+    }
+
+    static short first_run = 1; // 静态变量用于判断是否第一次运行
+    static float dist_e = 0.0f; // 静态变量用于记录已移动的距离
+    static uint32_t last_time = 0; // 上次更新时间
+    static PIDdata pidSpeed; // PID控制直线速度
+    static PIDdata pidAngular; // PID控制角速度
+    static float yaw = 0.0f; // 偏航角
+
+    float K_p = 1000.0f; // 比例系数
+    float K_i = 0.0f; // 积分系数
+    float K_d = 0.0f; // 微分系数
+
     
+    uint32_t now = HAL_GetTick(); // 获取当前时间
+    if (first_run || now - last_time >= 2000)// 如果是第一次运行或超过2秒未更新, 将该函数初始化
+    {
+        first_run = 0; // 标记为非第一次运行
+        dist_e = dis; // 重置距离
+        last_time = now; // 更新上次更新时间
+        PID_Init(&pidSpeed); 
+        PID_Init(&pidAngular);// 初始化PID数据
+        yaw = getYaw(); // 获取当前偏航角
+        return dis; // 表示未开始移动
+    }
+    Data data = getData(); // 获取当前数据
+    PID_Update(&pidSpeed, speed, data.speed.linear_velocity, data.dt); // 更新PID数据
+    PID_Update(&pidAngular, 0, data.speed.angular_velocity, data.dt);
+    Speed target_speed;
+    target_speed.linear_velocity = PID_Compute(&pidSpeed, K_p, K_i, K_d); // 计算目标线速度
+    target_speed.angular_velocity = PID_Compute(&pidAngular, K_p, K_i, K_d); // 计算目标角速度
+    WheelSpeed wheel_speed = SpeedToWheelSpeed(target_speed); // 将速度转换为轮速
+    LMotorSet(type, (uint16_t) wheel_speed.left_wheel_speed); // 设置左轮速度
+    RMotorSet(type, (uint16_t) wheel_speed.right_wheel_speed); // 设置右轮速度
+    dist_e -= data.speed.linear_velocity * data.dt; // 累加已移动的距离
+    return dist_e; // 返回已移动的距离
 }
 
 Data getData()

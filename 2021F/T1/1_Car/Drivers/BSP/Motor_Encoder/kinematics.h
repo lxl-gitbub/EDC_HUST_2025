@@ -54,12 +54,15 @@ float PID_Compute(PIDdata *pid, float Kp, float Ki, float Kd);
 
 //小车状态处理函数声明
 void CarState_Init(CarState *state);
-void CarState_Update(CarState *state, float dt);
+void CarState_Update(CarState *state,  Data d);
+
+// 小车速度换算函数
+WheelSpeed SpeedToWheelSpeed(Speed speed);
 
 // 获取数据函数声明
 Data getData();
 
 // 运动学函数声明
-
+float Straight(float dis, float speed);
 
  #endif
