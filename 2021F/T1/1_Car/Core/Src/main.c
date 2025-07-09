@@ -240,12 +240,12 @@ int main(void)
           HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
           
           // 显示陀螺仪数据
-          float current_yaw = getYaw();
-          float current_wz = getWz();
-          sprintf(message, "IMU: Yaw=%.2f°, Wz=%.2f°/s\r\n", 
-                  current_yaw, current_wz);
-          HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
-          
+//          float current_yaw = getYaw();
+//          float current_wz = getWz();
+//          sprintf(message, "IMU: Yaw=%.2f°, Wz=%.2f°/s\r\n", 
+//                  current_yaw, current_wz);
+//          HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
+//          
           // 显示剩余距离
           if(straight_test_state != 5)
           {
@@ -257,17 +257,17 @@ int main(void)
           HAL_UART_Transmit(&huart1, (uint8_t *)"-------------------\r\n", 21, 1000);
       }
       
-      // 处理八路巡线传感器数据
-      if(g_new_package_flag == 1)
-      {
-          g_new_package_flag = 0;
-          Deal_Usart_Data();
-          sprintf(message,"IR: %d,%d,%d,%d,%d,%d,%d,%d\r\n",
-                  IR_Data_number[0],IR_Data_number[1],IR_Data_number[2],IR_Data_number[3],
-                  IR_Data_number[4],IR_Data_number[5],IR_Data_number[6],IR_Data_number[7]);
-          HAL_UART_Transmit(&huart1,(uint8_t *)message, strlen(message), 1000);  
-      }
-      
+//      // 处理八路巡线传感器数据
+//      if(g_new_package_flag == 1)
+//      {
+//          g_new_package_flag = 0;
+//          Deal_Usart_Data();
+//          sprintf(message,"IR: %d,%d,%d,%d,%d,%d,%d,%d\r\n",
+//                  IR_Data_number[0],IR_Data_number[1],IR_Data_number[2],IR_Data_number[3],
+//                  IR_Data_number[4],IR_Data_number[5],IR_Data_number[6],IR_Data_number[7]);
+//          HAL_UART_Transmit(&huart1,(uint8_t *)message, strlen(message), 1000);  
+//      }
+//      
       HAL_Delay(20); // 20ms循环间隔，保证足够的控制频率
       /* USER CODE END WHILE */
     /* USER CODE BEGIN 3 */
