@@ -1,6 +1,6 @@
 tem/ganwei_i2c.o: ..\Drivers\BSP\GanWei\GanWei_i2c.c \
   ..\Drivers\BSP\GanWei\GanWei_i2c.h \
-  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\stdint.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdint.h \
   ..\Core\Inc\AllHeader.h ..\Core\Inc\main.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
   ..\Core\Inc\stm32h7xx_hal_conf.h \
@@ -12,13 +12,13 @@ tem/ganwei_i2c.o: ..\Drivers\BSP\GanWei\GanWei_i2c.c \
   ..\Drivers\CMSIS\Include\cmsis_version.h \
   ..\Drivers\CMSIS\Include\cmsis_compiler.h \
   ..\Drivers\CMSIS\Include\cmsis_armclang.h \
-  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\arm_compat.h \
-  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\arm_acle.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\arm_compat.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\arm_acle.h \
   ..\Drivers\CMSIS\Include\mpu_armv7.h \
   ..\Drivers\CMSIS\Device\ST\STM32H7xx\Include\system_stm32h7xx.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\Legacy\stm32_hal_legacy.h \
-  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\stddef.h \
-  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\math.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stddef.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\math.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_rcc_ex.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_gpio.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_gpio_ex.h \
@@ -39,8 +39,7 @@ tem/ganwei_i2c.o: ..\Drivers\BSP\GanWei\GanWei_i2c.c \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart_ex.h \
   ..\Core\Inc\i2c.h ..\Core\Inc\tim.h ..\Core\Inc\usart.h \
-  ..\Core\Inc\gpio.h \
-  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\stdio.h \
-  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\string.h \
+  ..\Core\Inc\gpio.h D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h \
   ..\Drivers\BSP\GanWei\gw_grayscale_sensor.h \
   ..\Drivers\BSP\GanWei\GanWei_i2c.h

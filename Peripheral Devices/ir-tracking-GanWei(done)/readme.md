@@ -1,18 +1,18 @@
-## æ³¨æ„ï¼š
+## ×¢Òâ£º
 
-æ›´æ¢ä½ç½®æˆ–è·¯çº¿æ—¶ï¼Œéœ€æ ¡å‡†ï¼Œæ ¡å‡†æ–¹å¼è§ä½¿ç”¨æ–‡æ¡£
+¸ü»»Î»ÖÃ»òÂ·ÏßÊ±£¬ÐèÐ£×¼£¬Ð£×¼·½Ê½¼ûÊ¹ÓÃÎÄµµ
 
-## å·¥ç¨‹é…ç½®ï¼š
+## ¹¤³ÌÅäÖÃ£º
 
-- ç¡¬ä»¶I2Cï¼šæ‰“å¼€I2C1è®¾ç½®ä¸ºI2Cæ¨¡å¼
-- å¼•å…¥GanWeiåº“æ–‡ä»¶
+- Ó²¼þI2C£º´ò¿ªI2C1ÉèÖÃÎªI2CÄ£Ê½
+- ÒýÈëGanWei¿âÎÄ¼þ
 
-## æŽ¥çº¿ï¼š
+## ½ÓÏß£º
 
 PB6     ------> I2C1_SCL
 PB7     ------> I2C1_SDA
 
-## ä»£ç ï¼š
+## ´úÂë£º
 
 ```c
 /* USER CODE BEGIN PV */
@@ -23,7 +23,7 @@ unsigned char Digtal;
 while (1)
 {
     unsigned char rx_buff[256]={0};
-    Digtal=IIC_Get_Digtal();		//èŽ·å–ä¼ æ„Ÿå™¨æ¨¡æ‹Ÿé‡ç»“æžœ
+    Digtal=IIC_Get_Digtal();		//»ñÈ¡´«¸ÐÆ÷Ä£ÄâÁ¿½á¹û
     int buff_len = sprintf((char *)rx_buff,"Digtal %d-%d-%d-%d-%d-%d-%d-%d\r\n",(Digtal>>0)&0x01,(Digtal>>1)&0x01,(Digtal>>2)&0x01,(Digtal>>3)&0x01,(Digtal>>4)&0x01,(Digtal>>5)&0x01,(Digtal>>6)&0x01,(Digtal>>7)&0x01);
     HAL_UART_Transmit(&huart1,(uint8_t *)rx_buff, buff_len, HAL_MAX_DELAY); 
     HAL_Delay(1000);

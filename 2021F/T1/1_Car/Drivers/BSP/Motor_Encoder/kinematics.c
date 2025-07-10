@@ -10,9 +10,10 @@ void PID_Init(PIDdata *pid) {
 }
 void PID_Update(PIDdata *pid, float target, float current, float dt) {
     if (pid == NULL || dt <= 0.0f) return; // Check for null pointer and valid dt
+		float preerror = pid->error;
     pid->error = target - current; // Calculate error
     pid->sum += pid->error * dt; // Integral term
-    pid->difference = (pid->error - pid->difference) / dt; // Derivative term
+    pid->difference = (pid->error - preerror) / dt; // Derivative term
 }
 float PID_Compute(PIDdata *pid, float Kp, float Ki, float Kd) {
     if (pid == NULL) return 0.0f; // Check for null pointer
@@ -84,19 +85,35 @@ float Straight(float dis, float speed)
         yaw = getYaw(); // 获取当前偏航角
         return dis; // 表示未开始移动
     }
+
+    //处理时间
+    float dt = (now - last_time) / 1000.0f; // 计算时间间隔
+    last_time = now;
+
     Data data = getData(); // 获取当前数据
-    PID_Update(&pidSpeed, speed, data.speed.linear_velocity, data.dt); // 更新PID数据
-    PID_Update(&pidAngular, 0, data.speed.angular_velocity, data.dt);
+    if(type == BACK) // 如果是后退
+    {
+        data.speed.linear_velocity = -data.speed.linear_velocity; // 反转线速度
+        data.yaw = -data.yaw; // 反转偏航角
+    }
+    PID_Update(&pidSpeed, speed, data.speed.linear_velocity, dt); // 更新PID数据
+    PID_Update(&pidAngular, 0, data.speed.angular_velocity, dt);
+
     Speed target_speed;
     target_speed.linear_velocity = PID_Compute(&pidSpeed, K_p_v, K_i_v, K_d_v); // 计算目标线速度
-		if(type ==BACK)
-			target_speed.linear_velocity = -target_speed.linear_velocity;
+    
     target_speed.angular_velocity = PID_Compute(&pidAngular, K_p_w, K_i_w, K_d_w); // 计算目标角速度
+
     WheelSpeed wheel_speed = SpeedToWheelSpeed(target_speed); // 将速度转换为轮速
+    wheel_speed.left_wheel_speed = (wheel_speed.left_wheel_speed > 0) ? wheel_speed.left_wheel_speed : 0; // 确保左轮速度不小于0
+    wheel_speed.right_wheel_speed = (wheel_speed.right_wheel_speed > 0) ? wheel_speed.right_wheel_speed : 0; // 确保右轮速度不小于0
+    wheel_speed.left_wheel_speed = (wheel_speed.left_wheel_speed < 1000) ? wheel_speed.left_wheel_speed : 1000; // 限制左轮速度最大值
+    wheel_speed.right_wheel_speed = (wheel_speed.right_wheel_speed < 1000) ? wheel_speed.right_wheel_speed : 1000; // 限制右轮速度最大值
+
     LMotorSet(type, (uint16_t) wheel_speed.left_wheel_speed); // 设置左轮速度
     RMotorSet(type, (uint16_t) wheel_speed.right_wheel_speed); // 设置右轮速度
-		last_time = now;
-    dist_e -= data.speed.linear_velocity * data.dt; // 累加已移动的距离
+		
+    dist_e -= data.speed.linear_velocity * dt; // 累加已移动的距离
     return dist_e; // 返回已移动的距离
 }
 
@@ -106,10 +123,6 @@ Data getData()
     data.speed.angular_velocity = getWz(); // 获取当前的角速度
     data.speed.linear_velocity = cSpeed();
     data.yaw = getYaw(); // 获取当前的偏航角
-
-    uint32_t now = HAL_GetTick();
-    data.dt = now - time; // 计算时间间隔
-    time = now; // 更新上次获取数据的时间
 
     return data;
 }

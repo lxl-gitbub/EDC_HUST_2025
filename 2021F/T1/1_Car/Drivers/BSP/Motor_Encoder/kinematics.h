@@ -33,7 +33,6 @@ typedef struct{
 typedef struct{
     Speed speed; // 线速度和角速度
     float yaw; // 偏航角
-    float dt; // 时间间隔
 }Data; //这个数据结构用于从编码器和陀螺仪中获取数据
 
 typedef struct{

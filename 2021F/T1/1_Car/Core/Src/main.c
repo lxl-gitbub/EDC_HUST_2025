@@ -138,137 +138,19 @@ int main(void)
   /* Infinite loop */
     /* USER CODE BEGIN WHILE */
   while (1)
-  {
-      // 直行函数测试状态机
-      static uint32_t last_time = 0;
-      static uint8_t straight_test_state = 0;
-      static uint8_t state_executed = 0; // 防止重复执行
-      static float remaining_distance = 0.0f; // 剩余距离
+  {   
+      // 更新运动学数据
+      data = getData();
       
-      uint32_t now = HAL_GetTick();
-      
-      // 每5秒切换一次状态（给足够时间完成直行）
-      if(now - last_time >= 5000)
-      {
-          last_time = now;
-          straight_test_state++;
-          if(straight_test_state > 5) straight_test_state = 0;
-          state_executed = 0; // 重置执行标志
-      }
-      
-      // 状态机控制
-      if(!state_executed)
-      {
-          state_executed = 1;
-          
-          switch(straight_test_state)
-          {
-              case 0: // 短距离前进测试 (0.5米)
-                  remaining_distance = 0.5f;
-                  sprintf(message, "Straight Test 0: Forward 0.5m at 0.2m/s\r\n");
-                  HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
-                  break;
-                  
-              case 1: // 中距离前进测试 (1.0米)
-                  remaining_distance = 1.0f;
-                  sprintf(message, "Straight Test 1: Forward 1.0m at 0.15m/s\r\n");
-                  HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
-                  break;
-                  
-              case 2: // 后退测试 (-0.5米)
-                  remaining_distance = -0.5f;
-                  sprintf(message, "Straight Test 2: Backward 0.5m at 0.1m/s\r\n");
-                  HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
-                  break;
-                  
-              case 3: // 快速前进测试 (0.8米)
-                  remaining_distance = 0.8f;
-                  sprintf(message, "Straight Test 3: Forward 0.8m at 0.3m/s\r\n");
-                  HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
-                  break;
-                  
-              case 4: // 长距离前进测试 (1.5米)
-                  remaining_distance = 1.5f;
-                  sprintf(message, "Straight Test 4: Forward 1.5m at 0.2m/s\r\n");
-                  HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
-                  break;
-                  
-              case 5: // 停止测试
-                  LMotorSet(BREAK, 0);
-                  RMotorSet(BREAK, 0);
-                  sprintf(message, "Straight Test 5: Stop - All motors brake\r\n");
-                  HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
-                  break;
-          }
-      }
-      
-      // 执行直行函数（除了停止状态）
-      if(straight_test_state != 5)
-      {
-          float target_speed = 0.0f;
-          
-          // 根据状态设置目标速度
-          switch(straight_test_state)
-          {
-              case 0: target_speed = 0.2f; break;  // 0.2 m/s
-              case 1: target_speed = 0.15f; break; // 0.15 m/s
-              case 2: target_speed = 0.1f; break;  // 0.1 m/s (后退)
-              case 3: target_speed = 0.3f; break;  // 0.3 m/s
-              case 4: target_speed = 0.2f; break;  // 0.2 m/s
-          }
-          
-          // 调用直行函数
-          remaining_distance = Straight(remaining_distance, target_speed);
-          
-          // 检查是否完成
-          if(remaining_distance <= 0.05f && remaining_distance >= -0.05f) // 5cm误差范围
-          {
-              sprintf(message, "Straight completed! Remaining: %.3fm\r\n", remaining_distance);
-              HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
-          }
-      }
-      
-      // 每500ms显示实时数据
-      static uint32_t last_display = 0;
-      if(now - last_display >= 500)
-      {
-          last_display = now;
-          
-          // 显示当前速度和位置信息
-          sprintf(message, "Speed: L=%.3f, R=%.3f, C=%.3f m/s\r\n", 
-                  lSpeed(), rSpeed(), cSpeed());
-          HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
-          
-          // 显示陀螺仪数据
-//          float current_yaw = getYaw();
-//          float current_wz = getWz();
-//          sprintf(message, "IMU: Yaw=%.2f°, Wz=%.2f°/s\r\n", 
-//                  current_yaw, current_wz);
-//          HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
-//          
-          // 显示剩余距离
-          if(straight_test_state != 5)
-          {
-              sprintf(message, "Remaining distance: %.3fm\r\n", remaining_distance);
-              HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
-          }
-          
-          // 分隔线
-          HAL_UART_Transmit(&huart1, (uint8_t *)"-------------------\r\n", 21, 1000);
-      }
-      
-//      // 处理八路巡线传感器数据
-//      if(g_new_package_flag == 1)
-//      {
-//          g_new_package_flag = 0;
-//          Deal_Usart_Data();
-//          sprintf(message,"IR: %d,%d,%d,%d,%d,%d,%d,%d\r\n",
-//                  IR_Data_number[0],IR_Data_number[1],IR_Data_number[2],IR_Data_number[3],
-//                  IR_Data_number[4],IR_Data_number[5],IR_Data_number[6],IR_Data_number[7]);
-//          HAL_UART_Transmit(&huart1,(uint8_t *)message, strlen(message), 1000);  
-//      }
-//      
-      HAL_Delay(20); // 20ms循环间隔，保证足够的控制频率
+      // 调用直行函数，假设距离为1000mm，速度为200mm/s
+    float dis = -1.0f; // 目标距离
+    float speed = 0.2; // 目标速度
+    float dise = Straight(dis,  speed);
+    snprintf(message, sizeof(message), 
+      "dise:%.2f\r\n", dise);
+    HAL_UART_Transmit(&huart1, (uint8_t*)message, strlen(message), HAL_MAX_DELAY);
+		HAL_Delay(100);
+
       /* USER CODE END WHILE */
     /* USER CODE BEGIN 3 */
   }

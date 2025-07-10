@@ -113,7 +113,7 @@ int main(void)
 		unsigned char rx_buff[256]={0};
 		Digtal=IIC_Get_Digtal();		//获取传感器模拟量结果
 		int buff_len = sprintf((char *)rx_buff,"Digtal %d-%d-%d-%d-%d-%d-%d-%d\r\n",(Digtal>>0)&0x01,(Digtal>>1)&0x01,(Digtal>>2)&0x01,(Digtal>>3)&0x01,(Digtal>>4)&0x01,(Digtal>>5)&0x01,(Digtal>>6)&0x01,(Digtal>>7)&0x01);
-		HAL_UART_Transmit(&huart1,(uint8_t *)rx_buff, buff_len, HAL_MAX_DELAY); 
+		HAL_UART_Transmit(&huart1,(uint8_t *)rx_buff, buff_len, 10); 
 		HAL_Delay(1000);
     /* USER CODE END WHILE */
 
