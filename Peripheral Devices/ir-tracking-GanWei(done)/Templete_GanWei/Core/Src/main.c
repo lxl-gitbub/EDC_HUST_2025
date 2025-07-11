@@ -46,7 +46,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-int Digtal[7];
+int Digtal[8];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -110,7 +110,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		IIC_Get_Digtal(Digtal);		//获取传感器数字量结果,存储在Digtal[7]数组中
+		IIC_Get_Digtal(Digtal);		//获取传感器数字量结果,存储在Digtal[8]数组中
 		HAL_Delay(1000);
     /* USER CODE END WHILE */
 
