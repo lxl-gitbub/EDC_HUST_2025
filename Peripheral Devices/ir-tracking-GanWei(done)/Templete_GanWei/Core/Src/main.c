@@ -46,7 +46,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-unsigned char Digtal;
+int Digtal[7];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -110,10 +110,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		unsigned char rx_buff[256]={0};
-		Digtal=IIC_Get_Digtal();		//获取传感器模拟量结果
-		int buff_len = sprintf((char *)rx_buff,"Digtal %d-%d-%d-%d-%d-%d-%d-%d\r\n",(Digtal>>0)&0x01,(Digtal>>1)&0x01,(Digtal>>2)&0x01,(Digtal>>3)&0x01,(Digtal>>4)&0x01,(Digtal>>5)&0x01,(Digtal>>6)&0x01,(Digtal>>7)&0x01);
-		HAL_UART_Transmit(&huart1,(uint8_t *)rx_buff, buff_len, 10); 
+		IIC_Get_Digtal(Digtal);		//获取传感器数字量结果,存储在Digtal[7]数组中
 		HAL_Delay(1000);
     /* USER CODE END WHILE */
 

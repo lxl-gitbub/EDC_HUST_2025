@@ -12,7 +12,7 @@
 PB6     ------> I2C1_SCL
 PB7     ------> I2C1_SDA
 
-对于八路传感器上的跳帽，有scl sda加跳帽，ad1，ad0，pull不加跳帽
+八路传感器跳帽：scl sda加跳帽；ad1，ad0，pull不加跳帽
 
 ## 代码：
 

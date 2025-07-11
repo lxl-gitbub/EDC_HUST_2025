@@ -2,6 +2,7 @@
 #define ALLHEADER_H
 
 #include "main.h"
+#include "i2c.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -14,8 +15,9 @@
 #include "atk_ms601m.h"
 #include "atk_ms601m_uart.h"
 
-// 巡线应用头文件
-#include "app_usart2.h"
+// 感为灰度传感器头文件
+#include "GanWei_i2c.h"
+#include "gw_grayscale_sensor.h"
 
 // 电机驱动头文件
 #include "tb6612fng.h"

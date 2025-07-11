@@ -2,6 +2,7 @@
 "tem\startup_stm32h743xx.o"
 "tem\main.o"
 "tem\gpio.o"
+"tem\i2c.o"
 "tem\tim.o"
 "tem\usart.o"
 "tem\stm32h7xx_it.o"
@@ -29,12 +30,12 @@
 "tem\system_stm32h7xx.o"
 "tem\atk_ms601m.o"
 "tem\atk_ms601m_uart.o"
-"tem\app_usart2.o"
 "tem\hall_encoder.o"
 "tem\mem.o"
 "tem\tb6612fng.o"
 "tem\initialize.o"
 "tem\kinematics.o"
+"tem\ganwei_i2c.o"
 --library_type=microlib --strict --scatter "tem\tem.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

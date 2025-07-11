@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "i2c.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -51,12 +52,16 @@ atk_ms601m_gyro_data_t gyro_dat;
 atk_ms601m_accelerometer_data_t accelerometer_dat;
 char message[256]; 
 
-//??·??????????
-extern uint8_t g_new_package_flag;
-uint8_t Rx_Temp; // ???????USART????????????
+//感为传感器数据变量
+int Digtal[7];
 
-Data data = {0}; // 运动学数据结构体，初始值全部为0
+//运动学数据结构体，初始值全部为0
+Data data = {0}; 
 
+//时间相关变量
+uint32_t times = 0;
+uint32_t last_time = 0;
+uint32_t now = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -117,33 +122,31 @@ int main(void)
   MX_TIM6_Init();
   MX_USART2_UART_Init();
   MX_USART3_UART_Init();
-  MX_USART6_UART_Init();
+  MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-	//??????????
+	//陀螺仪初始化
 	atk_ms601m_init(115200);
 	
-	//????????????????·?????????????
+	//感为传感器测试
+	IIC_Get_Digtal(Digtal);		//获取传感器数字量结果,存储在Digtal[7]数组中
 	HAL_Delay(1000);
-	HAL_UART_Receive_IT(&huart6, &Rx_Temp, 1);
-	HAL_UART_Transmit(&huart6, (uint8_t *)"$0,0,1#", 7, HAL_MAX_DELAY);
-	HAL_UART_Receive_IT(&huart6, &Rx_Temp, 1);
-	
-	uint32_t times = 0;
-	uint32_t last_time = 0;
-	uint32_t now = 0;
+
+	// 电机和编码器初始化	
   Motor Left, Right;  
-	MEInit(&Left, &Right); // 电机和编码器初始化
+	MEInit(&Left, &Right); 
   /* USER CODE END 2 */
 
   /* Infinite loop */
-    /* USER CODE BEGIN WHILE */
+  /* USER CODE BEGIN WHILE */
   while (1)
   {   
     TurnRight(74);  // 更动学数据
     HAL_Delay(2000);  // 更动学数据
     /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
   }
+  /* USER CODE END 3 */
 }
 
 /**
@@ -210,7 +213,7 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-//??????????1us?????
+//用于给陀螺仪提供1us的定时
 void delay_us_hal(uint16_t nus)
 {
     __HAL_TIM_SET_COUNTER(&htim6, 0);
@@ -221,15 +224,6 @@ void delay_us_hal(uint16_t nus)
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-    // 判断是否是USART6的中断
-    if (huart->Instance == USART6)
-    {
-        // 处理接收到的数据
-        Deal_IR_Usart(Rx_Temp);
-        
-        // 重新启动UART接收中断
-        HAL_UART_Receive_IT(&huart6, &Rx_Temp, 1);
-    }
 }
 
 // 定时器中断回调函数，用于更新编码器速度
