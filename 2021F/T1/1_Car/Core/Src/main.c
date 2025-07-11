@@ -53,7 +53,7 @@ atk_ms601m_accelerometer_data_t accelerometer_dat;
 char message[256]; 
 
 //感为传感器数据变量
-int Digtal[7];
+int Digtal[8];
 
 //运动学数据结构体，初始值全部为0
 Data data = {0}; 
@@ -127,9 +127,7 @@ int main(void)
 	//陀螺仪初始化
 	atk_ms601m_init(115200);
 	
-	//感为传感器测试
-	IIC_Get_Digtal(Digtal);		//获取传感器数字量结果,存储在Digtal[7]数组中
-	HAL_Delay(1000);
+	
 
 	// 电机和编码器初始化	
   Motor Left, Right;  
@@ -140,18 +138,67 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {   
-    if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5) == GPIO_PIN_SET) // 检测到按键按下
-    {
-      sprintf(message, "Button Pressed!\r\n");
-      HAL_UART_Transmit(&huart1, (uint8_t*)message, strlen(message), HAL_MAX_DELAY);
+    static uint32_t last_time = 0;
+    static uint8_t state = 0;
+    static uint8_t executed = 0;
+    uint32_t now = HAL_GetTick();
+
+    // 每3秒切换一次状态
+    if (now - last_time > 3000) {
+        last_time = now;
+        state++;
+        if (state > 3) state = 0;
+        executed = 0;
     }
-    else if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5) == GPIO_PIN_RESET) // 检测到按键松开
-    {
-      sprintf(message, "Button Released!\r\n");
-      HAL_UART_Transmit(&huart1, (uint8_t*)message, strlen(message), HAL_MAX_DELAY);
+
+    // 只在切换时执行一次PID初始化
+    if (!executed) {
+        executed = 1;
+        PID_Move(0, 0, 0.02f, 1); // 重新初始化PID
+        switch (state) {
+            case 0: // 前进
+                snprintf(message, sizeof(message), "PID_Move Test: Forward v=0.2, w=0.0\r\n");
+                break;
+            case 1: // 后退
+                snprintf(message, sizeof(message), "PID_Move Test: Backward v=-0.2, w=0.0\r\n");
+                break;
+            case 2: // 左转
+                snprintf(message, sizeof(message), "PID_Move Test: Turn Left v=0.0, w=30.0\r\n");
+                break;
+            case 3: // 右转
+                snprintf(message, sizeof(message), "PID_Move Test: Turn Right v=0.0, w=-30.0\r\n");
+                break;
+        }
+        HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
     }
-      HAL_Delay(1000); // 延时1秒，避免重复发送
-    
+
+    // 持续调用PID_Move实现运动
+    switch (state) {
+        case 0: // 前进
+            PID_Move(0.2f, 0.0f, 0.02f, 0);
+            break;
+        case 1: // 后退
+            PID_Move(-0.2f, 0.0f, 0.02f, 0);
+            break;
+        case 2: // 左转
+            PID_Move(0.0f, 30.0f, 0.02f, 0);
+            break;
+        case 3: // 右转
+            PID_Move(0.0f, -30.0f, 0.02f, 0);
+            break;
+    }
+
+    // 每1秒输出一次速度反馈
+    static uint32_t last_display = 0;
+    if (now - last_display > 1000) {
+        last_display = now;
+        snprintf(message, sizeof(message),
+            "Speed: L=%.3f, R=%.3f, C=%.3f m/s\r\n",
+            lSpeed(), rSpeed(), cSpeed());
+        HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
+    }
+
+    HAL_Delay(20);
    /* USER CODE END WHILE */
 
    /* USER CODE BEGIN 3 */

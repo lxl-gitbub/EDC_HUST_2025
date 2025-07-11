@@ -30,6 +30,34 @@ void RMotorSet(MOVETYPE type, uint16_t duty)
     Motor_UI_Set(type, duty, &Ri);
 }
 
+void LSet(int16_t duty)
+{
+    MOVETYPE type = FOR; // Default to forward motion
+    
+    if(duty < 0) {
+        type = BACK; // If duty is negative, set to backward motion
+        duty = -duty; // Convert to positive duty cycle
+    }
+    if(duty > 1000) {
+        duty = 1000; // Limit the duty cycle to a maximum of 1000
+    }
+    LMotorSet(type, duty); // Set the left motor with the specified type and duty cycle
+}
+
+void RSet(int16_t duty)
+{
+    MOVETYPE type = FOR; // Default to forward motion
+    
+    if(duty < 0) {
+        type = BACK; // If duty is negative, set to backward motion
+        duty = -duty; // Convert to positive duty cycle
+    }
+    if(duty > 1000) {
+        duty = 1000; // Limit the duty cycle to a maximum of 1000
+    }
+    RMotorSet(type, duty); // Set the right motor with the specified type and duty cycle
+}
+
 float getYaw()
 {
     // Get the yaw angle from the MS601M sensor

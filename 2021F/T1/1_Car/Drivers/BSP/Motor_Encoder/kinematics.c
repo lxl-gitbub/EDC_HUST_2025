@@ -61,7 +61,7 @@ float sumTheta(float theta1, float theta2)
 
 //这个函数的逻辑已经实现了，但是参数是不完善的，且dis的计算是不精准的，是有待优化的
 float Straight(float dis, float speed)//单位为米和米每秒
- {
+{
     static float target_dis = 0;
     MOVETYPE type = dis < 0 ? BACK : FOR;
     dis = fabs(dis);
@@ -124,6 +124,42 @@ float Straight(float dis, float speed)//单位为米和米每秒
 		
     dist_e -= data.speed.linear_velocity * dt; // 累加已移动的距离
     return dist_e; // 返回已移动的距离
+}
+
+void PID_Move(float v, float w, float dt, short isreload)
+{
+    static PIDdata pidSpeed;   // PID控制直线速度
+    static PIDdata pidAngular; // PID控制角速度
+
+    // PID参数，可根据实际情况调整
+    float K_p_v = 1000.0f;
+    float K_i_v = 0.0f;
+    float K_d_v = 0.0f;
+
+    float K_p_w = 0.1f;
+    float K_i_w = 0.0f;
+    float K_d_w = 0.0f;
+
+    if (isreload) {
+        PID_Init(&pidSpeed);
+        PID_Init(&pidAngular);
+        return;
+    }
+
+    Data data = getData(); // 获取当前速度和角速度
+
+    PID_Update(&pidSpeed, v, data.speed.linear_velocity, dt);
+    PID_Update(&pidAngular, w, data.speed.angular_velocity, dt);
+
+    Speed target_speed;
+    target_speed.linear_velocity = PID_Compute(&pidSpeed, K_p_v, K_i_v, K_d_v);
+    target_speed.angular_velocity = PID_Compute(&pidAngular, K_p_w, K_i_w, K_d_w);
+
+    WheelSpeed wheel_speed = SpeedToWheelSpeed(target_speed);
+
+    LSet((int16_t) wheel_speed.left_wheel_speed); // 设置左轮速度
+    RSet((int16_t) wheel_speed.right_wheel_speed); // 设置右轮速度
+    // 这里不需要返回值，因为函数的目的是设置电机速度
 }
 
 //简陋的左转函数，需要优化，将来可能会改为PID控制

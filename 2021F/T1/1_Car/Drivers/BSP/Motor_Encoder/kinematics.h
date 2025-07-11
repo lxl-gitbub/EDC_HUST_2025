@@ -14,6 +14,12 @@ typedef struct{
 }PIDdata;
 
 typedef struct{
+    float Kp; // 比例系数
+    float Ki; // 积分系数
+    float Kd; // 微分系数
+}PIDConfig;
+
+typedef struct{
     float x; // x轴位置
     float y; // y轴位置
     float theta; // 方向角
@@ -66,5 +72,6 @@ Data getData();
 float Straight(float dis, float speed);
 void TurnLeft(float angle); // 左转函数
 void TurnRight(float angle); // 右转函数
+void PID_Move(float v, float w, float dt, short isreload);
 
  #endif

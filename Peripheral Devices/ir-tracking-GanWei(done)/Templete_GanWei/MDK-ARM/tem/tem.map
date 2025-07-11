@@ -3194,11 +3194,11 @@ Image Symbol Table
     uwTickPrio                               0x24000004   Data           4  stm32h7xx_hal.o(.data..L_MergedGlobals)
     SystemCoreClock                          0x24000008   Data           4  system_stm32h7xx.o(.data..L_MergedGlobals)
     SystemD2Clock                            0x2400000c   Data           4  system_stm32h7xx.o(.data..L_MergedGlobals)
-    Digtal                                   0x24000010   Data          28  main.o(.bss.Digtal)
-    hi2c1                                    0x2400002c   Data          84  i2c.o(.bss.hi2c1)
-    htim7                                    0x24000080   Data          76  tim.o(.bss.htim7)
-    huart1                                   0x240000cc   Data         148  usart.o(.bss.huart1)
-    uwTick                                   0x24000160   Data           4  stm32h7xx_hal.o(.bss.uwTick)
+    Digtal                                   0x24000010   Data          32  main.o(.bss.Digtal)
+    hi2c1                                    0x24000030   Data          84  i2c.o(.bss.hi2c1)
+    htim7                                    0x24000084   Data          76  tim.o(.bss.htim7)
+    huart1                                   0x240000d0   Data         148  usart.o(.bss.huart1)
+    uwTick                                   0x24000164   Data           4  stm32h7xx_hal.o(.bss.uwTick)
     __initial_sp                             0x24007568   Data           0  startup_stm32h743xx.o(STACK)
 
 
@@ -3332,12 +3332,11 @@ Memory Map of the image
 
     0x24000000   0x08003378   0x00000008   Data   RW          745    .data..L_MergedGlobals  stm32h7xx_hal.o
     0x24000008   0x08003380   0x00000008   Data   RW         1514    .data..L_MergedGlobals  system_stm32h7xx.o
-    0x24000010        -       0x0000001c   Zero   RW           17    .bss.Digtal         main.o
-    0x2400002c        -       0x00000054   Zero   RW           43    .bss.hi2c1          i2c.o
-    0x24000080        -       0x0000004c   Zero   RW           59    .bss.htim7          tim.o
-    0x240000cc        -       0x00000094   Zero   RW           75    .bss.huart1         usart.o
-    0x24000160        -       0x00000004   Zero   RW          744    .bss.uwTick         stm32h7xx_hal.o
-    0x24000164   0x08003388   0x00000004   PAD
+    0x24000010        -       0x00000020   Zero   RW           17    .bss.Digtal         main.o
+    0x24000030        -       0x00000054   Zero   RW           43    .bss.hi2c1          i2c.o
+    0x24000084        -       0x0000004c   Zero   RW           59    .bss.htim7          tim.o
+    0x240000d0        -       0x00000094   Zero   RW           75    .bss.huart1         usart.o
+    0x24000164        -       0x00000004   Zero   RW          744    .bss.uwTick         stm32h7xx_hal.o
     0x24000168        -       0x00007400   Zero   RW            1    STACK               startup_stm32h743xx.o
 
 
@@ -3348,33 +3347,33 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-        82          0          0          0          0       2913   ganwei_i2c.o
-        68          4          0          0          0       2293   gpio.o
-       220         24          0          0         84       8062   i2c.o
-       584         36          0          0         28       6807   main.o
-        36          8        664          0      29696        876   startup_stm32h743xx.o
-       232         28          0          8          4      14639   stm32h7xx_hal.o
-       300         28          0          0          0      11840   stm32h7xx_hal_cortex.o
-       400         20          0          0          0       6780   stm32h7xx_hal_gpio.o
-      1198         20          0          0          0      37124   stm32h7xx_hal_i2c.o
-       146          0          0          0          0       7314   stm32h7xx_hal_i2c_ex.o
-        32          4          0          0          0       2268   stm32h7xx_hal_msp.o
-        72          4          0          0          0      10290   stm32h7xx_hal_pwr_ex.o
-      2230         64          0          0          0      11019   stm32h7xx_hal_rcc.o
-      3540        154          0          0          0      17463   stm32h7xx_hal_rcc_ex.o
-       344         32          0          0          0      45211   stm32h7xx_hal_tim.o
-       168         28          0          0          0      19578   stm32h7xx_hal_tim_ex.o
-      1640        146         24          0          0      31842   stm32h7xx_hal_uart.o
-       286          8         16          0          0       9659   stm32h7xx_hal_uart_ex.o
-        20          0          0          0          0       1061   stm32h7xx_it.o
-       180         40         16          8          0       5701   system_stm32h7xx.o
-       112         16          0          0         76       6361   tim.o
-       232         16          0          0        148       8145   usart.o
+        82          0          0          0          0       2885   ganwei_i2c.o
+        68          4          0          0          0       2265   gpio.o
+       220         24          0          0         84       8034   i2c.o
+       584         36          0          0         32       6779   main.o
+        36          8        664          0      29696        860   startup_stm32h743xx.o
+       232         28          0          8          4      14611   stm32h7xx_hal.o
+       300         28          0          0          0      11812   stm32h7xx_hal_cortex.o
+       400         20          0          0          0       6752   stm32h7xx_hal_gpio.o
+      1198         20          0          0          0      37096   stm32h7xx_hal_i2c.o
+       146          0          0          0          0       7286   stm32h7xx_hal_i2c_ex.o
+        32          4          0          0          0       2240   stm32h7xx_hal_msp.o
+        72          4          0          0          0      10262   stm32h7xx_hal_pwr_ex.o
+      2230         64          0          0          0      10991   stm32h7xx_hal_rcc.o
+      3540        154          0          0          0      17435   stm32h7xx_hal_rcc_ex.o
+       344         32          0          0          0      45183   stm32h7xx_hal_tim.o
+       168         28          0          0          0      19550   stm32h7xx_hal_tim_ex.o
+      1640        146         24          0          0      31814   stm32h7xx_hal_uart.o
+       286          8         16          0          0       9631   stm32h7xx_hal_uart_ex.o
+        20          0          0          0          0       1043   stm32h7xx_it.o
+       180         40         16          8          0       5673   system_stm32h7xx.o
+       112         16          0          0         76       6333   tim.o
+       232         16          0          0        148       8117   usart.o
 
     ----------------------------------------------------------------------
-     12136        680        754         16      30040     267246   Object Totals
+     12136        680        754         16      30040     266652   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-        14          0          2          0          4          0   (incl. Padding)
+        14          0          2          0          0          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -3415,8 +3414,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     12418        696        754         16      30040     267430   Grand Totals
-     12418        696        754         16      30040     267430   ELF Image Totals
+     12418        696        754         16      30040     266836   Grand Totals
+     12418        696        754         16      30040     266836   ELF Image Totals
      12418        696        754         16          0          0   ROM Totals
 
 ==============================================================================

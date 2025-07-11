@@ -51,6 +51,9 @@ void MEInit(Motor* L, Motor* R);
 void LMotorSet(MOVETYPE type, uint16_t duty);
 void RMotorSet(MOVETYPE type, uint16_t duty);
 
+void LSet(int16_t duty);
+void RSet(int16_t duty);
+
 float getYaw(); // 获取当前的偏航角
 float getWz(); // 获取当前的角速度
 
