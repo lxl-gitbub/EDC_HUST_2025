@@ -1,7 +1,7 @@
 Dependencies for Project 'tem', Target 'tem': (DO NOT MODIFY !)
 F (startup_stm32h743xx.s)(0x68688B8B)(--cpu Cortex-M7.fp.dp -g --pd "__MICROLIB SETA 1"-I.\RTE\_tem-ID:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\3.1.1\Drivers\CMSIS\Device\ST\STM32H7xx\Include--pd "__UVISION_VERSION SETA 527"--pd "_RTE_ SETA 1"--pd "STM32H743xx SETA 1"--list startup_stm32h743xx.lst--xref -o tem\startup_stm32h743xx.o--depend tem\startup_stm32h743xx.d)
 F (..\Core\Inc\AllHeader.h)(0x686CCA62)()
-F (../Core/Src/main.c)(0x686F85AC)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/IR_Tracking -I ../Drivers/BSP/Motor_Encoder-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/main.o -MD)
+F (../Core/Src/main.c)(0x68708361)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/IR_Tracking -I ../Drivers/BSP/Motor_Encoder-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/main.o -MD)
 I (..\Core\Inc\main.h)(0x6867DCCF)
 I (..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h)(0x6867DC6D)
 I (..\Core\Inc\stm32h7xx_hal_conf.h)(0x68674A41)
@@ -54,7 +54,7 @@ I (..\Drivers\BSP\Motor_Encoder\tb6612fng.h)(0x6868E4BE)
 I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x686A8A49)
 I (..\Drivers\BSP\Motor_Encoder\Mem.h)(0x6868CC5D)
 I (..\Drivers\BSP\Motor_Encoder\Initialize.h)(0x686CC33A)
-I (..\Drivers\BSP\Motor_Encoder\kinematics.h)(0x686DCC01)
+I (..\Drivers\BSP\Motor_Encoder\kinematics.h)(0x6870839A)
 F (../Core/Src/gpio.c)(0x6867DCCB)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/IR_Tracking -I ../Drivers/BSP/Motor_Encoder-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/gpio.o -MD)
 I (..\Core\Inc\gpio.h)(0x68674A41)
 I (..\Core\Inc\main.h)(0x6867DCCF)
@@ -229,7 +229,7 @@ I (..\Drivers\BSP\Motor_Encoder\tb6612fng.h)(0x6868E4BE)
 I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x686A8A49)
 I (..\Drivers\BSP\Motor_Encoder\Mem.h)(0x6868CC5D)
 I (..\Drivers\BSP\Motor_Encoder\Initialize.h)(0x686CC33A)
-I (..\Drivers\BSP\Motor_Encoder\kinematics.h)(0x686DCC01)
+I (..\Drivers\BSP\Motor_Encoder\kinematics.h)(0x6870839A)
 F (../Core/Src/stm32h7xx_hal_msp.c)(0x68674A42)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/IR_Tracking -I ../Drivers/BSP/Motor_Encoder-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/stm32h7xx_hal_msp.o -MD)
 I (..\Core\Inc\main.h)(0x6867DCCF)
 I (..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h)(0x6867DC6D)
@@ -1120,7 +1120,7 @@ I (..\Drivers\BSP\Motor_Encoder\tb6612fng.h)(0x6868E4BE)
 I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x686A8A49)
 I (..\Drivers\BSP\Motor_Encoder\Mem.h)(0x6868CC5D)
 I (..\Drivers\BSP\Motor_Encoder\Initialize.h)(0x686CC33A)
-I (..\Drivers\BSP\Motor_Encoder\kinematics.h)(0x686DCC01)
+I (..\Drivers\BSP\Motor_Encoder\kinematics.h)(0x6870839A)
 F (..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.c)(0x6868D12C)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/IR_Tracking -I ../Drivers/BSP/Motor_Encoder-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/atk_ms601m_uart.o -MD)
 I (..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.h)(0x686896F2)
 I (..\Core\Inc\AllHeader.h)(0x686CCA62)
@@ -1174,7 +1174,7 @@ I (..\Drivers\BSP\Motor_Encoder\tb6612fng.h)(0x6868E4BE)
 I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x686A8A49)
 I (..\Drivers\BSP\Motor_Encoder\Mem.h)(0x6868CC5D)
 I (..\Drivers\BSP\Motor_Encoder\Initialize.h)(0x686CC33A)
-I (..\Drivers\BSP\Motor_Encoder\kinematics.h)(0x686DCC01)
+I (..\Drivers\BSP\Motor_Encoder\kinematics.h)(0x6870839A)
 F (..\Drivers\BSP\IR_Tracking\app_usart2.c)(0x68674A42)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/IR_Tracking -I ../Drivers/BSP/Motor_Encoder-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/app_usart2.o -MD)
 I (..\Drivers\BSP\IR_Tracking\app_usart2.h)(0x68674A42)
 I (..\Core\Inc\AllHeader.h)(0x686CCA62)
@@ -1228,7 +1228,7 @@ I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x686A8A49)
 I (..\Drivers\BSP\Motor_Encoder\Mem.h)(0x6868CC5D)
 I (D:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x5B739900)
 I (..\Drivers\BSP\Motor_Encoder\Initialize.h)(0x686CC33A)
-I (..\Drivers\BSP\Motor_Encoder\kinematics.h)(0x686DCC01)
+I (..\Drivers\BSP\Motor_Encoder\kinematics.h)(0x6870839A)
 F (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.c)(0x686A8A14)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/IR_Tracking -I ../Drivers/BSP/Motor_Encoder-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/hall_encoder.o -MD)
 I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x686A8A49)
 I (..\Core\Inc\main.h)(0x6867DCCF)
@@ -1413,9 +1413,9 @@ I (D:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x5B739900)
 I (..\Drivers\BSP\Motor_Encoder\tb6612fng.h)(0x6868E4BE)
 I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x686A8A49)
 I (..\Drivers\BSP\Motor_Encoder\Mem.h)(0x6868CC5D)
-I (..\Drivers\BSP\Motor_Encoder\kinematics.h)(0x686DCC01)
-F (..\Drivers\BSP\Motor_Encoder\kinematics.c)(0x686F8549)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/IR_Tracking -I ../Drivers/BSP/Motor_Encoder-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/kinematics.o -MD)
-I (..\Drivers\BSP\Motor_Encoder\kinematics.h)(0x686DCC01)
+I (..\Drivers\BSP\Motor_Encoder\kinematics.h)(0x6870839A)
+F (..\Drivers\BSP\Motor_Encoder\kinematics.c)(0x68708405)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/IR_Tracking -I ../Drivers/BSP/Motor_Encoder-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/kinematics.o -MD)
+I (..\Drivers\BSP\Motor_Encoder\kinematics.h)(0x6870839A)
 I (..\Core\Inc\AllHeader.h)(0x686CCA62)
 I (..\Core\Inc\main.h)(0x6867DCCF)
 I (..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h)(0x6867DC6D)

@@ -139,19 +139,9 @@ int main(void)
     /* USER CODE BEGIN WHILE */
   while (1)
   {   
-      // 更新运动学数据
-      data = getData();
-      
-      // 调用直行函数，假设距离为1000mm，速度为200mm/s
-    float dis = -1.0f; // 目标距离
-    float speed = 0.2; // 目标速度
-    float dise = Straight(dis,  speed);
-    snprintf(message, sizeof(message), 
-      "dise:%.2f\r\n", dise);
-    HAL_UART_Transmit(&huart1, (uint8_t*)message, strlen(message), HAL_MAX_DELAY);
-		HAL_Delay(100);
-
-      /* USER CODE END WHILE */
+    TurnLeft(90);  // 更动学数据
+    HAL_Delay(2000);  // 更动学数据
+    /* USER CODE END WHILE */
     /* USER CODE BEGIN 3 */
   }
 }

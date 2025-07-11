@@ -57,11 +57,13 @@ void CarState_Update(CarState *state,  Data d);
 
 // 小车速度换算函数
 WheelSpeed SpeedToWheelSpeed(Speed speed);
+float sumTheta(float, float);
 
 // 获取数据函数声明
 Data getData();
 
 // 运动学函数声明
 float Straight(float dis, float speed);
+void TurnLeft(float angle); // 左转函数
 
  #endif

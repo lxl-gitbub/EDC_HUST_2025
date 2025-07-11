@@ -37,10 +37,10 @@ void CarState_Update(CarState *state, Data d) {
     if (state == NULL) return; // Check for null pointer and valid dt
     // Calculate the average wheel speed
     state->speed = d.speed;
-    state->pose.theta = d.yaw; // Update initial theta with current yaw
-    state->pose.x += d.speed.linear_velocity * cos(state->pose.theta) * d.dt; // Update x position
-    state->pose.y += d.speed.linear_velocity * sin(state->pose.theta) * d.dt; // Update y position
+    state->pose.theta = sumTheta(d.yaw, -state->pose.initial_theta); // Update theta with current yaw
+    //目前没有发现其他数据的作用，暂且处理这些数据
 }
+
 
 WheelSpeed SpeedToWheelSpeed(Speed speed)
 {
@@ -50,8 +50,19 @@ WheelSpeed SpeedToWheelSpeed(Speed speed)
     wheel_speed.right_wheel_speed = speed.linear_velocity + (speed.angular_velocity * WHEEL_DIAMETER / 2.0f);
     return wheel_speed;
 }
+float sumTheta(float theta1, float theta2)
+{
+    float sum = theta1 + theta2;
+    if (sum < -180.0f) {
+        sum += 360.0f; // Normalize angle to [-180, 180]
+    } else if (sum > 180.0f) {
+        sum -= 360.0f; // Normalize angle to [-180, 180]
+    }
+    return sum;
+}
 
-float Straight(float dis, float speed)
+//这个函数的逻辑已经实现了，但是参数是不完善的，且dis的计算是不精准的，是有待优化的
+float Straight(float dis, float speed)//单位为米和米每秒
 {
     static float target_dis = 0;
     MOVETYPE type = dis < 0 ? BACK : FOR;
@@ -116,6 +127,22 @@ float Straight(float dis, float speed)
     dist_e -= data.speed.linear_velocity * dt; // 累加已移动的距离
     return dist_e; // 返回已移动的距离
 }
+
+//简陋的左转函数，需要优化，将来可能会改为PID控制
+//假设左转角度为angle，单位为角度
+void TurnLeft(float angle)
+{
+    LMotorSet(BACK, 100); // 左轮前进
+    RMotorSet(FOR, 100); // 右轮后退
+    float targetYaw = sumTheta(getYaw(), angle); // 计算目标角度
+    while(fabs(getYaw() - targetYaw) > 3) // 当偏航角与目标角度的差值大于0.01时
+    {
+        HAL_Delay(10); // 等待10毫秒
+    } 
+    LMotorSet(BREAK, 0); // 左轮停止
+    RMotorSet(BREAK, 0); // 右轮停止
+}
+
 
 Data getData()
 {
