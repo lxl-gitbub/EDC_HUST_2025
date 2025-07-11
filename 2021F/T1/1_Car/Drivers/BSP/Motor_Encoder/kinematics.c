@@ -1,7 +1,5 @@
 #include "kinematics.h"
 
-uint32_t time = 0;
-
 void PID_Init(PIDdata *pid) {
     if (pid == NULL) return; // Check for null pointer
     pid->error = 0.0f;
@@ -63,7 +61,7 @@ float sumTheta(float theta1, float theta2)
 
 //这个函数的逻辑已经实现了，但是参数是不完善的，且dis的计算是不精准的，是有待优化的
 float Straight(float dis, float speed)//单位为米和米每秒
-{
+ {
     static float target_dis = 0;
     MOVETYPE type = dis < 0 ? BACK : FOR;
     dis = fabs(dis);
@@ -132,10 +130,23 @@ float Straight(float dis, float speed)//单位为米和米每秒
 //假设左转角度为angle，单位为角度
 void TurnLeft(float angle)
 {
-    LMotorSet(BACK, 100); // 左轮前进
-    RMotorSet(FOR, 100); // 右轮后退
+    LMotorSet(BACK, 200); // 左轮前进
+    RMotorSet(FOR, 200); // 右轮后退
     float targetYaw = sumTheta(getYaw(), angle); // 计算目标角度
-    while(fabs(getYaw() - targetYaw) > 3) // 当偏航角与目标角度的差值大于0.01时
+    while(fabs(getYaw() - targetYaw) > 3) // 当偏航角与目标角度的差值大于3时
+    {
+        HAL_Delay(10); // 等待10毫秒
+    } 
+    LMotorSet(BREAK, 0); // 左轮停止
+    RMotorSet(BREAK, 0); // 右轮停止
+}
+
+void TurnRight(float angle)
+{
+    LMotorSet(FOR, 200); // 左轮前进
+    RMotorSet(BACK, 200); // 右轮后退
+    float targetYaw = sumTheta(getYaw(), -angle); // 计算目标角度
+    while(fabs(getYaw() - targetYaw) > 3) // 当偏航角与目标角度的差值大于3时
     {
         HAL_Delay(10); // 等待10毫秒
     } 

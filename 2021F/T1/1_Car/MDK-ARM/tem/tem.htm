@@ -3,7 +3,7 @@
 <title>Static Call Graph - [tem\tem.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image tem\tem.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6110004: Last Updated: Fri Jul 11 11:26:03 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6110004: Last Updated: Fri Jul 11 11:37:08 2025
 <BR><P>
 <H3>Maximum Stack Usage =        760 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -754,7 +754,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Called By]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TurnLeft
+<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TurnRight
 </UL>
 
 <P><STRONG><a name="[d6]"></a>HAL_GPIO_Init</STRONG> (Thumb, 986 bytes, Stack size 76 bytes, stm32h7xx_hal_gpio.o(.text.HAL_GPIO_Init))
@@ -1331,7 +1331,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_UI_Set
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TurnLeft
+<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TurnRight
 </UL>
 
 <P><STRONG><a name="[106]"></a>LRInit</STRONG> (Thumb, 154 bytes, Stack size 112 bytes, hall_encoder.o(.text.LRInit))
@@ -1496,7 +1496,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_UI_Set
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TurnLeft
+<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TurnRight
 </UL>
 
 <P><STRONG><a name="[ae]"></a>ReloadTime</STRONG> (Thumb, 86 bytes, Stack size 40 bytes, hall_encoder.o(.text.ReloadTime))
@@ -1585,8 +1585,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PWM_ConfigChannel
 </UL>
 
-<P><STRONG><a name="[11e]"></a>TurnLeft</STRONG> (Thumb, 120 bytes, Stack size 32 bytes, kinematics.o(.text.TurnLeft))
-<BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = TurnLeft &rArr; getYaw &rArr; atk_ms601m_get_attitude &rArr; atk_ms601m_get_frame_by_id &rArr; delay_us_hal &rArr; HAL_TIM_Base_Start
+<P><STRONG><a name="[11e]"></a>TurnRight</STRONG> (Thumb, 124 bytes, Stack size 32 bytes, kinematics.o(.text.TurnRight))
+<BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = TurnRight &rArr; getYaw &rArr; atk_ms601m_get_attitude &rArr; atk_ms601m_get_frame_by_id &rArr; delay_us_hal &rArr; HAL_TIM_Base_Start
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fabs
@@ -1768,14 +1768,14 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;atk_ms601m_get_attitude
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TurnLeft
+<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TurnRight
 </UL>
 
 <P><STRONG><a name="[95]"></a>main</STRONG> (Thumb, 420 bytes, Stack size 184 bytes, main.o(.text.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 760<LI>Call Chain = main &rArr; atk_ms601m_init &rArr; atk_ms601m_uart_init &rArr; HAL_UART_Init &rArr; HAL_UART_MspInit &rArr; HAL_RCCEx_PeriphCLKConfig &rArr; RCCEx_PLL3_Config
 </UL>
 <BR>[Calls]<UL><LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;atk_ms601m_init
-<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TurnLeft
+<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TurnRight
 <LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 <LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART6_UART_Init
 <LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART3_UART_Init
@@ -1799,13 +1799,13 @@ Global Symbols
 <P><STRONG><a name="[120]"></a>sumTheta</STRONG> (Thumb, 144 bytes, Stack size 20 bytes, kinematics.o(.text.sumTheta))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = sumTheta
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TurnLeft
+<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TurnRight
 </UL>
 
 <P><STRONG><a name="[121]"></a>__hardfp_fabs</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, fabs.o(i.__hardfp_fabs))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __hardfp_fabs
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TurnLeft
+<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TurnRight
 </UL>
 
 <P><STRONG><a name="[140]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)

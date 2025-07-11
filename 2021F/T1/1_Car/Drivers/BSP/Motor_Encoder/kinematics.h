@@ -65,5 +65,6 @@ Data getData();
 // 运动学函数声明
 float Straight(float dis, float speed);
 void TurnLeft(float angle); // 左转函数
+void TurnRight(float angle); // 右转函数
 
  #endif
