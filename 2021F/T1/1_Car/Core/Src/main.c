@@ -140,11 +140,21 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {   
-    TurnRight(74);  // 更动学数据
-    HAL_Delay(2000);  // 更动学数据
-    /* USER CODE END WHILE */
+    if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5) == GPIO_PIN_SET) // 检测到按键按下
+    {
+      sprintf(message, "Button Pressed!\r\n");
+      HAL_UART_Transmit(&huart1, (uint8_t*)message, strlen(message), HAL_MAX_DELAY);
+    }
+    else if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5) == GPIO_PIN_RESET) // 检测到按键松开
+    {
+      sprintf(message, "Button Released!\r\n");
+      HAL_UART_Transmit(&huart1, (uint8_t*)message, strlen(message), HAL_MAX_DELAY);
+    }
+      HAL_Delay(1000); // 延时1秒，避免重复发送
+    
+   /* USER CODE END WHILE */
 
-    /* USER CODE BEGIN 3 */
+   /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
