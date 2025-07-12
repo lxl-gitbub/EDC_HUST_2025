@@ -225,7 +225,7 @@ void Motion_Car_Control(int16_t V_x, int16_t V_y, int16_t V_z)
 bool three_Roads_Detect(){
 //三岔路口检测
 	int sumIRDetect,i = 0;
-	while(i<8)	sumIRDetect += Digtal[i++];
+	while(i<8){	if(Digtal[i]==0) sumIRDetect ++; i++;}
 	if(sumIRDetect < 8 && sumIRDetect > 4 && (!Digtal[0] + !Digtal[7] == 1)) 	return 1;
 	else return 0;
 }
@@ -233,7 +233,7 @@ bool three_Roads_Detect(){
 bool cross_Roads_Detect(){
 //十字路口（丁字路口）检测
 	int sumIRDetect,i = 0;
-	while(i<8)	sumIRDetect += Digtal[i++];
+	while(i<8)	{if(Digtal[i]==0) sumIRDetect ++; i++;}
 	if(sumIRDetect >= 7) 	return 1;
 	else return 0;
 }
