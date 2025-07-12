@@ -1,6 +1,6 @@
-tem/stm32h7xx_hal_gpio.o: \
-  ..\Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_gpio.c \
-  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
+tem/tracking.o: ..\Drivers\Tracking\tracking.c \
+  ..\Drivers\Tracking\tracking.h ..\Core\Inc\AllHeader.h \
+  ..\Core\Inc\main.h ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
   ..\Core\Inc\stm32h7xx_hal_conf.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_rcc.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_def.h \
@@ -36,4 +36,21 @@ tem/stm32h7xx_hal_gpio.o: \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_tim.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_tim_ex.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart.h \
-  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart_ex.h
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart_ex.h \
+  ..\Core\Inc\i2c.h ..\Core\Inc\tim.h ..\Core\Inc\usart.h \
+  ..\Core\Inc\gpio.h \
+  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\stdio.h \
+  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\string.h \
+  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\stdbool.h \
+  ..\Drivers\BSP\ATK_MS601M\atk_ms601m.h \
+  ..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.h \
+  ..\Drivers\BSP\GanWei\GanWei_i2c.h \
+  ..\Drivers\BSP\GanWei\gw_grayscale_sensor.h \
+  ..\Drivers\Tracking\tracking.h ..\Drivers\Tracking\tracking_delay.h \
+  ..\Drivers\BSP\Motor_Encoder\tb6612fng.h ..\Core\Inc\main.h \
+  ..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h ..\Core\Inc\tim.h \
+  ..\Drivers\BSP\Motor_Encoder\Mem.h ..\Core\Inc\usart.h \
+  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
+  ..\Drivers\BSP\Motor_Encoder\Mem.h \
+  ..\Drivers\BSP\Motor_Encoder\Initialize.h \
+  ..\Drivers\BSP\Motor_Encoder\kinematics.h

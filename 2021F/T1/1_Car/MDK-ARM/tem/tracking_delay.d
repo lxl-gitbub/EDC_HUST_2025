@@ -1,5 +1,6 @@
-tem/stm32h7xx_hal_gpio.o: \
-  ..\Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_gpio.c \
+tem/tracking_delay.o: ..\Drivers\Tracking\tracking_delay.c \
+  ..\Drivers\Tracking\tracking_delay.h \
+  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\stdint.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
   ..\Core\Inc\stm32h7xx_hal_conf.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_rcc.h \
@@ -7,7 +8,6 @@ tem/stm32h7xx_hal_gpio.o: \
   ..\Drivers\CMSIS\Device\ST\STM32H7xx\Include\stm32h7xx.h \
   ..\Drivers\CMSIS\Device\ST\STM32H7xx\Include\stm32h743xx.h \
   ..\Drivers\CMSIS\Include\core_cm7.h \
-  D:\Application\Keil5\ARM\ARMCLANG\Bin\..\include\stdint.h \
   ..\Drivers\CMSIS\Include\cmsis_version.h \
   ..\Drivers\CMSIS\Include\cmsis_compiler.h \
   ..\Drivers\CMSIS\Include\cmsis_armclang.h \

@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Drivers/BSP/ATK_MS601M;../Drivers/BSP/Motor_Encoder;../Drivers/BSP/GanWei</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Drivers/BSP/ATK_MS601M;../Drivers/BSP/Motor_Encoder;../Drivers/BSP/GanWei;..\Drivers\Tracking</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -653,6 +653,21 @@
               <FileName>GanWei_i2c.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Drivers\BSP\GanWei\GanWei_i2c.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Drivers\Tracking</GroupName>
+          <Files>
+            <File>
+              <FileName>tracking.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Tracking\tracking.c</FilePath>
+            </File>
+            <File>
+              <FileName>tracking_delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Tracking\tracking_delay.c</FilePath>
             </File>
           </Files>
         </Group>

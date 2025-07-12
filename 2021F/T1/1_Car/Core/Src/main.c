@@ -126,8 +126,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	//陀螺仪初始化
 	atk_ms601m_init(115200);
-	
-	
 
 	// 电机和编码器初始化	
   Motor Left, Right;  
@@ -143,6 +141,12 @@ int main(void)
     static uint8_t executed = 0;
     uint32_t now = HAL_GetTick();
 
+		//巡线
+		IIC_Get_Digtal(Digtal);		//获取传感器数字量结果,存储在Digtal[7]数组中 
+		lineWalking();
+		three_Roads_Detect();
+		cross_Roads_Detect();
+		
     // 每3秒切换一次状态
     if (now - last_time > 3000) {
         last_time = now;

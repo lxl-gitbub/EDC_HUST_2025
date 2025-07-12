@@ -10,6 +10,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 // MS601M 传感器头文件
 #include "atk_ms601m.h"
@@ -18,6 +19,10 @@
 // 感为灰度传感器头文件
 #include "GanWei_i2c.h"
 #include "gw_grayscale_sensor.h"
+
+//巡线程序头文件
+#include "tracking.h"
+#include "tracking_delay.h"
 
 // 电机驱动头文件
 #include "tb6612fng.h"
