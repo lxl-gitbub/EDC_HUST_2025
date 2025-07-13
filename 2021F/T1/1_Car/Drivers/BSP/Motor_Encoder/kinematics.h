@@ -3,9 +3,16 @@
 
 #include "AllHeader.h"
 
+#define STOD 999/1.30
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+typedef enum {
+    L = 0, // 左转
+    R = 1, // 右转
+}Direction;
 
 typedef struct{
     float error; // 误差
@@ -79,6 +86,7 @@ void TurnRight(float angle); // 右转函数
 void Turn90(short dir); // 转向函数
 void ForCar(); // 前进一个车长
 
-void PID_Move(float v, float w, float dt, short isreload);
+Speed PID_Move(float v, float w, float dt, short isreload);
+float runCircle(float radius, float speed, float angle, Direction dir); // 圆周运动函数
 
  #endif

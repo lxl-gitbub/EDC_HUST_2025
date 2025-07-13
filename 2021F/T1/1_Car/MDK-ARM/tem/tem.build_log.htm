@@ -27,11 +27,18 @@ Project File Date:  07/12/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.11', folder: 'D:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'tem'
-compiling tracking.c...
+../Core/Src/main.c(168): warning: enumeration value 'BACKWARD' not handled in switch [-Wswitch]
+              switch(DirGet(&mode)) // <BB><F1>ȡ<CF><C2>һ<B8><F6><B7><BD><CF><F2>
+                     ^
+../Core/Src/main.c(206): warning: 9 enumeration values not handled in switch: 'ZERO', 'R1', 'ONE'... [-Wswitch]
+        switch(mode.loc)
+               ^
+2 warnings generated.
+compiling main.c...
 linking...
-Program Size: Code=48594 RO-data=754 RW-data=20 ZI-data=31420  
+Program Size: Code=50658 RO-data=766 RW-data=28 ZI-data=31460  
 FromELF: creating hex file...
-"tem\tem.axf" - 0 Error(s), 0 Warning(s).
+"tem\tem.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -54,7 +61,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.1.2
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

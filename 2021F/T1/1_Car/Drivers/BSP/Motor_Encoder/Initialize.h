@@ -12,6 +12,7 @@
 
 // Parameters for the wheel
 #define WHEEL_DIAMETER 65 // The diameter of the wheel in mm
+#define WHEEL_DIS      110
 
 // ====================初???化函数参数宏定??====================
 // 基于现有代码的初始化参数
@@ -56,7 +57,8 @@ void RSet(int16_t duty);
 
 void Break(); // Set both motors to break mode
 // This function sets both motors to break mode, stopping them quickly
-void XAligning();
+
+bool isInTheYaw(float targetYaw, float tolerance);
 
 float getYaw(); // 获取当前的偏航角
 float getWz(); // 获取当前的角速度

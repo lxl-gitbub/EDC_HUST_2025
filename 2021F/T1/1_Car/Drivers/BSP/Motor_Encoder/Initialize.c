@@ -65,25 +65,17 @@ void Break()
     LMotorSet(BREAK, 0); // Set both motors to break mode
     RMotorSet(BREAK, 0);
 }
-void XAligning()//对齐x轴
+bool isInTheYaw(float targetYaw, float tolerance)
 {
-    float targetYaw = car.pose.initial_theta; // 目标偏航角为初始方向角
-    float currentYaw = getYaw(); // 获取当前偏航角
-    if(sumTheta(currentYaw, -targetYaw) > 0) {// 如果当前偏航角大于目标偏航角{
-        LMotorSet(FOR, 100); // 左轮前进
-        RMotorSet(BACK, 100); // 右轮后退
-    } else if(sumTheta(currentYaw, -targetYaw) < 0) { // 如果当前偏航角小于目标偏航角
-        LMotorSet(BACK, 100); // 左轮后退
-        RMotorSet(FOR, 100); // 右轮前进
+    // Check if the current yaw is within the specified tolerance of the target yaw
+    float currentYaw = getYaw(); // Get the current yaw angle
+    currentYaw = sumTheta(currentYaw, -car.pose.initial_theta); // Adjust current yaw based on initial theta
+    if (fabs(currentYaw - targetYaw) < tolerance) {
+        return true; // If within tolerance, return true
+    } else {
+        return false; // Otherwise, return false
     }
-    while(fabs(getYaw() - targetYaw) > 1) // 当偏航角与目标角度的差值大于0.5时
-    {
-        HAL_Delay(10); // 等待10毫秒
-    }
-    LMotorSet(BREAK, 0); // 左轮停止
-    RMotorSet(BREAK, 0); // 右轮停止
 }
-
 float getYaw()
 {
     // Get the yaw angle from the MS601M sensor

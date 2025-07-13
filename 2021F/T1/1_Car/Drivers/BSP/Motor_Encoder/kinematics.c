@@ -44,8 +44,8 @@ WheelSpeed SpeedToWheelSpeed(Speed speed)
 {
     WheelSpeed wheel_speed;
     // Assuming a differential drive robot, calculate left and right wheel speeds
-    wheel_speed.left_wheel_speed = speed.linear_velocity - (speed.angular_velocity * WHEEL_DIAMETER / 2.0f);
-    wheel_speed.right_wheel_speed = speed.linear_velocity + (speed.angular_velocity * WHEEL_DIAMETER / 2.0f);
+    wheel_speed.left_wheel_speed = speed.linear_velocity - (speed.angular_velocity / 180 * PI * WHEEL_DIS / 2000);
+    wheel_speed.right_wheel_speed = speed.linear_velocity + (speed.angular_velocity / 180 * PI * WHEEL_DIS / 2000);
     return wheel_speed;
 }
 float sumTheta(float theta1, float theta2)
@@ -126,40 +126,71 @@ float Straight(float dis, float speed)//单位为米和米每秒
     return dist_e; // 返回已移动的距离
 }
 
-void PID_Move(float v, float w, float dt, short isreload)
+Speed PID_Move(float v, float w, float dt, short isreload)
 {
     static PIDdata pidSpeed;   // PID控制直线速度
     static PIDdata pidAngular; // PID控制角速度
+    static Speed last_speed; // 上一次的速度
 
+    Speed final_speed = {0.0f, 0.0f}; // 初始化最终速度
     // PID参数，可根据实际情况调整
-    float K_p_v = 1000.0f;
+    float K_p_v = 1.0f;
     float K_i_v = 0.0f;
     float K_d_v = 0.0f;
 
-    float K_p_w = 0.1f;
+    float K_p_w = 1.0f;
     float K_i_w = 0.0f;
     float K_d_w = 0.0f;
+
+    last_speed.linear_velocity = v; // 重置上一次的线速度
+    last_speed.angular_velocity = w; // 重置上一次的角速度
 
     if (isreload) {
         PID_Init(&pidSpeed);
         PID_Init(&pidAngular);
-        return;
     }
+    else{
+        Data data = getData(); // 获取当前速度和角速度
+        final_speed = data.speed; // 获取当前速度
 
-    Data data = getData(); // 获取当前速度和角速度
-
-    PID_Update(&pidSpeed, v, data.speed.linear_velocity, dt);
-    PID_Update(&pidAngular, w, data.speed.angular_velocity, dt);
-
+        PID_Update(&pidSpeed, last_speed.linear_velocity, data.speed.linear_velocity, dt);
+        PID_Update(&pidAngular, last_speed.angular_velocity, data.speed.angular_velocity, dt);
+    }
     Speed target_speed;
-    target_speed.linear_velocity = PID_Compute(&pidSpeed, K_p_v, K_i_v, K_d_v);
-    target_speed.angular_velocity = PID_Compute(&pidAngular, K_p_w, K_i_w, K_d_w);
+    target_speed.linear_velocity = v + PID_Compute(&pidSpeed, K_p_v, K_i_v, K_d_v);
+    target_speed.angular_velocity = w + PID_Compute(&pidAngular, K_p_w, K_i_w, K_d_w);
 
     WheelSpeed wheel_speed = SpeedToWheelSpeed(target_speed);
 
-    LSet((int16_t) wheel_speed.left_wheel_speed); // 设置左轮速度
-    RSet((int16_t) wheel_speed.right_wheel_speed); // 设置右轮速度
-    // 这里不需要返回值，因为函数的目的是设置电机速度
+    LSet((int16_t)(STOD * wheel_speed.left_wheel_speed)); // 设置左轮速度
+    RSet((int16_t)(STOD * wheel_speed.right_wheel_speed)); // 设置右轮速度
+    
+    return final_speed; // 返回初始速度
+}
+float runCircle(float radius, float speed, float angle, Direction dir)
+{
+    static int first_run = 1; // 静态变量用于判断是否第一次运行
+    static uint32_t last_time = 0; // 上次更新时间
+    static float target_angle = 0.0f; // 目标角度
+    uint32_t now = HAL_GetTick(); // 获取当前时间
+
+    float linear_velocity = speed; // 线速度
+    float angular_velocity = linear_velocity / radius * (180 / PI); // 角速度，转换为度
+
+    if (first_run || now - last_time > 1000 ) // 如果是第一次运行或超过1秒未更新
+    {
+        first_run = 0; // 标记为非第一次运行
+        last_time = now; // 更新上次更新时间
+        target_angle = angle; // 设置目标角度
+        PID_Move(linear_velocity, dir == L ? angular_velocity : -angular_velocity, 0.1f, 1); // 初始化PID控制
+        return target_angle;
+    }
+
+    float dt = (now - last_time) / 1000.0f; // 计算时间间隔
+    last_time = now; // 更新上次更新时间
+    Speed current_speed = PID_Move(linear_velocity, dir == L ? angular_velocity : -angular_velocity, dt, 0); // 更新速度
+    target_angle -= fabs(current_speed.angular_velocity) * dt * 8 ; // 更新目标角度
+    return target_angle; // 返回剩余角度
 }
 
 //简陋的左转函数，需要优化，将来可能会改为PID控制

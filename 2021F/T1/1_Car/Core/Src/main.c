@@ -132,12 +132,14 @@ int main(void)
 	// 电机和编码器初始化	
   Motor Left, Right;  
 	MEInit(&Left, &Right); 
+  float r = 0.17;
+	float tel = 26;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
-  { 
+  {
     IIC_Get_Digtal(Digtal); // 获取数字传感器数据,每一步都要执行以获取数据
     
     if(drug_change)
@@ -163,19 +165,17 @@ int main(void)
             // 在这些位置下的处理逻辑
             if(cross_Roads_Detect())
             {
-              ForCar(); // 前进一个车长
               switch(DirGet(&mode)) // 获取下一个方向
               {
                 case FORWARD:
                   continue; // 继续前进
                 case LEFT:
-                  Turn90(LEFT); // 左转
+                  while(!isInTheYaw(90, tel)) {runCircle(r, 0.5, 90, L); HAL_Delay(10);}
 									Break();
-									HAL_Delay(1000);
+//									HAL_Delay(1000);
                   continue; // 继续前进
                 case RIGHT:
-                  Turn90(RIGHT); // 右转
-									HAL_Delay(1000);
+                  while(!isInTheYaw(-90, tel)){runCircle(r, 0.5, 90, R); HAL_Delay(10);}
 									Break();
                   continue; // 继续前进
               }
@@ -203,6 +203,16 @@ int main(void)
         break;
       case RETURN_MODE:
         // 返回模式下的处理逻辑
+        switch(mode.loc)
+        {
+          case L1:
+          case L2:
+          case L3_L:
+          case R3_L:
+            // 在这些位置下的处理逻辑
+            
+            break; // 这里可以添加返回模式下的具体逻辑
+        }
         break;
       default:
         // 未知模式的处理逻辑
