@@ -54,6 +54,10 @@ void RMotorSet(MOVETYPE type, uint16_t duty);
 void LSet(int16_t duty);
 void RSet(int16_t duty);
 
+void Break(); // Set both motors to break mode
+// This function sets both motors to break mode, stopping them quickly
+void XAligning();
+
 float getYaw(); // 获取当前的偏航角
 float getWz(); // 获取当前的角速度
 

@@ -1,9 +1,9 @@
 #include "tracking.h"
 #include "AllHeader.h"
 
-#define IRTrack_Trun_KP (30)
+#define IRTrack_Trun_KP (25)//原来为30
 #define IRTrack_Trun_KI (0.5) 
-#define IRTrack_Trun_KD (2) 
+#define IRTrack_Trun_KD (5) 
 #define IRR_SPEED 			  300  //巡线速度   Patrol speed
 // 定义一个阈值，用于判断传感器数据变化是否剧烈
 #define CHANGE_THRESHOLD 3
@@ -222,18 +222,20 @@ void Motion_Car_Control(int16_t V_x, int16_t V_y, int16_t V_z)
 		
 }
 
-bool three_Roads_Detect(){
+bool Road_detect(int nummin, int nummax)
+{
+		int sumIRDetect = 0;
+		int i = 0;
+		while(i < 8){	if(Digtal[i]==0) sumIRDetect ++; i++;}
+		if(sumIRDetect <= nummax && sumIRDetect >= nummin) 	return 1;
+		else return 0;
+}
+bool half_Detect(){
 //三岔路口检测
-	int sumIRDetect,i = 0;
-	while(i<8){	if(Digtal[i]==0) sumIRDetect ++; i++;}
-	if(sumIRDetect < 8 && sumIRDetect > 4 && (!Digtal[0] + !Digtal[7] == 1)) 	return 1;
-	else return 0;
+	return Road_detect(5, 7);
 }
 
 bool cross_Roads_Detect(){
 //十字路口（丁字路口）检测
-	int sumIRDetect,i = 0;
-	while(i<8)	{if(Digtal[i]==0) sumIRDetect ++; i++;}
-	if(sumIRDetect >= 7) 	return 1;
-	else return 0;
+	return Road_detect(5, 8);
 }

@@ -52,6 +52,10 @@ typedef struct{
     PIDdata pid; // PID数据
 }CarKinematics;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 //PID 函数声明
 void PID_Init(PIDdata *pid);
 void PID_Update(PIDdata *pid, float target, float current, float dt);
@@ -72,6 +76,9 @@ Data getData();
 float Straight(float dis, float speed);
 void TurnLeft(float angle); // 左转函数
 void TurnRight(float angle); // 右转函数
+void Turn90(short dir); // 转向函数
+void ForCar(); // 前进一个车长
+
 void PID_Move(float v, float w, float dt, short isreload);
 
  #endif

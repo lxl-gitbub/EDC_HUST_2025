@@ -39,6 +39,9 @@
 // 运动学头文件，包括常见的直行转弯函数
 #include "kinematics.h"
 
+//状态机头文件
+#include "mode.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

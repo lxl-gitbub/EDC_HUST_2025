@@ -52,4 +52,5 @@ tem/stm32h7xx_it.o: ..\Core\Src\stm32h7xx_it.c ..\Core\Inc\main.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
   ..\Drivers\BSP\Motor_Encoder\Mem.h \
   ..\Drivers\BSP\Motor_Encoder\Initialize.h \
-  ..\Drivers\BSP\Motor_Encoder\kinematics.h
+  ..\Drivers\BSP\Motor_Encoder\kinematics.h \
+  ..\Drivers\BSP\Motor_Encoder\mode.h

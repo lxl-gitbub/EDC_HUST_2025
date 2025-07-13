@@ -55,8 +55,10 @@ char message[256];
 //感为传感器数据变量
 int Digtal[8];
 
-//运动学数据结构体，初始值全部为0
-Data data = {0}; 
+MODE mode = {WAIT_MODE, ZERO}; // 初始化模式为送药模式，位置为零
+short drug_change = 1;
+//用于标记是否需要进行药物模式的转化，
+//只有在最开始的时候是1，以及在最后程序停止的时候是1，中间为0，即中间不需要检测是否装药
 
 //时间相关变量
 uint32_t times = 0;
@@ -135,76 +137,78 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
-  {   
-    static uint32_t last_time = 0;
-    static uint8_t state = 0;
-    static uint8_t executed = 0;
-    uint32_t now = HAL_GetTick();
-
-		//巡线
-		IIC_Get_Digtal(Digtal);		//获取传感器数字量结果,存储在Digtal[7]数组中 
-		lineWalking();
-		three_Roads_Detect();
-		cross_Roads_Detect();
-		
-    // 每3秒切换一次状态
-    if (now - last_time > 3000) {
-        last_time = now;
-        state++;
-        if (state > 3) state = 0;
-        executed = 0;
+  { 
+    IIC_Get_Digtal(Digtal); // 获取数字传感器数据,每一步都要执行以获取数据
+    
+    if(drug_change)
+    {
+      if(drugSet(&mode))// 进行药物模式的转化，如果转换成功进入if
+        drug_change = 0; // 转化完成后将标志位设为0
+      continue; // 继续下一次循环
     }
-
-    // 只在切换时执行一次PID初始化
-    if (!executed) {
-        executed = 1;
-        PID_Move(0, 0, 0.02f, 1); // 重新初始化PID
-        switch (state) {
-            case 0: // 前进
-                snprintf(message, sizeof(message), "PID_Move Test: Forward v=0.2, w=0.0\r\n");
-                break;
-            case 1: // 后退
-                snprintf(message, sizeof(message), "PID_Move Test: Backward v=-0.2, w=0.0\r\n");
-                break;
-            case 2: // 左转
-                snprintf(message, sizeof(message), "PID_Move Test: Turn Left v=0.0, w=30.0\r\n");
-                break;
-            case 3: // 右转
-                snprintf(message, sizeof(message), "PID_Move Test: Turn Right v=0.0, w=-30.0\r\n");
-                break;
-        }
-        HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
+    switch (mode.drug)
+    {
+      case WAIT_MODE:
+        // 等待模式下的处理逻辑
+        break;
+      case PROPEL_MODE:
+        // 药物模式下的处理逻辑
+        switch (mode.loc)
+        {
+          case ZERO:
+          case ONE:
+          case TWO:
+          case L3:
+          case R3:
+            // 在这些位置下的处理逻辑
+            if(cross_Roads_Detect())
+            {
+              ForCar(); // 前进一个车长
+              switch(DirGet(&mode)) // 获取下一个方向
+              {
+                case FORWARD:
+                  continue; // 继续前进
+                case LEFT:
+                  Turn90(LEFT); // 左转
+									Break();
+									HAL_Delay(1000);
+                  continue; // 继续前进
+                case RIGHT:
+                  Turn90(RIGHT); // 右转
+									HAL_Delay(1000);
+									Break();
+                  continue; // 继续前进
+              }
+            }
+            lineWalking(); // 进行循迹行走
+            break;
+          case L1:
+          case L2:
+          case R1:
+          case R2:
+          case L3_L:
+          case L3_R:
+          case R3_L:
+          case R3_R:
+            // 在这些位置下的处理逻辑
+            if(half_Detect())
+            {
+              Break();
+              drug_change = 1; // 设置标志位为1，表示需要进行药物模式的转化
+              continue; // 继续下一次循环
+            }
+            lineWalking(); // 进行循迹行走
+            break;
+					}
+        break;
+      case RETURN_MODE:
+        // 返回模式下的处理逻辑
+        break;
+      default:
+        // 未知模式的处理逻辑
+        break;
     }
-
-    // 持续调用PID_Move实现运动
-    switch (state) {
-        case 0: // 前进
-            PID_Move(0.2f, 0.0f, 0.02f, 0);
-            break;
-        case 1: // 后退
-            PID_Move(-0.2f, 0.0f, 0.02f, 0);
-            break;
-        case 2: // 左转
-            PID_Move(0.0f, 30.0f, 0.02f, 0);
-            break;
-        case 3: // 右转
-            PID_Move(0.0f, -30.0f, 0.02f, 0);
-            break;
-    }
-
-    // 每1秒输出一次速度反馈
-    static uint32_t last_display = 0;
-    if (now - last_display > 1000) {
-        last_display = now;
-        snprintf(message, sizeof(message),
-            "Speed: L=%.3f, R=%.3f, C=%.3f m/s\r\n",
-            lSpeed(), rSpeed(), cSpeed());
-        HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
-    }
-
-    HAL_Delay(20);
    /* USER CODE END WHILE */
-
    /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

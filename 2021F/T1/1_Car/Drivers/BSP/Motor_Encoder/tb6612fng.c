@@ -139,4 +139,3 @@ void MotorSet(MOVETYPE type, double speed, Motor* M)
 	int duty = speed_to_duty(speed, M); // Convert speed to duty
 	Motor_UI_Set(type, duty, M);
 }
-

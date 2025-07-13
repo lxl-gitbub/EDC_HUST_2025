@@ -672,6 +672,16 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Drivers\Mode</GroupName>
+          <Files>
+            <File>
+              <FileName>mode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\BSP\Motor_Encoder\mode.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>

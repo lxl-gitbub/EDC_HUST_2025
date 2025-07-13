@@ -1,7 +1,7 @@
 #include "Initialize.h"
 
 Motor Le, Ri;  // Declare motors for left and right
-CarKinematics car_kinematics; // Declare car kinematics structure
+CarState car; // Declare car state for kinematics
 
 void MEInit(Motor* L, Motor* R)
 {
@@ -18,6 +18,8 @@ void MEInit(Motor* L, Motor* R)
     
     Le = *L;  // Assign the left motor to Le
     Ri = *R;  // Assign the right motor to Ri
+
+    CarState_Init(&car); // Initialize the car state
     // Set the initial speed to default
 }
 
@@ -56,6 +58,30 @@ void RSet(int16_t duty)
         duty = 1000; // Limit the duty cycle to a maximum of 1000
     }
     RMotorSet(type, duty); // Set the right motor with the specified type and duty cycle
+}
+
+void Break()
+{
+    LMotorSet(BREAK, 0); // Set both motors to break mode
+    RMotorSet(BREAK, 0);
+}
+void XAligning()//对齐x轴
+{
+    float targetYaw = car.pose.initial_theta; // 目标偏航角为初始方向角
+    float currentYaw = getYaw(); // 获取当前偏航角
+    if(sumTheta(currentYaw, -targetYaw) > 0) {// 如果当前偏航角大于目标偏航角{
+        LMotorSet(FOR, 100); // 左轮前进
+        RMotorSet(BACK, 100); // 右轮后退
+    } else if(sumTheta(currentYaw, -targetYaw) < 0) { // 如果当前偏航角小于目标偏航角
+        LMotorSet(BACK, 100); // 左轮后退
+        RMotorSet(FOR, 100); // 右轮前进
+    }
+    while(fabs(getYaw() - targetYaw) > 1) // 当偏航角与目标角度的差值大于0.5时
+    {
+        HAL_Delay(10); // 等待10毫秒
+    }
+    LMotorSet(BREAK, 0); // 左轮停止
+    RMotorSet(BREAK, 0); // 右轮停止
 }
 
 float getYaw()

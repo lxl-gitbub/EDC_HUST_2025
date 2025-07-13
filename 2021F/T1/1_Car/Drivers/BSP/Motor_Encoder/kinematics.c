@@ -189,7 +189,34 @@ void TurnRight(float angle)
     LMotorSet(BREAK, 0); // 左轮停止
     RMotorSet(BREAK, 0); // 右轮停止
 }
+void Turn90(short Dir)
+{
+	const int ang = 75;
+	if(Dir == 0)
+		TurnLeft(ang);
+	else
+		TurnRight(ang);
+}
+void TurnLeftInLowSpeed(float angle)
+{
+    LMotorSet(BACK, 50); // 左轮前进
+    RMotorSet(FOR, 50); // 右轮后退
+    float targetYaw = sumTheta(getYaw(), angle); // 计算目标角度
+    while(fabs(getYaw() - targetYaw) > 0.5) // 当偏航角与目标角度的差值大于3时
+    {
+        HAL_Delay(10); // 等待10毫秒
+    }
+    LMotorSet(BREAK, 0); // 左轮停止
+    RMotorSet(BREAK, 0); // 右轮停止
+}
 
+void ForCar()//正好行驶一个车长
+{
+    LSet(500);
+    RSet(500);
+    HAL_Delay(230); // 前进280毫秒
+    Break(); // 停止
+}
 
 Data getData()
 {
