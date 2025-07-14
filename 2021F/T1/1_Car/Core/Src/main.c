@@ -141,6 +141,63 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    static uint8_t test_state = 0;
+    static uint8_t executed = 0;
+    static float remain = 0.0f;
+    static float start_yaw = 0.0f;
+    uint32_t now = HAL_GetTick();
+    static uint32_t last_time = 0;
+
+    // 每5秒切换一次状态
+    if (now - last_time > 5000) {
+        last_time = now;
+        test_state++;
+        if (test_state > 1) test_state = 0;
+        executed = 0;
+    }
+
+    // 状态切换时初始化
+    if (!executed) {
+        executed = 1;
+        start_yaw = getYaw();
+        if (test_state == 0) {
+            // 前进0.8米，速度0.2m/s
+            remain = Straight(0.8f, 0.2f, start_yaw, FORWARD);
+            snprintf(message, sizeof(message), "Straight Test: Forward 0.8m @0.2m/s\r\n");
+        } else {
+            // 后退0.5米，速度0.15m/s
+            remain = Straight(0.5f, 0.15f, start_yaw, BACKWARD);
+            snprintf(message, sizeof(message), "Straight Test: Backward 0.5m @0.15m/s\r\n");
+        }
+        HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
+    }
+
+    // 持续调用Straight
+    if (test_state == 0) {
+        remain = Straight(0.8f, 0.2f, start_yaw, FORWARD);
+    } else {
+        remain = Straight(0.5f, 0.15f, start_yaw, BACKWARD);
+    }
+
+    // 到达目标距离后停止
+    if (fabs(remain) < 0.03f) {
+        LSet(0);
+        RSet(0);
+        snprintf(message, sizeof(message), "Straight Done! Remain: %.3fm\r\n", remain);
+        HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
+    }
+
+    // 每秒输出一次剩余距离和速度
+    static uint32_t last_display = 0;
+    if (now - last_display > 1000) {
+        last_display = now;
+        snprintf(message, sizeof(message),
+            "Remain: %.3fm, Speed: L=%.3f, R=%.3f, C=%.3f m/s\r\n",
+            remain, lSpeed(), rSpeed(), cSpeed());
+        HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
+    }
+
+    HAL_Delay(20);
 //    IIC_Get_Digtal(Digtal); // 获取数字传感器数据,每一步都要执行以获取数据
 //    
 //    if(drug_change)

@@ -74,7 +74,7 @@ Speed PID_Move(float v, float w, float dt, short isreload)
 
     float K_p_w = 1.0f;
     float K_i_w = 0.0f;
-    float K_d_w = 0.0f;
+    float K_d_w = 0.1f;
 
     last_speed.linear_velocity = v; // 重置上一次的线速度
     last_speed.angular_velocity = w; // 重置上一次的角速度
@@ -133,6 +133,7 @@ float Straight(float distance, float speed, float yaw, DIR dir)
     static float target_distance = 0.0f; // 目标距离
     uint32_t now = HAL_GetTick(); // 获取当前时间
     Data data = getData(); // 获取当前速度和角速度
+    float k_w = 8; // 角速度的系数
 
     speed = speed * (dir == FORWARD ? 1 : -1); // 根据方向调整速度
 
@@ -141,12 +142,12 @@ float Straight(float distance, float speed, float yaw, DIR dir)
         first_run = 0; // 标记为非第一次运行
         last_time = now; // 更新上次更新时间
         target_distance = distance; // 设置目标距离
-        PID_Move(speed, -sumTheta(data.yaw, yaw), 0.1f, 1); // 初始化PID控制
+        PID_Move(speed, -k_w * sumTheta(data.yaw, yaw), 0.1f, 1); // 初始化PID控制
         return target_distance;
     }
     float dt = (now - last_time) / 1000.0f; // 计算时间间隔
     last_time = now; // 更新上次更新时间
-    Speed current_speed = PID_Move(speed, -sumTheta(data.yaw, yaw), dt, 0); // 更新速度
+    Speed current_speed = PID_Move(speed, -k_w * sumTheta(data.yaw, yaw), dt, 0); // 更新速度
     target_distance -= fabs(current_speed.linear_velocity) * dt; // 更新目标距离
     return target_distance; // 返回剩余距离
     
