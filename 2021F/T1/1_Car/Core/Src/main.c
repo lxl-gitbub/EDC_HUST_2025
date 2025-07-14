@@ -62,6 +62,9 @@ short drug_change = 1;
 //只有在最开始的时候是1，以及在最后程序停止的时候是1，中间为0，即中间不需要检测是否装药
 uint32_t mode_begin_t = 0;//记录模式开始的时间
 
+//测量过的转弯参数
+float r = 0.17;
+float tel = 26;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -70,6 +73,7 @@ static void MPU_Initialize(void);
 static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
 bool CheckAndTurn(void);
+bool CheckAndEnd(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -130,8 +134,6 @@ int main(void)
 	// 电机和编码器初始化	
   Motor Left, Right;  
 	MEInit(&Left, &Right); 
-  float r = 0.17;
-	float tel = 26;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -326,6 +328,7 @@ bool CheckAndTurn()
     {
       switch(DirGet(&mode)) // 获取下一个方向
       {
+				case BACKWARD://在第二题会用到，目前不会用到
         case FORWARD:
           return true; // 继续前进
         case LEFT:
