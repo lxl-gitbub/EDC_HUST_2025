@@ -60,11 +60,8 @@ MODE mode = {WAIT_MODE, ZERO}; // 初始化模式为送药模式，位置为零
 short drug_change = 1;
 //用于标记是否需要进行药物模式的转化，
 //只有在最开始的时候是1，以及在最后程序停止的时候是1，中间为0，即中间不需要检测是否装药
+uint32_t mode_begin_t = 0;//记录模式开始的时间
 
-//时间相关变量
-uint32_t times = 0;
-uint32_t last_time = 0;
-uint32_t now = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -141,69 +138,15 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    static uint8_t test_state = 0;
-    static uint8_t executed = 0;
-    static float remain = 0.0f;
-    static float start_yaw = 0.0f;
-    uint32_t now = HAL_GetTick();
-    static uint32_t last_time = 0;
-
-    // 每5秒切换一次状态
-    if (now - last_time > 5000) {
-        last_time = now;
-        test_state++;
-        if (test_state > 1) test_state = 0;
-        executed = 0;
-    }
-
-    // 状态切换时初始化
-    if (!executed) {
-        executed = 1;
-        start_yaw = getYaw();
-        if (test_state == 0) {
-            // 前进0.8米，速度0.2m/s
-            remain = Straight(0.8f, 0.2f, start_yaw, FORWARD);
-            snprintf(message, sizeof(message), "Straight Test: Forward 0.8m @0.2m/s\r\n");
-        } else {
-            // 后退0.5米，速度0.15m/s
-            remain = Straight(0.5f, 0.15f, start_yaw, BACKWARD);
-            snprintf(message, sizeof(message), "Straight Test: Backward 0.5m @0.15m/s\r\n");
-        }
-        HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
-    }
-
-    // 持续调用Straight
-    if (test_state == 0) {
-        remain = Straight(0.8f, 0.2f, start_yaw, FORWARD);
-    } else {
-        remain = Straight(0.5f, 0.15f, start_yaw, BACKWARD);
-    }
-
-    // 到达目标距离后停止
-    if (fabs(remain) < 0.03f) {
-        LSet(0);
-        RSet(0);
-        snprintf(message, sizeof(message), "Straight Done! Remain: %.3fm\r\n", remain);
-        HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
-    }
-
-    // 每秒输出一次剩余距离和速度
-    static uint32_t last_display = 0;
-    if (now - last_display > 1000) {
-        last_display = now;
-        snprintf(message, sizeof(message),
-            "Remain: %.3fm, Speed: L=%.3f, R=%.3f, C=%.3f m/s\r\n",
-            remain, lSpeed(), rSpeed(), cSpeed());
-        HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 1000);
-    }
-
-    HAL_Delay(20);
 //    IIC_Get_Digtal(Digtal); // 获取数字传感器数据,每一步都要执行以获取数据
 //    
 //    if(drug_change)
 //    {
 //      if(drugSet(&mode))// 进行药物模式的转化，如果转换成功进入if
+//      {
 //        drug_change = 0; // 转化完成后将标志位设为0
+//        mode_begin_t = HAL_GetTick(); // 记录模式开始的时间
+//      }
 //      continue; // 继续下一次循环
 //    }
 //    switch (mode.drug)
@@ -220,23 +163,26 @@ int main(void)
 //          case TWO:
 //          case L3:
 //          case R3:
-//            // 在这些位置下的处理逻辑
-//            if(cross_Roads_Detect())
-//            {
-//              switch(DirGet(&mode)) // 获取下一个方向
-//              {
-//                case FORWARD:
-//                  continue; // 继续前进
-//                case LEFT:
-//                  while(!isInTheYaw(90, tel)) {runCircle(r, 0.5, 90, LEFT); HAL_Delay(10);}
-//									Break();
-//                  continue; // 继续前进
-//                case RIGHT:
-//                  while(!isInTheYaw(-90, tel)){runCircle(r, 0.5, 90, RIGHT); HAL_Delay(10);}
-//									Break();
-//                  continue; // 继续前进
-//              }
-//            }
+//            // 在这些位置下的处理逻辑、
+//						if(HAL_GetTick() - mode_begin_t > 1000)
+//						{
+//							if(cross_Roads_Detect())
+//							{
+//								switch(DirGet(&mode)) // 获取下一个方向
+//								{
+//									case FORWARD:
+//										continue; // 继续前进
+//									case LEFT:
+//										while(!isInTheYaw(90, tel)) {runCircle(r, 0.5, 90, LEFT); HAL_Delay(10);}
+//										Break();
+//										continue; // 继续前进
+//									case RIGHT:
+//										while(!isInTheYaw(-90, tel)){runCircle(r, 0.5, 90, RIGHT); HAL_Delay(10);}
+//										Break();
+//										continue; // 继续前进
+//								}
+//							}
+//						}
 //            lineWalking(); // 进行循迹行走
 //            break;
 //          case L1:
@@ -267,6 +213,26 @@ int main(void)
 //          case L3_L:
 //          case R3_L:
 //            // 在这些位置下的处理逻辑
+//           if(HAL_GetTick() - mode_begin_t > 1000)
+//            {
+//              if(cross_Roads_Detect())
+//              {
+//                switch(DirGet(&mode)) // 获取下一个方向
+//                {
+//                  case FORWARD:
+//                    continue; // 继续前进
+//                  case LEFT:
+//                    while(!isInTheYaw(90, tel)) {runCircle(r, 0.5, 90, LEFT); HAL_Delay(10);}
+//                    Break();
+//                    continue; // 继续前进
+//                  case RIGHT:
+//                    while(!isInTheYaw(-90, tel)){runCircle(r, 0.5, 90, RIGHT); HAL_Delay(10);}
+//                    Break();
+//                    continue; // 继续前进
+//                }
+//              }
+//            }
+//            
 //            
 //            break; // 这里可以添加返回模式下的具体逻辑
 //        }

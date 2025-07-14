@@ -73,7 +73,7 @@ Speed PID_Move(float v, float w, float dt, short isreload)
     float K_d_v = 0.0f;
 
     float K_p_w = 1.0f;
-    float K_i_w = 0.0f;
+    float K_i_w = 0.1f;
     float K_d_w = 0.1f;
 
     last_speed.linear_velocity = v; // 重置上一次的线速度
@@ -133,7 +133,7 @@ float Straight(float distance, float speed, float yaw, DIR dir)
     static float target_distance = 0.0f; // 目标距离
     uint32_t now = HAL_GetTick(); // 获取当前时间
     Data data = getData(); // 获取当前速度和角速度
-    float k_w = 8; // 角速度的系数
+    float k_w = 6; // 角速度的系数
 
     speed = speed * (dir == FORWARD ? 1 : -1); // 根据方向调整速度
 
@@ -142,70 +142,15 @@ float Straight(float distance, float speed, float yaw, DIR dir)
         first_run = 0; // 标记为非第一次运行
         last_time = now; // 更新上次更新时间
         target_distance = distance; // 设置目标距离
-        PID_Move(speed, -k_w * sumTheta(data.yaw, yaw), 0.1f, 1); // 初始化PID控制
+        PID_Move(speed, -k_w * sumTheta(data.yaw, -yaw), 0.1f, 1); // 初始化PID控制
         return target_distance;
     }
     float dt = (now - last_time) / 1000.0f; // 计算时间间隔
     last_time = now; // 更新上次更新时间
-    Speed current_speed = PID_Move(speed, -k_w * sumTheta(data.yaw, yaw), dt, 0); // 更新速度
+    Speed current_speed = PID_Move(speed, -k_w * sumTheta(data.yaw, -yaw), dt, 0); // 更新速度
     target_distance -= fabs(current_speed.linear_velocity) * dt; // 更新目标距离
     return target_distance; // 返回剩余距离
     
-}
-//简陋的左转函数，需要优化，将来可能会改为PID控制
-//假设左转角度为angle，单位为角度
-void TurnLeft(float angle)
-{
-    LMotorSet(BACK, 200); // 左轮前进
-    RMotorSet(FOR, 200); // 右轮后退
-    float targetYaw = sumTheta(getYaw(), angle); // 计算目标角度
-    while(fabs(getYaw() - targetYaw) > 3) // 当偏航角与目标角度的差值大于3时
-    {
-        HAL_Delay(10); // 等待10毫秒
-    } 
-    LMotorSet(BREAK, 0); // 左轮停止
-    RMotorSet(BREAK, 0); // 右轮停止
-}
-
-void TurnRight(float angle)
-{
-    LMotorSet(FOR, 200); // 左轮前进
-    RMotorSet(BACK, 200); // 右轮后退
-    float targetYaw = sumTheta(getYaw(), -angle); // 计算目标角度
-    while(fabs(getYaw() - targetYaw) > 3) // 当偏航角与目标角度的差值大于3时
-    {
-        HAL_Delay(10); // 等待10毫秒
-    } 
-    LMotorSet(BREAK, 0); // 左轮停止
-    RMotorSet(BREAK, 0); // 右轮停止
-}
-void Turn90(short Dir)
-{
-	const int ang = 75;
-	if(Dir == 0)
-		TurnLeft(ang);
-	else
-		TurnRight(ang);
-}
-void TurnLeftInLowSpeed(float angle)
-{
-    LMotorSet(BACK, 50); // 左轮前进
-    RMotorSet(FOR, 50); // 右轮后退
-    float targetYaw = sumTheta(getYaw(), angle); // 计算目标角度
-    while(fabs(getYaw() - targetYaw) > 0.5) // 当偏航角与目标角度的差值大于3时
-    {
-        HAL_Delay(10); // 等待10毫秒
-    }
-    LMotorSet(BREAK, 0); // 左轮停止
-    RMotorSet(BREAK, 0); // 右轮停止
-}
-
-void ForCar()//正好行驶一个车长
-{
-    LSet(500);
-    RSet(500);
-    HAL_Delay(230); // 前进280毫秒
-    Break(); // 停止
 }
 
 Data getData()

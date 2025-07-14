@@ -65,6 +65,7 @@ void Break()
     LMotorSet(BREAK, 0); // Set both motors to break mode
     RMotorSet(BREAK, 0);
 }
+
 bool isInTheYaw(float targetYaw, float tolerance)
 {
     // Check if the current yaw is within the specified tolerance of the target yaw
@@ -91,4 +92,11 @@ float getWz()
 		atk_ms601m_accelerometer_data_t accelerometer_dat;
     atk_ms601m_get_gyro_accelerometer(&gyro_dat, &accelerometer_dat, 10);
     return gyro_dat.z; // Return the angular velocity around the z-axis
+}
+
+void Back( float theta)
+{
+    float speed = 0.5f; // Set the speed for backward movement
+    float targetYaw = sumTheta(car.pose.initial_theta, theta); // Calculate the target yaw angle
+    Straight(0.3, speed, targetYaw, BACKWARD); // Move backward with the specified speed and target yaw
 }

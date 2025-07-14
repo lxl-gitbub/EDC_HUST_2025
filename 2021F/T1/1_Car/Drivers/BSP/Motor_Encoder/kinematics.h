@@ -82,11 +82,6 @@ float sumTheta(float, float);
 Data getData();
 
 // 运动学函数声明
-void TurnLeft(float angle); // 左转函数
-void TurnRight(float angle); // 右转函数
-void Turn90(short dir); // 转向函数
-void ForCar(); // 前进一个车长
-
 Speed PID_Move(float v, float w, float dt, short isreload);
 float runCircle(float radius, float speed, float angle, DIR dir); // 圆周运动函数
 float Straight(float distance, float speed, float yaw, DIR dir); // 直行函数

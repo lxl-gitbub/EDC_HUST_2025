@@ -63,4 +63,6 @@ bool isInTheYaw(float targetYaw, float tolerance);
 float getYaw(); // 获取当前的偏航角
 float getWz(); // 获取当前的角速度
 
+void Back(float theta); // 后退函数，theta为目标偏航角
+
 #endif /* INITIALIZE_H */
