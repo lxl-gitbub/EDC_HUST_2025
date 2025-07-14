@@ -3,6 +3,7 @@
 
 #include "AllHeader.h"
 
+
 // Define the modes for the car
 typedef enum {
     PROPEL_MODE,  // Propeller mode ËÍÒ©Ä£Ê½
@@ -26,12 +27,6 @@ typedef enum {
     R3_R,
 }LOC;
 
-typedef enum {
-     LEFT = 0,
-    RIGHT = 1,
-    FORWARD,
-    BACKWARD,
-} DIR;
 
 typedef struct{
     DRUG drug;  // Current mode of the car

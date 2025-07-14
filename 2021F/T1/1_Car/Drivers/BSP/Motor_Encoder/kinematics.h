@@ -5,14 +5,16 @@
 
 #define STOD 999/1.30
 
+typedef enum {
+    LEFT = 0,
+    RIGHT = 1,
+    FORWARD,
+    BACKWARD,
+}DIR;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-typedef enum {
-    L = 0, // 左转
-    R = 1, // 右转
-}Direction;
 
 typedef struct{
     float error; // 误差
@@ -80,13 +82,13 @@ float sumTheta(float, float);
 Data getData();
 
 // 运动学函数声明
-float Straight(float dis, float speed);
 void TurnLeft(float angle); // 左转函数
 void TurnRight(float angle); // 右转函数
 void Turn90(short dir); // 转向函数
 void ForCar(); // 前进一个车长
 
 Speed PID_Move(float v, float w, float dt, short isreload);
-float runCircle(float radius, float speed, float angle, Direction dir); // 圆周运动函数
+float runCircle(float radius, float speed, float angle, DIR dir); // 圆周运动函数
+float Straight(float distance, float speed, float yaw, DIR dir); // 直行函数
 
  #endif

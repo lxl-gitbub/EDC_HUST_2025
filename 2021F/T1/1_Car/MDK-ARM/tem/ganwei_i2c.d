@@ -53,5 +53,4 @@ tem/ganwei_i2c.o: ..\Drivers\BSP\GanWei\GanWei_i2c.c \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
   ..\Drivers\BSP\Motor_Encoder\Mem.h \
   ..\Drivers\BSP\Motor_Encoder\Initialize.h \
-  ..\Drivers\BSP\Motor_Encoder\kinematics.h \
-  ..\Drivers\BSP\Motor_Encoder\mode.h
+  ..\Drivers\BSP\Motor_Encoder\kinematics.h

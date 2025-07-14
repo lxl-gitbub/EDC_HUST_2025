@@ -59,72 +59,6 @@ float sumTheta(float theta1, float theta2)
     return sum;
 }
 
-//这个函数的逻辑已经实现了，但是参数是不完善的，且dis的计算是不精准的，是有待优化的
-float Straight(float dis, float speed)//单位为米和米每秒
-{
-    static float target_dis = 0;
-    MOVETYPE type = dis < 0 ? BACK : FOR;
-    dis = fabs(dis);
-		
-    static short first_run = 1; // 静态变量用于判断是否第一次运行
-    static float dist_e = 0.0f; // 静态变量用于记录已移动的距离
-    static uint32_t last_time = 0; // 上次更新时间
-    static PIDdata pidSpeed; // PID控制直线速度
-    static PIDdata pidAngular; // PID控制角速度
-    static float yaw = 0.0f; // 偏航角
-
-    float K_p_v = 1000.0f; // 比例系数
-    float K_i_v = 0.0f; // 积分系数
-    float K_d_v = 0.0f; // 微分系数
-
-    float K_p_w = 0.1f; // 比例系数
-    float K_i_w = 0.0f; // 积分系数
-    float K_d_w = 0.0f; // 微分系数
-
-    
-    uint32_t now = HAL_GetTick(); // 获取当前时间
-    if (first_run || fabs(dis - target_dis) > 0.01f)// 如果是第一次运行或超过2秒未更新, 将该函数初始化
-    {
-        first_run = 0; // 标记为非第一次运行
-        target_dis = dis;
-        dist_e = dis; // 重置距离
-        last_time = now; // 更新上次更新时间
-        PID_Init(&pidSpeed); 
-        PID_Init(&pidAngular);// 初始化PID数据
-        yaw = getYaw(); // 获取当前偏航角
-        return dis; // 表示未开始移动
-    }
-
-    //处理时间
-    float dt = (now - last_time) / 1000.0f; // 计算时间间隔
-    last_time = now;
-
-    Data data = getData(); // 获取当前数据
-    if(type == BACK) // 如果是后退
-    {
-        data.speed.linear_velocity = -data.speed.linear_velocity; // 反转线速度
-        data.yaw = -data.yaw; // 反转偏航角
-    }
-    PID_Update(&pidSpeed, speed, data.speed.linear_velocity, dt); // 更新PID数据
-    PID_Update(&pidAngular, 0, data.speed.angular_velocity, dt);
-
-    Speed target_speed;
-    target_speed.linear_velocity = PID_Compute(&pidSpeed, K_p_v, K_i_v, K_d_v); // 计算目标线速度
-    
-    target_speed.angular_velocity = PID_Compute(&pidAngular, K_p_w, K_i_w, K_d_w); // 计算目标角速度
-
-    WheelSpeed wheel_speed = SpeedToWheelSpeed(target_speed); // 将速度转换为轮速
-    wheel_speed.left_wheel_speed = (wheel_speed.left_wheel_speed > 0) ? wheel_speed.left_wheel_speed : 0; // 确保左轮速度不小于0
-    wheel_speed.right_wheel_speed = (wheel_speed.right_wheel_speed > 0) ? wheel_speed.right_wheel_speed : 0; // 确保右轮速度不小于0
-    wheel_speed.left_wheel_speed = (wheel_speed.left_wheel_speed < 1000) ? wheel_speed.left_wheel_speed : 1000; // 限制左轮速度最大值
-    wheel_speed.right_wheel_speed = (wheel_speed.right_wheel_speed < 1000) ? wheel_speed.right_wheel_speed : 1000; // 限制右轮速度最大值
-
-    LMotorSet(type, (uint16_t) wheel_speed.left_wheel_speed); // 设置左轮速度
-    RMotorSet(type, (uint16_t) wheel_speed.right_wheel_speed); // 设置右轮速度
-		
-    dist_e -= data.speed.linear_velocity * dt; // 累加已移动的距离
-    return dist_e; // 返回已移动的距离
-}
 
 Speed PID_Move(float v, float w, float dt, short isreload)
 {
@@ -167,7 +101,7 @@ Speed PID_Move(float v, float w, float dt, short isreload)
     
     return final_speed; // 返回初始速度
 }
-float runCircle(float radius, float speed, float angle, Direction dir)
+float runCircle(float radius, float speed, float angle, DIR dir)
 {
     static int first_run = 1; // 静态变量用于判断是否第一次运行
     static uint32_t last_time = 0; // 上次更新时间
@@ -182,17 +116,41 @@ float runCircle(float radius, float speed, float angle, Direction dir)
         first_run = 0; // 标记为非第一次运行
         last_time = now; // 更新上次更新时间
         target_angle = angle; // 设置目标角度
-        PID_Move(linear_velocity, dir == L ? angular_velocity : -angular_velocity, 0.1f, 1); // 初始化PID控制
+        PID_Move(linear_velocity, dir == LEFT? angular_velocity : -angular_velocity, 0.1f, 1); // 初始化PID控制
         return target_angle;
     }
 
     float dt = (now - last_time) / 1000.0f; // 计算时间间隔
     last_time = now; // 更新上次更新时间
-    Speed current_speed = PID_Move(linear_velocity, dir == L ? angular_velocity : -angular_velocity, dt, 0); // 更新速度
+    Speed current_speed = PID_Move(linear_velocity, dir == LEFT? angular_velocity : -angular_velocity, dt, 0); // 更新速度
     target_angle -= fabs(current_speed.angular_velocity) * dt * 8 ; // 更新目标角度
     return target_angle; // 返回剩余角度
 }
+float Straight(float distance, float speed, float yaw, DIR dir)
+{
+    static int first_run = 1; // 静态变量用于判断是否第一次运行
+    static uint32_t last_time = 0; // 上次更新时间
+    static float target_distance = 0.0f; // 目标距离
+    uint32_t now = HAL_GetTick(); // 获取当前时间
+    Data data = getData(); // 获取当前速度和角速度
 
+    speed = speed * (dir == FORWARD ? 1 : -1); // 根据方向调整速度
+
+    if (first_run || now - last_time > 1000 ) // 如果是第一次运行或超过1秒未更新
+    {
+        first_run = 0; // 标记为非第一次运行
+        last_time = now; // 更新上次更新时间
+        target_distance = distance; // 设置目标距离
+        PID_Move(speed, -sumTheta(data.yaw, yaw), 0.1f, 1); // 初始化PID控制
+        return target_distance;
+    }
+    float dt = (now - last_time) / 1000.0f; // 计算时间间隔
+    last_time = now; // 更新上次更新时间
+    Speed current_speed = PID_Move(speed, -sumTheta(data.yaw, yaw), dt, 0); // 更新速度
+    target_distance -= fabs(current_speed.linear_velocity) * dt; // 更新目标距离
+    return target_distance; // 返回剩余距离
+    
+}
 //简陋的左转函数，需要优化，将来可能会改为PID控制
 //假设左转角度为angle，单位为角度
 void TurnLeft(float angle)

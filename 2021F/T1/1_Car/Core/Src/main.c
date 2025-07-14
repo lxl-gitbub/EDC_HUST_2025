@@ -26,6 +26,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "AllHeader.h"
+#include "mode.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -140,84 +141,83 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    IIC_Get_Digtal(Digtal); // 获取数字传感器数据,每一步都要执行以获取数据
-    
-    if(drug_change)
-    {
-      if(drugSet(&mode))// 进行药物模式的转化，如果转换成功进入if
-        drug_change = 0; // 转化完成后将标志位设为0
-      continue; // 继续下一次循环
-    }
-    switch (mode.drug)
-    {
-      case WAIT_MODE:
-        // 等待模式下的处理逻辑
-        break;
-      case PROPEL_MODE:
-        // 药物模式下的处理逻辑
-        switch (mode.loc)
-        {
-          case ZERO:
-          case ONE:
-          case TWO:
-          case L3:
-          case R3:
-            // 在这些位置下的处理逻辑
-            if(cross_Roads_Detect())
-            {
-              switch(DirGet(&mode)) // 获取下一个方向
-              {
-                case FORWARD:
-                  continue; // 继续前进
-                case LEFT:
-                  while(!isInTheYaw(90, tel)) {runCircle(r, 0.5, 90, L); HAL_Delay(10);}
-									Break();
-//									HAL_Delay(1000);
-                  continue; // 继续前进
-                case RIGHT:
-                  while(!isInTheYaw(-90, tel)){runCircle(r, 0.5, 90, R); HAL_Delay(10);}
-									Break();
-                  continue; // 继续前进
-              }
-            }
-            lineWalking(); // 进行循迹行走
-            break;
-          case L1:
-          case L2:
-          case R1:
-          case R2:
-          case L3_L:
-          case L3_R:
-          case R3_L:
-          case R3_R:
-            // 在这些位置下的处理逻辑
-            if(half_Detect())
-            {
-              Break();
-              drug_change = 1; // 设置标志位为1，表示需要进行药物模式的转化
-              continue; // 继续下一次循环
-            }
-            lineWalking(); // 进行循迹行走
-            break;
-					}
-        break;
-      case RETURN_MODE:
-        // 返回模式下的处理逻辑
-        switch(mode.loc)
-        {
-          case L1:
-          case L2:
-          case L3_L:
-          case R3_L:
-            // 在这些位置下的处理逻辑
-            
-            break; // 这里可以添加返回模式下的具体逻辑
-        }
-        break;
-      default:
-        // 未知模式的处理逻辑
-        break;
-    }
+//    IIC_Get_Digtal(Digtal); // 获取数字传感器数据,每一步都要执行以获取数据
+//    
+//    if(drug_change)
+//    {
+//      if(drugSet(&mode))// 进行药物模式的转化，如果转换成功进入if
+//        drug_change = 0; // 转化完成后将标志位设为0
+//      continue; // 继续下一次循环
+//    }
+//    switch (mode.drug)
+//    {
+//      case WAIT_MODE:
+//        // 等待模式下的处理逻辑
+//        break;
+//      case PROPEL_MODE:
+//        // 药物模式下的处理逻辑
+//        switch (mode.loc)
+//        {
+//          case ZERO:
+//          case ONE:
+//          case TWO:
+//          case L3:
+//          case R3:
+//            // 在这些位置下的处理逻辑
+//            if(cross_Roads_Detect())
+//            {
+//              switch(DirGet(&mode)) // 获取下一个方向
+//              {
+//                case FORWARD:
+//                  continue; // 继续前进
+//                case LEFT:
+//                  while(!isInTheYaw(90, tel)) {runCircle(r, 0.5, 90, LEFT); HAL_Delay(10);}
+//									Break();
+//                  continue; // 继续前进
+//                case RIGHT:
+//                  while(!isInTheYaw(-90, tel)){runCircle(r, 0.5, 90, RIGHT); HAL_Delay(10);}
+//									Break();
+//                  continue; // 继续前进
+//              }
+//            }
+//            lineWalking(); // 进行循迹行走
+//            break;
+//          case L1:
+//          case L2:
+//          case R1:
+//          case R2:
+//          case L3_L:
+//          case L3_R:
+//          case R3_L:
+//          case R3_R:
+//            // 在这些位置下的处理逻辑
+//            if(half_Detect())
+//            {
+//              Break();
+//              drug_change = 1; // 设置标志位为1，表示需要进行药物模式的转化
+//              continue; // 继续下一次循环
+//            }
+//            lineWalking(); // 进行循迹行走
+//            break;
+//					}
+//        break;
+//      case RETURN_MODE:
+//        // 返回模式下的处理逻辑
+//        switch(mode.loc)
+//        {
+//          case L1:
+//          case L2:
+//          case L3_L:
+//          case R3_L:
+//            // 在这些位置下的处理逻辑
+//            
+//            break; // 这里可以添加返回模式下的具体逻辑
+//        }
+//        break;
+//      default:
+//        // 未知模式的处理逻辑
+//        break;
+//    }
    /* USER CODE END WHILE */
    /* USER CODE BEGIN 3 */
   }
