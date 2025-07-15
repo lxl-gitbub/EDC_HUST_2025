@@ -74,6 +74,12 @@ static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
 bool CheckAndTurn(void);
 bool CheckAndEnd(void);
+void RED_up(void);
+void RED_down(void);
+void GREEN_up(void);
+void GREEN_down(void);
+void YELLOW_up(void);
+void YELLOW_down(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -141,97 +147,99 @@ int main(void)
   while (1)
   {
     IIC_Get_Digtal(Digtal); // 获取数字传感器数据,每一步都要执行以获取数据
-    
-    if(drug_change)
-    {
-      if(drugSet(&mode))// 进行药物模式的转化，如果转换成功进入if
-      {
-        drug_change = 0; // 转化完成后将标志位设为0
-        mode_begin_t = HAL_GetTick(); // 记录模式开始的时间
-      }
-      continue; // 继续下一次循环
-    }
-    switch (mode.drug)
-    {
-      case WAIT_MODE:
-        // 等待模式下的处理逻辑
-        break;
-      case PROPEL_MODE:
-        // 药物模式下的处理逻辑
-        switch (mode.loc)
-        {
-          case ZERO:
-          case ONE:
-          case TWO:
-          case L3:
-          case R3:
-            // 在这些位置下的处理逻辑、
-						if(!CheckAndTurn())
-              lineWalking(); // 进行循迹行走
-            break;
-          case L1:
-          case L2:
-          case R1:
-          case R2:
-          case L3_L:
-          case L3_R:
-          case R3_L:
-          case R3_R:
-            // 在这些位置下的处理逻辑
-            if(!CheckAndEnd()) // 检查是否需要结束当前模式
-              lineWalking(); // 进行循迹行走
-            break;
-					}
-        break;
-      case RETURN_MODE:
-        // 返回模式下的处理逻辑
-        switch(mode.loc)
-        {
-          case L1:
-          case L2:
-            // 在这些位置下的处理逻辑
-            if(!CheckAndTurn())
-              Back(90); // 后退,以90度为方向
-            break; // 这里可以添加返回模式下的具体逻辑
-          case R1:
-          case R2:
-            // 在这些位置下的处理逻辑
-            if(!CheckAndTurn())
-              Back(-90); // 后退,以-90度为方向
-            break; // 这里可以添加返回模式下的具体逻辑
-          case L3_L:
-          case R3_R:
-            // 在这些位置下的处理逻辑
-            if(!CheckAndTurn()) // 检查是否需要结束当前模式
-              Back(180); // 后退,以180度为方向
-            break; // 这里可以添加返回模式下的具体逻辑
-          case L3_R:
-          case R3_L:
-            // 在这些位置下的处理逻辑
-            if(!CheckAndTurn()) // 检查是否需要结束当前模式
-              Back(0); // 后退,以0度为方向
-            break; // 这里可以添加返回模式下的具体逻辑
-          case ONE:
-          case TWO:
-          case L3:
-          case R3:
-            // 在这些位置下的处理逻辑
-            if(!CheckAndTurn()) // 检查是否需要结束当前模式
-              lineWalking(); // 进行循迹行走
-            break; // 这里可以添加返回模式下的具体逻辑
-          case ZERO:
-            // 在零位置下的处理逻辑
-            if(!CheckAndEnd()) // 检查是否需要结束当前模式
-              lineWalking(); // 进行循迹行走
-            break; // 这里可以添加返回模式下的具体逻辑
-        }
-        break;
-      default:
-        // 未知模式的处理逻辑
-        break;
-    }
-   /* USER CODE END WHILE */
-   /* USER CODE BEGIN 3 */
+
+
+//    if(drug_change)
+//    {
+//      if(drugSet(&mode))// 进行药物模式的转化，如果转换成功进入if
+//      {
+//        drug_change = 0; // 转化完成后将标志位设为0
+//        mode_begin_t = HAL_GetTick(); // 记录模式开始的时间
+//      }
+//      continue; // 继续下一次循环
+//    }
+//    switch (mode.drug)
+//    {
+//      case WAIT_MODE:
+//        // 等待模式下的处理逻辑
+//        break;
+//      case PROPEL_MODE:
+//        // 药物模式下的处理逻辑
+//        switch (mode.loc)
+//        {
+//          case ZERO:
+//          case ONE:
+//          case TWO:
+//          case L3:
+//          case R3:
+//            // 在这些位置下的处理逻辑、
+//						if(!CheckAndTurn())
+//              lineWalking(); // 进行循迹行走
+//            break;
+//          case L1:
+//          case L2:
+//          case R1:
+//          case R2:
+//          case L3_L:
+//          case L3_R:
+//          case R3_L:
+//          case R3_R:
+//            // 在这些位置下的处理逻辑
+//            if(!CheckAndEnd()) // 检查是否需要结束当前模式
+//              lineWalking(); // 进行循迹行走
+//            break;
+//					}
+//        break;
+//      case RETURN_MODE:
+//        // 返回模式下的处理逻辑
+//        switch(mode.loc)
+//        {
+//          case L1:
+//          case L2:
+//            // 在这些位置下的处理逻辑
+//            if(!CheckAndTurn())
+//              Back(90); // 后退,以90度为方向
+//            break; // 这里可以添加返回模式下的具体逻辑
+//          case R1:
+//          case R2:
+//            // 在这些位置下的处理逻辑
+//            if(!CheckAndTurn())
+//              Back(-90); // 后退,以-90度为方向
+//            break; // 这里可以添加返回模式下的具体逻辑
+//          case L3_L:
+//          case R3_R:
+//            // 在这些位置下的处理逻辑
+//            if(!CheckAndTurn()) // 检查是否需要结束当前模式
+//              Back(180); // 后退,以180度为方向
+//            break; // 这里可以添加返回模式下的具体逻辑
+//          case L3_R:
+//          case R3_L:
+//            // 在这些位置下的处理逻辑
+//            if(!CheckAndTurn()) // 检查是否需要结束当前模式
+//              Back(0); // 后退,以0度为方向
+//            break; // 这里可以添加返回模式下的具体逻辑
+//          case ONE:
+//          case TWO:
+//          case L3:
+//          case R3:
+//            // 在这些位置下的处理逻辑
+//            if(!CheckAndTurn()) // 检查是否需要结束当前模式
+//              lineWalking(); // 进行循迹行走
+//            break; // 这里可以添加返回模式下的具体逻辑
+//          case ZERO:
+//            // 在零位置下的处理逻辑
+//            if(!CheckAndEnd()) // 检查是否需要结束当前模式
+//              lineWalking(); // 进行循迹行走
+//            break; // 这里可以添加返回模式下的具体逻辑
+//        }
+//        break;
+//      default:
+//        // 未知模式的处理逻辑
+//        break;
+//    }
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
@@ -354,6 +362,32 @@ bool CheckAndEnd()
   }
   return false; // 没有需要结束的情况
 }
+
+void RED_up()
+{
+			HAL_GPIO_WritePin(RED_GPIO_Port, RED_Pin, GPIO_PIN_SET);
+}
+void RED_down()
+{
+  HAL_GPIO_WritePin(RED_GPIO_Port, RED_Pin, GPIO_PIN_RESET);
+}
+void GREEN_up()
+{
+      HAL_GPIO_WritePin(GREEN_GPIO_Port, GREEN_Pin, GPIO_PIN_SET);
+}
+void GREEN_down()
+{
+  HAL_GPIO_WritePin(GREEN_GPIO_Port, GREEN_Pin, GPIO_PIN_RESET);
+}
+void YELLOW_up()
+{
+  HAL_GPIO_WritePin(YELLOW_GPIO_Port, YELLOW_Pin, GPIO_PIN_SET);
+}
+void YELLOW_down()
+{
+  HAL_GPIO_WritePin(YELLOW_GPIO_Port, YELLOW_Pin, GPIO_PIN_RESET);
+}
+
 /* USER CODE END 4 */
 
 /* MPU Configuration */

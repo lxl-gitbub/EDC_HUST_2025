@@ -65,6 +65,12 @@ void delay_us_hal(uint16_t nus);
 #define PB0_GPIO_Port GPIOB
 #define AIN1_Pin GPIO_PIN_1
 #define AIN1_GPIO_Port GPIOB
+#define GREEN_Pin GPIO_PIN_2
+#define GREEN_GPIO_Port GPIOB
+#define YELLOW_Pin GPIO_PIN_8
+#define YELLOW_GPIO_Port GPIOE
+#define RED_Pin GPIO_PIN_10
+#define RED_GPIO_Port GPIOE
 #define KEY_Pin GPIO_PIN_15
 #define KEY_GPIO_Port GPIOB
 #define Light_D_Pin GPIO_PIN_1
