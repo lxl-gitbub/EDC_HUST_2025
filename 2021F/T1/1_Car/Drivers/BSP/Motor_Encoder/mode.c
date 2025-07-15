@@ -18,7 +18,6 @@ bool drugSet(MODE* mode)
         if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5) == GPIO_PIN_SET) // 再次确认状态
         {
             mode->drug = RETURN_MODE; // 回归模式
-            mode->loc = ZERO; // 位置归零
             return true;
         }
     }

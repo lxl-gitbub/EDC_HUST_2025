@@ -70,8 +70,9 @@ bool isInTheYaw(float targetYaw, float tolerance)
 {
     // Check if the current yaw is within the specified tolerance of the target yaw
     float currentYaw = getYaw(); // Get the current yaw angle
-    currentYaw = sumTheta(currentYaw, -car.pose.initial_theta); // Adjust current yaw based on initial theta
-    if (fabs(currentYaw - targetYaw) < tolerance) {
+    float dif = fabs(sumTheta(currentYaw, -targetYaw)); // Calculate the difference between current and target yaw
+    // If the absolute difference is less than the tolerance, return true
+    if (dif < tolerance || 180 - dif < tolerance) {
         return true; // If within tolerance, return true
     } else {
         return false; // Otherwise, return false
