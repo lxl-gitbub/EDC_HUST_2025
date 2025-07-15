@@ -90,6 +90,35 @@ void YELLOW_down(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+// 刘1
+
+
+// 定义接受长度
+#define USART_RX_BUF_LEN 25 
+// 接收状态和缓冲区
+uint8_t USART_RX_BUF[USART_RX_BUF_LEN] ; 
+// 真正接受数据的函数
+uint8_t arr[25] = {0} ;
+
+// 储存房间号的数组
+uint8_t RoomArray[25] = {0} ;
+// 设置方向参数
+DIR dir ;
+// 取样得到目标房间
+uint8_t goalRoomArray[100] = {0} ;
+// 目标房间
+int goalRoom ;
+
+// 串口调试
+
+// 定义接受长度
+#define USART_RX_BUF_LEN2 25 
+// 接收状态和缓冲区
+uint8_t USART_RX_BUF2[USART_RX_BUF_LEN2] ; 
+// 真正接受数据的函数
+
+
+
 /* USER CODE END 0 */
 
 /**
@@ -138,6 +167,7 @@ int main(void)
   MX_USART2_UART_Init();
   MX_USART3_UART_Init();
   MX_I2C1_Init();
+  MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
 	//陀螺仪初始化
 	atk_ms601m_init(115200);
@@ -145,6 +175,9 @@ int main(void)
 	// 电机和编码器初始化	
   Motor Left, Right;  
 	MEInit(&Left, &Right); 
+	
+	// 接收中断初始化
+  HAL_UARTEx_ReceiveToIdle_IT(&huart1, USART_RX_BUF, USART_RX_BUF_LEN);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -152,12 +185,12 @@ int main(void)
   while (1)
   {
     IIC_Get_Digtal(Digtal); // 获取数字传感器数据,每一步都要执行以获取数据
-		lineWalking();
-		if(Road_detect(0, 0))
-		{
-			Break();
-			break;
-		}
+//		lineWalking();
+//		if(Road_detect(0, 0))
+//		{
+//			Break();
+//			break;
+//		}
 
 //    if(drug_change)
 //    {
@@ -407,6 +440,226 @@ void YELLOW_down()
 {
   HAL_GPIO_WritePin(YELLOW_GPIO_Port, YELLOW_Pin, GPIO_PIN_RESET);
 }
+// 刘欣
+
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+{
+  if (huart->Instance == USART6)
+  {
+    // 1.添加结束符确保字符串安全
+    //USART_RX_BUF[Size-1] = '\0'; // 不能消除,否则就炸了
+
+	  int j = 0 ;
+	  for ( j = 0 ; j < Size ; j ++ )
+	  {
+		  arr[j] = USART_RX_BUF[j] ;
+	  }
+	  
+    // 2.使用字符串匹配代替固定长度检查
+    if (USART_RX_BUF[3] == 0x5B && Size == 4)
+    {
+      HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
+    }	  
+	  
+//    if (strstr((char *)USART_RX_BUF, "send") != NULL)
+//    {
+//      HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
+//    }
+
+//	// 3. 发送回显（添加\r\n+正确长度+状态检查）
+//    const char *echo_str = "Hello!"; // 不换行的回显字符串
+//    uint16_t echo_len = strlen(echo_str); // 计算长度
+//	
+//    if (huart1.gState == HAL_UART_STATE_READY) 
+//	{ 
+//      HAL_UART_Transmit_IT(&huart1, (uint8_t *)echo_str, echo_len); // 检查UART是否就绪
+//    }
+
+    // 4.重启接收前清除缓存区
+    memset(USART_RX_BUF, 0, USART_RX_BUF_LEN);
+	
+	// 再次接收
+    HAL_UARTEx_ReceiveToIdle_IT(&huart1, USART_RX_BUF, USART_RX_BUF_LEN);
+  }
+/*
+// 定义接受长度
+#define USART_RX_BUF_LEN 25 
+// 接收状态和缓冲区
+uint8_t USART_RX_BUF[USART_RX_BUF_LEN] ; 
+// 真正接受数据的函数
+uint8_t arr[25] = {0} ;
+
+// 储存房间号的数组
+uint8_t RoomArray[25] = {0} ;
+// 设置方向参数
+DIR dir ;
+// 取样得到目标房间
+uint8_t goalRoomArray[100] = {0} ;
+// 目标房间
+int goalRoom ;
+*/
+	if (huart->Instance == USART3)
+  {
+		
+	  int j = 0 ;
+	  for ( j = 0 ; j < Size ; j ++ )
+	  {
+		  arr[j] = USART_RX_BUF2[j] ;
+	  }
+	  
+//    // 2.使用字符串匹配代替固定长度检查
+//    if (USART_RX_BUF2[3] == 0x5B && Size == 4)
+//    {
+//      HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
+//    }	  
+	  
+//    if (strstr((char *)USART_RX_BUF, "send") != NULL)
+//    {
+//      HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
+//    }
+
+	// 3. 发送回显（添加\r\n+正确长度+状态检查）
+    const char *echo_str = "Hello!"; // 不换行的回显字符串
+    uint16_t echo_len = strlen(echo_str); // 计算长度
+	
+    if (huart1.gState == HAL_UART_STATE_READY) 
+	  { 
+      HAL_UART_Transmit_IT(&huart1, (uint8_t *)echo_str, echo_len); // 检查UART是否就绪
+    }
+
+    // 4.重启接收前清除缓存区
+    memset(USART_RX_BUF, 0, USART_RX_BUF_LEN);
+	
+	// 再次接收
+    HAL_UARTEx_ReceiveToIdle_IT(&huart1, USART_RX_BUF, USART_RX_BUF_LEN);
+  }
+}
+
+/*
+
+已知：1，2固定，3-8可变
+
+
+1.近端：
+if 1号
+	dir = left ; // 特殊，直接给
+	if dir ！= 0 && 检测到交叉路口
+	转弯（dir）， dir = 0
+
+2.近端
+if 3号 
+	一直识别,直到检测到3号 or 检测到交叉路口
+		dir = left
+		if dir ！= 0 && 检测到交叉路口
+		转弯（dir）， dir = 0
+
+3.远端
+if 8号
+	一直识别，直到检测到8号 or 最后一个交叉路口
+	dir = left
+	if dir ！= 0 && 检测到交叉路口
+	转弯（dir）， dir = 0
+	
+	再次开始一直识别，直到检测到8号or最后一个路口
+	dir = right 
+		if dir ！= 0 && 检测到交叉路口
+	转弯（dir）， dir = 0
+
+num = room 
+if 1
+ dir = left
+elif 2
+ dir = right
+else
+  dir = forward
+	num = room
+  if ar[] has num
+		if x_num < len(ar) / 2
+*/
+
+void setRoomArray( )
+{
+	// RoomArray的数据：0：数据个数 ， 其他：数据（含位置）,后方：无用数据
+		int len = arr[1]  ; // 转为十进制
+		for (int i = 1 ; i < len + 1 ; i ++ )
+		{
+			RoomArray[i] = arr[i] ;
+		}
+}
+
+void control()
+{
+	// 单个数字
+	if (RoomArray[0] == 1 && RoomArray[1] == 1)
+	{
+		mode.dir = LEFT ;
+	}
+	else if (RoomArray[0] == 1 &&RoomArray[1] == 2)
+	{
+		mode.dir = RIGHT ;
+	}
+	else 
+	{
+		mode.dir = FORWARD ;
+		if (RoomArray[0]>0)
+		{
+			for (int j = 0 ; j < RoomArray[0] ; j ++)
+			{
+				if (goalRoom == RoomArray[j])
+				{
+					if (j < RoomArray[0] / 2)
+					{
+						mode.dir = LEFT ;
+					}
+					else 
+					{
+						mode.dir = RIGHT ;
+					}
+				}
+			}
+			mode.dir = FORWARD ;
+		}
+	}
+}
+
+int getMostNummOfArray(uint8_t arr[] , int countNum)
+{
+	int a[10] = {0};
+	// 各个数字的出现频率统计
+	for(int j = 0 ; j < 10 ; j ++ )
+	{
+		arr[a[countNum++]] ++ ;
+	}
+	// 得到最频繁数字
+	int max = 0;
+	int max_index = 0 ;
+	int j = 0 ;
+	for(j = 0 ; j < 10 ; j ++)
+	{
+		if (max < a[j])
+		{
+			max = a[j] ;
+			max_index = j ;
+		}
+	}
+	return j ;
+}
+
+// 采样法得到目标数字,count为采样次数
+void getGoalNum(int countNum)
+{
+	static int goalNumCount = 0 ;
+	if ( RoomArray[0] == 1)
+	{
+		goalRoomArray[goalNumCount] = RoomArray[1] ;
+		goalNumCount ++ ;
+	}
+	if ( goalNumCount == countNum)
+	{
+		goalRoom = getMostNummOfArray( RoomArray , countNum ) ;
+	}
+}
+
 
 /* USER CODE END 4 */
 

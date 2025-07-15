@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Drivers/BSP/ATK_MS601M;../Drivers/BSP/Motor_Encoder;../Drivers/BSP/GanWei;../Drivers/Tracking</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Drivers/BSP/ATK_MS601M;../Drivers/BSP/Motor_Encoder;../Drivers/BSP/GanWei;../Drivers/Tracking;../Drivers/BSP/visual</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -678,6 +678,16 @@
               <FileName>mode.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Drivers\BSP\Motor_Encoder\mode.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Drivers\Visual</GroupName>
+          <Files>
+            <File>
+              <FileName>visual.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\BSP\visual\visual.c</FilePath>
             </File>
           </Files>
         </Group>
