@@ -57,8 +57,6 @@ void delay_us_hal(uint16_t nus);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define LED0_Pin GPIO_PIN_1
-#define LED0_GPIO_Port GPIOA
 #define BIN2_Pin GPIO_PIN_4
 #define BIN2_GPIO_Port GPIOC
 #define AIN2_Pin GPIO_PIN_5

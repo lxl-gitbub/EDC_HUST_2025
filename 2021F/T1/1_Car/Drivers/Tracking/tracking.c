@@ -1,10 +1,10 @@
 #include "tracking.h"
 #include "AllHeader.h"
 
-#define IRTrack_Trun_KP (80)//原来为30
+#define IRTrack_Trun_KP (25)//原来为30
 #define IRTrack_Trun_KI (0) 
 #define IRTrack_Trun_KD (0.5) 
-#define IRR_SPEED 			  500  //巡线速度   Patrol speed
+#define IRR_SPEED 			 300  //巡线速度   Patrol speed
 // 定义一个阈值，用于判断传感器数据变化是否剧烈
 #define CHANGE_THRESHOLD 3
 

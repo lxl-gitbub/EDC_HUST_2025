@@ -69,7 +69,7 @@ const float tel = 26;
 float current_yaw;//用于存储现在的yaw
 
 const int back_delay = 300;//防止敲头，在后转之后停止一段时间
-const float back_angle_cor = 5;//用于纠正陀螺仪的系统误差，当角度过小（逆时针不够很）
+const float back_angle_cor = 10;//用于纠正陀螺仪的系统误差，当角度过小（逆时针不够很）
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -96,25 +96,32 @@ void YELLOW_down(void);
 // 定义接受长度
 #define USART_RX_BUF_LEN 25 
 // 接收状态和缓冲区
-uint8_t USART_RX_BUF[USART_RX_BUF_LEN] ; 
+uint8_t USART_RX_BUF[USART_RX_BUF_LEN] = {0}; 
 // 真正接受数据的函数
 uint8_t arr[25] = {0} ;
-
 // 储存房间号的数组
 uint8_t RoomArray[25] = {0} ;
+// 房间数
+int len ;
 // 设置方向参数
 DIR dir ;
 // 取样得到目标房间
 uint8_t goalRoomArray[100] = {0} ;
 // 目标房间
-int goalRoom ;
+int goalRoom = -1 ;
+// 采样
+#define MAX_SAMPLES 10
+uint8_t sample_buffer[MAX_SAMPLES];
+int sample_index = 0;
+int sampling_done = 0; // 采样完成标志
+
 
 // 串口调试
 
 // 定义接受长度
-#define USART_RX_BUF_LEN2 25 
+#define USART_EYE_RX_LEN 25 
 // 接收状态和缓冲区
-uint8_t USART_RX_BUF2[USART_RX_BUF_LEN2] ; 
+uint8_t USART_EYE_RX_BUF[USART_EYE_RX_LEN] = {0} ; 
 // 真正接受数据的函数
 
 
@@ -177,7 +184,7 @@ int main(void)
 	MEInit(&Left, &Right); 
 	
 	// 接收中断初始化
-  HAL_UARTEx_ReceiveToIdle_IT(&huart1, USART_RX_BUF, USART_RX_BUF_LEN);
+  HAL_UARTEx_ReceiveToIdle_IT(&huart6, USART_RX_BUF, USART_RX_BUF_LEN);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -185,109 +192,103 @@ int main(void)
   while (1)
   {
     IIC_Get_Digtal(Digtal); // 获取数字传感器数据,每一步都要执行以获取数据
-//		lineWalking();
-//		if(Road_detect(0, 0))
-//		{
-//			Break();
-//			break;
-//		}
 
-//    if(drug_change)
-//    {
-//      if(drugSet(&mode))// 进行药物模式的转化，如果转换成功进入if
-//      {
-//        drug_change = 0; // 转化完成后将标志位设为0
-//        mode_begin_t = HAL_GetTick(); // 记录模式开始的时间
-//      }
-//      continue; // 继续下一次循环
-//    }
-//    switch (mode.drug)
-//    {
-//      case WAIT_MODE:
-//        // 等待模式下的处理逻辑
-//        break;
-//      case PROPEL_MODE:
-//        // 药物模式下的处理逻辑
-//        switch (mode.loc)
-//        {
-//          case ZERO:
-//          case ONE:
-//          case TWO:
-//          case L3:
-//          case R3:
-//            // 在这些位置下的处理逻辑、
-//						if(!CheckAndTurn())
-//              lineWalking(); // 进行循迹行走
-//            break;
-//          case L1:
-//          case L2:
-//          case R1:
-//          case R2:
-//          case L3_L:
-//          case L3_R:
-//          case R3_L:
-//          case R3_R:
-//            // 在这些位置下的处理逻辑
-//            if(!CheckAndEnd()) // 检查是否需要结束当前模式
-//              lineWalking(); // 进行循迹行走
-//            break;
-//					}
-//        break;
-//      case RETURN_MODE:
-//        // 返回模式下的处理逻辑
-//        switch(mode.loc)
-//        {
-//          case L1:
-//          case L2:
-//            // 在这些位置下的处理逻辑
-//            if(!CheckAndTurn())
-//              Back(90 + back_angle_cor); // 后退,以90度为方向
-//						else
-//							HAL_Delay(back_delay);
-//            break; // 这里可以添加返回模式下的具体逻辑
-//          case R1:
-//          case R2:
-//            // 在这些位置下的处理逻辑
-//            if(!CheckAndTurn())
-//              Back(-90 + back_angle_cor); // 后退,以-90度为方向
-//						else
-//							HAL_Delay(back_delay);
-//            break; // 这里可以添加返回模式下的具体逻辑
-//          case L3_L:
-//          case R3_R:
-//            // 在这些位置下的处理逻辑
-//            if(!CheckAndTurn()) // 检查是否需要结束当前模式
-//              Back(180 + back_angle_cor); // 后退,以180度为方向
-//						else
-//							HAL_Delay(back_delay);
-//            break; // 这里可以添加返回模式下的具体逻辑
-//          case L3_R:
-//          case R3_L:
-//            // 在这些位置下的处理逻辑
-//            if(!CheckAndTurn()) // 检查是否需要结束当前模式
-//              Back(0 + back_angle_cor); // 后退,以0度为方向
-//						else
-//							HAL_Delay(back_delay);
-//            break; // 这里可以添加返回模式下的具体逻辑
-//          case ONE:
-//          case TWO:
-//          case L3:
-//          case R3:
-//            // 在这些位置下的处理逻辑
-//            if(!CheckAndTurn()) // 检查是否需要结束当前模式
-//              lineWalking(); // 进行循迹行走
-//            break; // 这里可以添加返回模式下的具体逻辑
-//          case ZERO:
-//            // 在零位置下的处理逻辑
-//            if(!CheckAndEnd()) // 检查是否需要结束当前模式
-//              lineWalking(); // 进行循迹行走
-//            break; // 这里可以添加返回模式下的具体逻辑
-//        }
-//        break;
-//      default:
-//        // 未知模式的处理逻辑
-//        break;
-//    }
+    if(drug_change)
+    {
+      if(drugSet(&mode))// 进行药物模式的转化，如果转换成功进入if
+      {
+        drug_change = 0; // 转化完成后将标志位设为0
+        mode_begin_t = HAL_GetTick(); // 记录模式开始的时间
+      }
+      continue; // 继续下一次循环
+    }
+    switch (mode.drug)
+    {
+      case WAIT_MODE:
+        // 等待模式下的处理逻辑
+        break;
+      case PROPEL_MODE:
+        // 药物模式下的处理逻辑
+        switch (mode.loc)
+        {
+          case ZERO:
+          case ONE:
+          case TWO:
+          case L3:
+          case R3:
+            // 在这些位置下的处理逻辑、
+						if(!CheckAndTurn())
+              lineWalking(); // 进行循迹行走
+            break;
+          case L1:
+          case L2:
+          case R1:
+          case R2:
+          case L3_L:
+          case L3_R:
+          case R3_L:
+          case R3_R:
+            // 在这些位置下的处理逻辑
+            if(!CheckAndEnd()) // 检查是否需要结束当前模式
+              lineWalking(); // 进行循迹行走
+            break;
+					}
+        break;
+      case RETURN_MODE:
+        // 返回模式下的处理逻辑
+        switch(mode.loc)
+        {
+          case L1:
+          case L2:
+            // 在这些位置下的处理逻辑
+            if(!CheckAndTurn())
+              Back(90 + back_angle_cor); // 后退,以90度为方向
+						else
+							HAL_Delay(back_delay);
+            break; // 这里可以添加返回模式下的具体逻辑
+          case R1:
+          case R2:
+            // 在这些位置下的处理逻辑
+            if(!CheckAndTurn())
+              Back(-90 + back_angle_cor); // 后退,以-90度为方向
+						else
+							HAL_Delay(back_delay);
+            break; // 这里可以添加返回模式下的具体逻辑
+          case L3_L:
+          case R3_R:
+            // 在这些位置下的处理逻辑
+            if(!CheckAndTurn()) // 检查是否需要结束当前模式
+              Back(180 + back_angle_cor); // 后退,以180度为方向
+						else
+							HAL_Delay(back_delay);
+            break; // 这里可以添加返回模式下的具体逻辑
+          case L3_R:
+          case R3_L:
+            // 在这些位置下的处理逻辑
+            if(!CheckAndTurn()) // 检查是否需要结束当前模式
+              Back(0 + back_angle_cor); // 后退,以0度为方向
+						else
+							HAL_Delay(back_delay);
+            break; // 这里可以添加返回模式下的具体逻辑
+          case ONE:
+          case TWO:
+          case L3:
+          case R3:
+            // 在这些位置下的处理逻辑
+            if(!CheckAndTurn()) // 检查是否需要结束当前模式
+              lineWalking(); // 进行循迹行走
+            break; // 这里可以添加返回模式下的具体逻辑
+          case ZERO:
+            // 在零位置下的处理逻辑
+            if(!CheckAndEnd()) // 检查是否需要结束当前模式
+              lineWalking(); // 进行循迹行走
+            break; // 这里可以添加返回模式下的具体逻辑
+        }
+        break;
+      default:
+        // 未知模式的处理逻辑
+        break;
+    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -368,9 +369,6 @@ void delay_us_hal(uint16_t nus)
     HAL_TIM_Base_Stop(&htim6);        
 }
 
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-}
 
 // 定时器中断回调函数，用于更新编码器速度
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
@@ -442,129 +440,23 @@ void YELLOW_down()
 }
 // 刘欣
 
-void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+void setRoomArray(void)
 {
-  if (huart->Instance == USART6)
-  {
-    // 1.添加结束符确保字符串安全
-    //USART_RX_BUF[Size-1] = '\0'; // 不能消除,否则就炸了
-
-	  int j = 0 ;
-	  for ( j = 0 ; j < Size ; j ++ )
-	  {
-		  arr[j] = USART_RX_BUF[j] ;
-	  }
-	  
-    // 2.使用字符串匹配代替固定长度检查
-    if (USART_RX_BUF[3] == 0x5B && Size == 4)
-    {
-      HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
-    }	  
-	  
-//    if (strstr((char *)USART_RX_BUF, "send") != NULL)
-//    {
-//      HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
-//    }
-
-//	// 3. 发送回显（添加\r\n+正确长度+状态检查）
-//    const char *echo_str = "Hello!"; // 不换行的回显字符串
-//    uint16_t echo_len = strlen(echo_str); // 计算长度
-//	
-//    if (huart1.gState == HAL_UART_STATE_READY) 
-//	{ 
-//      HAL_UART_Transmit_IT(&huart1, (uint8_t *)echo_str, echo_len); // 检查UART是否就绪
-//    }
-
-    // 4.重启接收前清除缓存区
-    memset(USART_RX_BUF, 0, USART_RX_BUF_LEN);
+    if (arr[0] != 0x12) return; // 帧头校验
 	
-	// 再次接收
-    HAL_UARTEx_ReceiveToIdle_IT(&huart1, USART_RX_BUF, USART_RX_BUF_LEN);
-  }
-/*
-// 定义接受长度
-#define USART_RX_BUF_LEN 25 
-// 接收状态和缓冲区
-uint8_t USART_RX_BUF[USART_RX_BUF_LEN] ; 
-// 真正接受数据的函数
-uint8_t arr[25] = {0} ;
+    len = arr[1];
 
-// 储存房间号的数组
-uint8_t RoomArray[25] = {0} ;
-// 设置方向参数
-DIR dir ;
-// 取样得到目标房间
-uint8_t goalRoomArray[100] = {0} ;
-// 目标房间
-int goalRoom ;
-*/
-	if (huart->Instance == USART3)
-  {
-		
-	  int j = 0 ;
-	  for ( j = 0 ; j < Size ; j ++ )
-	  {
-		  arr[j] = USART_RX_BUF2[j] ;
-	  }
-	  
-//    // 2.使用字符串匹配代替固定长度检查
-//    if (USART_RX_BUF2[3] == 0x5B && Size == 4)
-//    {
-//      HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
-//    }	  
-	  
-//    if (strstr((char *)USART_RX_BUF, "send") != NULL)
-//    {
-//      HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
-//    }
+    if (arr[len + 2] != 0x5B) return; // 帧尾校验（+2是因为 arr[0] 是帧头，arr[1] 是长度）
 
-	// 3. 发送回显（添加\r\n+正确长度+状态检查）
-    const char *echo_str = "Hello!"; // 不换行的回显字符串
-    uint16_t echo_len = strlen(echo_str); // 计算长度
+    RoomArray[0] = len; // 保存数据个数
 	
-    if (huart1.gState == HAL_UART_STATE_READY) 
-	  { 
-      HAL_UART_Transmit_IT(&huart1, (uint8_t *)echo_str, echo_len); // 检查UART是否就绪
+    for (int i = 0; i < len; i++) 
+	{
+        RoomArray[i + 1] = (int)arr[i + 2]; // 从 arr[2] 开始是数据段
     }
-
-    // 4.重启接收前清除缓存区
-    memset(USART_RX_BUF, 0, USART_RX_BUF_LEN);
-	
-	// 再次接收
-    HAL_UARTEx_ReceiveToIdle_IT(&huart1, USART_RX_BUF, USART_RX_BUF_LEN);
-  }
 }
 
 /*
-
-已知：1，2固定，3-8可变
-
-
-1.近端：
-if 1号
-	dir = left ; // 特殊，直接给
-	if dir ！= 0 && 检测到交叉路口
-	转弯（dir）， dir = 0
-
-2.近端
-if 3号 
-	一直识别,直到检测到3号 or 检测到交叉路口
-		dir = left
-		if dir ！= 0 && 检测到交叉路口
-		转弯（dir）， dir = 0
-
-3.远端
-if 8号
-	一直识别，直到检测到8号 or 最后一个交叉路口
-	dir = left
-	if dir ！= 0 && 检测到交叉路口
-	转弯（dir）， dir = 0
-	
-	再次开始一直识别，直到检测到8号or最后一个路口
-	dir = right 
-		if dir ！= 0 && 检测到交叉路口
-	转弯（dir）， dir = 0
-
 num = room 
 if 1
  dir = left
@@ -576,17 +468,6 @@ else
   if ar[] has num
 		if x_num < len(ar) / 2
 */
-
-void setRoomArray( )
-{
-	// RoomArray的数据：0：数据个数 ， 其他：数据（含位置）,后方：无用数据
-		int len = arr[1]  ; // 转为十进制
-		for (int i = 1 ; i < len + 1 ; i ++ )
-		{
-			RoomArray[i] = arr[i] ;
-		}
-}
-
 void control()
 {
 	// 单个数字
@@ -603,10 +484,13 @@ void control()
 		mode.dir = FORWARD ;
 		if (RoomArray[0]>0)
 		{
+      // 多个数字
+      int isFound = 0;
 			for (int j = 0 ; j < RoomArray[0] ; j ++)
 			{
 				if (goalRoom == RoomArray[j])
 				{
+          isFound = 1; // 找到目标房间
 					if (j < RoomArray[0] / 2)
 					{
 						mode.dir = LEFT ;
@@ -617,47 +501,107 @@ void control()
 					}
 				}
 			}
-			mode.dir = FORWARD ;
+      if (!isFound) // 如果没有找到目标房间
+      {
+        mode.dir = FORWARD ; // 默认前进
+      }
 		}
 	}
 }
 
-int getMostNummOfArray(uint8_t arr[] , int countNum)
+// 重置采样
+void ResetSampling()
 {
-	int a[10] = {0};
-	// 各个数字的出现频率统计
-	for(int j = 0 ; j < 10 ; j ++ )
-	{
-		arr[a[countNum++]] ++ ;
-	}
-	// 得到最频繁数字
-	int max = 0;
-	int max_index = 0 ;
-	int j = 0 ;
-	for(j = 0 ; j < 10 ; j ++)
-	{
-		if (max < a[j])
-		{
-			max = a[j] ;
-			max_index = j ;
-		}
-	}
-	return j ;
+    sample_index = 0;
+    sampling_done = 0;
 }
 
-// 采样法得到目标数字,count为采样次数
-void getGoalNum(int countNum)
+// 采样次数为10
+void SampleGoalNumFromArr(uint8_t arr[])
 {
-	static int goalNumCount = 0 ;
-	if ( RoomArray[0] == 1)
-	{
-		goalRoomArray[goalNumCount] = RoomArray[1] ;
-		goalNumCount ++ ;
-	}
-	if ( goalNumCount == countNum)
-	{
-		goalRoom = getMostNummOfArray( RoomArray , countNum ) ;
-	}
+    if (sampling_done) return; // 采样结束不再采样
+
+    int len = arr[1];
+	
+    if (len == 1)
+    {
+        uint8_t val = arr[2]; // 检查是否超标
+        if (val <= 9)
+        {
+			
+            if (sample_index < MAX_SAMPLES )
+            {
+                sample_buffer[sample_index++] = val;
+				
+            }
+
+            if (sample_index >= MAX_SAMPLES )
+            {
+                int freq[10] = {0};
+                for (int i = 0; i < MAX_SAMPLES ; i++)
+                {
+                    freq[sample_buffer[i]]++;
+                }
+
+                int maxCount = 0;
+                int maxNum = 0;
+                for (int i = 0; i < 10; i++)
+                {
+                    if (freq[i] > maxCount)
+                    {
+                        maxCount = freq[i];
+                        maxNum = i;
+                    }
+                }
+                goalRoom = maxNum;    // 更新目标数字
+                sampling_done = 1;    // 标记采样完成
+            }
+        }
+    }
+}
+
+
+
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+{
+  if (huart->Instance == USART6)
+  {
+	  int j = 0 ;
+	  for ( j = 0 ; j < Size ; j ++ )
+	  {
+		  arr[j] = USART_EYE_RX_BUF[j] ;
+	  }
+	  
+	  
+	  /*
+	  核心函数,如下:
+	  */
+	  
+	 // 设置房间存储数组
+	  setRoomArray() ;
+	  SampleGoalNumFromArr(arr) ;
+	  control() ;
+	  
+	  
+	  
+    // 2.使用字符串匹配代替固定长度检查
+ 
+
+	// 3. 发送回显（添加\r\n+正确长度+状态检查）
+    const char *echo_str = "get!"; // 不换行的回显字符串
+    uint16_t echo_len = strlen(echo_str); // 计算长度
+	
+    if (huart6.gState == HAL_UART_STATE_READY) 
+	{ 
+      HAL_UART_Transmit_IT(&huart6, (uint8_t *)echo_str, echo_len); // 检查UART是否就绪
+    }
+
+    // 4.重启接收前清除缓存区
+    memset(USART_EYE_RX_BUF, 0, USART_EYE_RX_LEN);
+	
+	// 再次接收
+    HAL_UARTEx_ReceiveToIdle_IT(&huart6, USART_EYE_RX_BUF, USART_EYE_RX_LEN);
+  }
 }
 
 
