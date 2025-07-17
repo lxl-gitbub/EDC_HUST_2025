@@ -243,32 +243,24 @@ int main(void)
             // 在这些位置下的处理逻辑
             if(!CheckAndTurn())
               Back(90 + back_angle_cor); // 后退,以90度为方向
-						else
-							HAL_Delay(back_delay);
             break; // 这里可以添加返回模式下的具体逻辑
           case R1:
           case R2:
             // 在这些位置下的处理逻辑
             if(!CheckAndTurn())
               Back(-90 + back_angle_cor); // 后退,以-90度为方向
-						else
-							HAL_Delay(back_delay);
             break; // 这里可以添加返回模式下的具体逻辑
           case L3_L:
           case R3_R:
             // 在这些位置下的处理逻辑
             if(!CheckAndTurn()) // 检查是否需要结束当前模式
               Back(180 + back_angle_cor); // 后退,以180度为方向
-						else
-							HAL_Delay(back_delay);
             break; // 这里可以添加返回模式下的具体逻辑
           case L3_R:
           case R3_L:
             // 在这些位置下的处理逻辑
             if(!CheckAndTurn()) // 检查是否需要结束当前模式
               Back(0 + back_angle_cor); // 后退,以0度为方向
-						else
-							HAL_Delay(back_delay);
             break; // 这里可以添加返回模式下的具体逻辑
           case ONE:
           case TWO:
