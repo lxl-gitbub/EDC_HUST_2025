@@ -44,6 +44,8 @@
 //所以需要单独include，避免循环出错
 //#include "mode.h"
 
+#include "led.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

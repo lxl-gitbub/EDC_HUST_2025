@@ -1,5 +1,4 @@
-tem/mode.o: ..\Drivers\Mode\mode.c ..\Drivers\Mode\mode.h \
-  ..\Drivers\Kinematics_and_initialize\kinematics.h \
+tem/led.o: ..\Drivers\BSP\LED\led.c ..\Drivers\BSP\LED\led.h \
   ..\Core\Inc\AllHeader.h ..\Core\Inc\main.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
   ..\Core\Inc\stm32h7xx_hal_conf.h \
@@ -53,4 +52,5 @@ tem/mode.o: ..\Drivers\Mode\mode.c ..\Drivers\Mode\mode.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
   ..\Drivers\BSP\Motor_Encoder\Mem.h \
   ..\Drivers\Kinematics_and_initialize\Initialize.h \
+  ..\Drivers\Kinematics_and_initialize\kinematics.h \
   ..\Drivers\BSP\LED\led.h ..\Drivers\Visual\visual.h

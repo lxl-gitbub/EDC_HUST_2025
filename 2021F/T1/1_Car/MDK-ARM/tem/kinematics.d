@@ -1,6 +1,7 @@
-tem/kinematics.o: ..\Drivers\BSP\Motor_Encoder\kinematics.c \
-  ..\Drivers\BSP\Motor_Encoder\kinematics.h ..\Core\Inc\AllHeader.h \
-  ..\Core\Inc\main.h ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
+tem/kinematics.o: ..\Drivers\Kinematics_and_initialize\kinematics.c \
+  ..\Drivers\Kinematics_and_initialize\kinematics.h \
+  ..\Core\Inc\AllHeader.h ..\Core\Inc\main.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
   ..\Core\Inc\stm32h7xx_hal_conf.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_rcc.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_def.h \
@@ -51,5 +52,6 @@ tem/kinematics.o: ..\Drivers\BSP\Motor_Encoder\kinematics.c \
   ..\Drivers\BSP\Motor_Encoder\Mem.h ..\Core\Inc\usart.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
   ..\Drivers\BSP\Motor_Encoder\Mem.h \
-  ..\Drivers\BSP\Motor_Encoder\Initialize.h \
-  ..\Drivers\BSP\Motor_Encoder\kinematics.h
+  ..\Drivers\Kinematics_and_initialize\Initialize.h \
+  ..\Drivers\Kinematics_and_initialize\kinematics.h \
+  ..\Drivers\BSP\LED\led.h ..\Drivers\Visual\visual.h

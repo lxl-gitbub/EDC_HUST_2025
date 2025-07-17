@@ -1,8 +1,7 @@
 #ifndef MODE_H
 #define MODE_H
 
-#include "AllHeader.h"
-
+#include "kinematics.h"
 
 // Define the modes for the car
 typedef enum {
