@@ -47,7 +47,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+char receive[50] __attribute__((section(".sram_no_cache")));
+int isin = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -106,19 +107,22 @@ int main(void)
   MX_TIM7_Init();
   MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
-	char message[] = "Hello, Bluetooth!\r\n";
-
+	char message[] = "Hello, Bluetooth!\r\n" ;
+	HAL_StatusTypeDef rx_init_status = HAL_UARTEx_ReceiveToIdle_DMA(&huart3, (uint8_t *) receive, sizeof(receive));
+	HAL_Delay(10);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		 // 确保 D-Cache 中的数据写回主内存，以便 DMA 读取最新数据
+    // 假设 message 数组在可缓存区域
+    HAL_UART_Transmit_DMA(&huart3, (uint8_t *)message, sizeof(message) - 1);
+    HAL_Delay(1000); // 每秒发送一次消息
     // 确保 D-Cache 中的数据写回主内存，以便 DMA 读取最新数据
     // 假设 message 数组在可缓存区域
-    SCB_CleanDCache_by_Addr((uint32_t*)message, sizeof(message) - 1); // 传入地址和大小
-		HAL_UART_Transmit_DMA(&huart3, (uint8_t *)message, sizeof(message) - 1);
-    HAL_Delay(1000); // 每秒发送一次消息 
+    
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -190,7 +194,20 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+{
+	isin = 1;
+    if(huart == &huart3)
+    {
+        // 在读取或处理接收到的数据之前，确保D-Cache失效，强制从主内存读取DMA写入的数据
+        // 现在可以安全地处理 receive 缓冲区中的数据了
+        HAL_UART_Transmit_DMA(&huart3, (uint8_t *)receive, Size); // 回传接收到的数据
 
+        // 回传完成后，重新启动DMA接收
+        // 在重新启动接收前，也需要使缓存失效，以防上次操作影响了缓存状态
+        HAL_UARTEx_ReceiveToIdle_DMA(&huart3, (uint8_t *) receive, sizeof(receive));
+    }
+}
 /* USER CODE END 4 */
 
 /* MPU Configuration */
