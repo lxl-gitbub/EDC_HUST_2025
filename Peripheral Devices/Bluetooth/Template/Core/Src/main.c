@@ -18,13 +18,15 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "dma.h"
+#include "i2c.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "Bluetooth.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -98,9 +100,13 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_TIM7_Init();
+  MX_DMA_Init();
   MX_USART1_UART_Init();
+  MX_USART3_UART_Init();
+  MX_TIM7_Init();
+  MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
+	char message[] = "Hello, Bluetooth!\r\n";
 
   /* USER CODE END 2 */
 
@@ -108,6 +114,11 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    // 确保 D-Cache 中的数据写回主内存，以便 DMA 读取最新数据
+    // 假设 message 数组在可缓存区域
+    SCB_CleanDCache_by_Addr((uint32_t*)message, sizeof(message) - 1); // 传入地址和大小
+		HAL_UART_Transmit_DMA(&huart3, (uint8_t *)message, sizeof(message) - 1);
+    HAL_Delay(1000); // 每秒发送一次消息 
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
