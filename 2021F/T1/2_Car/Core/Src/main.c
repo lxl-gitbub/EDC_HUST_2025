@@ -143,6 +143,7 @@ int main(void)
   MX_USART3_UART_Init();
   MX_I2C1_Init();
   MX_USART6_UART_Init();
+  MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
 	//Õ”¬›“«≥ı ºªØ
 	atk_ms601m_init(115200);

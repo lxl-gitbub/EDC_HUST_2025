@@ -71,12 +71,8 @@ void delay_us_hal(uint16_t nus);
 #define YELLOW_GPIO_Port GPIOE
 #define RED_Pin GPIO_PIN_10
 #define RED_GPIO_Port GPIOE
-#define KEY_Pin GPIO_PIN_15
-#define KEY_GPIO_Port GPIOB
 #define Light_D_Pin GPIO_PIN_1
 #define Light_D_GPIO_Port GPIOD
-#define Light_R_Pin GPIO_PIN_2
-#define Light_R_GPIO_Port GPIOD
 #define Light_Y_Pin GPIO_PIN_3
 #define Light_Y_GPIO_Port GPIOD
 #define Light_G_Pin GPIO_PIN_4
