@@ -53,4 +53,4 @@ tem/mode.o: ..\Drivers\Mode\mode.c ..\Drivers\Mode\mode.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
   ..\Drivers\BSP\Motor_Encoder\Mem.h \
   ..\Drivers\Kinematics_and_initialize\Initialize.h \
-  ..\Drivers\BSP\LED\led.h ..\Drivers\Visual\visual.h
+  ..\Drivers\BSP\LED\led.h

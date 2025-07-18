@@ -54,4 +54,4 @@ tem/ganwei_i2c.o: ..\Drivers\BSP\GanWei\GanWei_i2c.c \
   ..\Drivers\BSP\Motor_Encoder\Mem.h \
   ..\Drivers\Kinematics_and_initialize\Initialize.h \
   ..\Drivers\Kinematics_and_initialize\kinematics.h \
-  ..\Drivers\BSP\LED\led.h ..\Drivers\Visual\visual.h
+  ..\Drivers\BSP\LED\led.h

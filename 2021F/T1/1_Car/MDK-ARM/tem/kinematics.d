@@ -54,4 +54,4 @@ tem/kinematics.o: ..\Drivers\Kinematics_and_initialize\kinematics.c \
   ..\Drivers\BSP\Motor_Encoder\Mem.h \
   ..\Drivers\Kinematics_and_initialize\Initialize.h \
   ..\Drivers\Kinematics_and_initialize\kinematics.h \
-  ..\Drivers\BSP\LED\led.h ..\Drivers\Visual\visual.h
+  ..\Drivers\BSP\LED\led.h

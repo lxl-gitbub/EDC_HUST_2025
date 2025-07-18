@@ -10,20 +10,9 @@ typedef enum {
     WAIT_MODE,    // Wait mode µÈ´ýÄ£Ê½
 } DRUG;
 
-typedef enum {
-    ZERO,
-    L1,
-    R1,
-    ONE,
-    L2,
-    R2,
-    TWO,
-    L3,
-    R3,
-    L3_L,
-    L3_R,
-    R3_L,
-    R3_R,
+typedef struct {
+    int n;
+    DIR trace[10];
 }LOC;
 
 
@@ -41,7 +30,16 @@ extern "C" {
 #endif
 
 bool drugSet(MODE* mode);
+
+bool isEndOfWay(LOC l);
+// This function checks if the current location is the end of the way
+DIR ForToBack(DIR dir);
+// This function converts the forward direction to the backward direction
 DIR DirGet(MODE* mode);
 // This function returns the next direction based on the current mode and location
+float DirToTheta(DIR dir);
+// This function converts the direction to an angle
+float LocToTheta(LOC loc);
+// This function converts the location to an angle
 
 #endif
