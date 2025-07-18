@@ -57,7 +57,7 @@ char message[256];
 //感为传感器数据变量
 int Digtal[8];
 
-MODE mode = {WAIT_MODE, ZERO}; // 初始化模式为送药模式，位置为零
+MODE mode = {WAIT_MODE}; // 初始化模式为送药模式，位置为零
 short drug_change = 1;
 //用于标记是否需要进行药物模式的转化，
 //只有在最开始的时候是1，以及在最后程序停止的时候是1，中间为0，即中间不需要检测是否装药
@@ -146,7 +146,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	//陀螺仪初始化
 	atk_ms601m_init(115200);
-
+	
+	mode.loc.n = 0;
 	// 电机和编码器初始化	
   Motor Left, Right;  
 	MEInit(&Left, &Right); 
@@ -177,72 +178,31 @@ int main(void)
         break;
       case PROPEL_MODE:
         // 药物模式下的处理逻辑
-        switch (mode.loc)
+        if(!isEndOfWay(mode.loc)) // 检查当前位置是否是终点，如果不是循迹正行
         {
-          case ZERO:
-          case ONE:
-          case TWO:
-          case L3:
-          case R3:
-            // 在这些位置下的处理逻辑、
-						if(!CheckAndTurn())
-              lineWalking(); // 进行循迹行走
-            break;
-          case L1:
-          case L2:
-          case R1:
-          case R2:
-          case L3_L:
-          case L3_R:
-          case R3_L:
-          case R3_R:
-            // 在这些位置下的处理逻辑
-            if(!CheckAndEnd()) // 检查是否需要结束当前模式
-              lineWalking(); // 进行循迹行走
-            break;
-					}
+					if(!CheckAndTurn())//因为不是终点，所以转弯
+            lineWalking(); // 进行循迹行走
+        }
+        else // 如果是终点
+          if(!CheckAndEnd()) // 因为是最终点，所以停止
+            lineWalking(); // 进行循迹行走
         break;
       case RETURN_MODE:
         // 返回模式下的处理逻辑
-        switch(mode.loc)
+        if(mode.loc.n == 0) // 如果位置记录为空,说明小车已经回到了最开始的地方，则用停车逻辑来处理
         {
-          case L1:
-          case L2:
-            // 在这些位置下的处理逻辑
-            if(!CheckAndTurn())
-              Back(90 + back_angle_cor); // 后退,以90度为方向
-            break; // 这里可以添加返回模式下的具体逻辑
-          case R1:
-          case R2:
-            // 在这些位置下的处理逻辑
-            if(!CheckAndTurn())
-              Back(-90 + back_angle_cor); // 后退,以-90度为方向
-            break; // 这里可以添加返回模式下的具体逻辑
-          case L3_L:
-          case R3_R:
-            // 在这些位置下的处理逻辑
-            if(!CheckAndTurn()) // 检查是否需要结束当前模式
-              Back(180 + back_angle_cor); // 后退,以180度为方向
-            break; // 这里可以添加返回模式下的具体逻辑
-          case L3_R:
-          case R3_L:
-            // 在这些位置下的处理逻辑
-            if(!CheckAndTurn()) // 检查是否需要结束当前模式
-              Back(0 + back_angle_cor); // 后退,以0度为方向
-            break; // 这里可以添加返回模式下的具体逻辑
-          case ONE:
-          case TWO:
-          case L3:
-          case R3:
-            // 在这些位置下的处理逻辑
-            if(!CheckAndTurn()) // 检查是否需要结束当前模式
-              lineWalking(); // 进行循迹行走
-            break; // 这里可以添加返回模式下的具体逻辑
-          case ZERO:
-            // 在零位置下的处理逻辑
-            if(!CheckAndEnd()) // 检查是否需要结束当前模式
-              lineWalking(); // 进行循迹行走
-            break; // 这里可以添加返回模式下的具体逻辑
+          if(!CheckAndEnd()) // 检查是否需要结束当前模式
+            lineWalking(); // 进行循迹行走
+        }
+        else if(isEndOfWay(mode.loc)) //如果是除零点以外的终点，需要倒退
+        {
+          if(!CheckAndTurn())
+            Back(LocToTheta(mode.loc) + back_angle_cor); // 后退到上一个位置
+        }
+        else // 如果不是终点
+        {
+          if(!CheckAndTurn()) // 检查是否需要结束当前模式
+            lineWalking(); // 进行循迹行走
         }
         break;
       default:
@@ -337,7 +297,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     UpdateAllSpeed(htim);
 }
 
-bool CheckAndTurn()
+bool CheckAndTurn()//所有check和turn函数都调用了dirget，在dirget中更新了mode.loc.trace和mode.loc.n
 {
   if(HAL_GetTick() - mode_begin_t > 1000)
   {
@@ -373,8 +333,6 @@ bool CheckAndEnd()
   }
   return false; // 没有需要结束的情况
 }
-
-
 
 
 

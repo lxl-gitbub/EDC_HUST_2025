@@ -53,4 +53,4 @@ tem/atk_ms601m_uart.o: ..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.c \
   ..\Drivers\BSP\Motor_Encoder\Mem.h \
   ..\Drivers\Kinematics_and_initialize\Initialize.h \
   ..\Drivers\Kinematics_and_initialize\kinematics.h \
-  ..\Drivers\BSP\LED\led.h ..\Drivers\Visual\visual.h
+  ..\Drivers\BSP\LED\led.h
