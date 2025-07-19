@@ -190,7 +190,7 @@ static int speed_R2_setup = 0;
 
 void Motion_Car_Control(int16_t V_x, int16_t V_y, int16_t V_z)
 {
-	float robot_APB = 110; //轮距的一半
+	float robot_APB = 115; //轮距的一半
 	speed_lr = 0;
     speed_fb = V_x;
     speed_spin = (V_z / 1000.0f) * robot_APB;

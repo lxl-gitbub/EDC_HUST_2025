@@ -12,7 +12,7 @@
 
 // Parameters for the wheel
 #define WHEEL_DIAMETER 65 // The diameter of the wheel in mm
-#define WHEEL_DIS      110
+#define WHEEL_DIS      115
 
 // ====================初???化函数参数宏定??====================
 // 基于现有代码的初始化参数
