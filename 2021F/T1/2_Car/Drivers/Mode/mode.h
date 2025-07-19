@@ -5,8 +5,8 @@
 
 // Define the modes for the car
 typedef enum {
-    PROPEL_MODE,  // Propeller mode 送药模式
-    RETURN_MODE,  // Return mode 回归模式
+    PROPEL_MODE,  // Propeller mode 前往模式
+    SLEEP_MODE,   // Sleep mode 睡眠模式 也就是刚开始不进行任何操作
     WAIT_MODE,    // Wait mode 等待模式
 } DRUG;
 
@@ -41,5 +41,9 @@ float DirToTheta(DIR dir);
 // This function converts the direction to an angle
 float LocToTheta(LOC loc);
 // This function converts the location to an angle
+
+void cpLoc(LOC* loc, LOC* loc2);
+// This function copies the location data from loc to loc2
+LOC BStringToLoc(char* str, int len);
 
 #endif

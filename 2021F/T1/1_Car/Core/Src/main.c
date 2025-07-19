@@ -156,6 +156,7 @@ int main(void)
 	
 	// 接收中断初始化
   HAL_UARTEx_ReceiveToIdle_IT(&huart6, USART_RX_BUF, USART_RX_BUF_LEN);
+  float distance = 0.0f; // 初始化距离变量
   /* USER CODE END 2 */
 
   /* Infinite loop */

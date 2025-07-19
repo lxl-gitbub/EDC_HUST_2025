@@ -25,6 +25,9 @@ void EncoderInit(TIM_HandleTypeDef *Timer, uint32_t chan1, uint32_t chan2, TIM_H
 	encoders[numEncoders].reloadFre = ReloadTime(realTimer->Instance);
 	encoders[numEncoders].speed = 0; // Initialize speed to 0
 	encoders[numEncoders].dis = 0.0; // Initialize distance to 0
+	encoders[numEncoders].timer->Instance->CNT = 0;
+  encoders[numEncoders].prev_cnt = encoders[numEncoders].timer->Instance->CNT; // 初始化 prev_cnt
+
 
 	EncoderParamInit(&encoders[numEncoders].param, wheelLength, ppr);
 	numEncoders++;
@@ -54,14 +57,6 @@ void LRInit(TIM_HandleTypeDef *LTimer, uint32_t Lchan1, uint32_t Lchan2,//The fi
 	LRFlag = 1; // Set flag to indicate left and right encoders are initialized
 }
 
-int getTIMx_DetaCnt(TIM_HandleTypeDef *htim)
-{
-    int cnt;
-    cnt = htim->Instance->CNT - 0x7FFF;
-    htim->Instance->CNT = 0x7FFF;
-    return cnt;
-}
-
 void UpdateSpeed(int i, TIM_HandleTypeDef *reload_tim)
 	//get the speed of the motor
 	//E is the encoder speed struct, reload_tim is the timer used to measure real time
@@ -72,10 +67,13 @@ void UpdateSpeed(int i, TIM_HandleTypeDef *reload_tim)
 	}
 	if(reload_tim == encoders[i].realTimer)
 	{
-		encoders[i].speed = getTIMx_DetaCnt(encoders[i].timer);
-		// Get the speed from the timer count
-		encoders[i].dis += StoDis(encoders[i]);
-		// Update the distance traveled by the wheel
+		 int16_t current_cnt = encoders[i].timer->Instance->CNT; // 读取当前计数值
+        // 计算增量，处理潜在的 16 位定时器溢出/下溢
+        // 假设使用 16 位定时器，且计数值在 int16_t 范围内
+     encoders[i].speed = (int16_t)(current_cnt - encoders[i].prev_cnt);
+
+     encoders[i].prev_cnt = current_cnt; // 更新前一个计数值，供下次迭代使用
+     encoders[i].dis += StoDis(encoders[i]);
 	}
 }
 
