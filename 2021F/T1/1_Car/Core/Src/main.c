@@ -154,6 +154,9 @@ int main(void)
   Motor Left, Right;  
 	MEInit(&Left, &Right); 
 	
+	//初始化OLED屏幕
+	OLED_Init();
+	OLED_ShowString(10, 3, "EDC-HUST-2025",16);
 	// 接收中断初始化
   HAL_UARTEx_ReceiveToIdle_IT(&huart6, USART_RX_BUF, USART_RX_BUF_LEN);
   /* USER CODE END 2 */

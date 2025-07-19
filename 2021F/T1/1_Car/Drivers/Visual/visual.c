@@ -1,6 +1,5 @@
 #include "visual.h"
 #include "mode.h"
-// 刘1
 
 
 // 接收状态和缓冲区
@@ -30,7 +29,6 @@ int sampling_done = 0; // 采样完成标志
 extern uint8_t USART_EYE_RX_BUF[USART_EYE_RX_LEN]; 
 // 真正接受数据的函数
 
-// 刘欣
 
 void setRoomArray(void)
 {
