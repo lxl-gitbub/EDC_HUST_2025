@@ -32,10 +32,17 @@ void CarState_Init(CarState *state) {
 }
 // Updates the car state based on wheel speeds and time delta
 void CarState_Update(CarState *state, Data d) {
-    if (state == NULL) return; // Check for null pointer and valid dt
+    static uint32_t last_time = 0; // Last update time
+    uint32_t now = HAL_GetTick(); // Get current time
+    if (state == NULL) return; // Check for null pointer
+    float dt = (now - last_time) * 1e-3f; // Calculate time difference in seconds
+    last_time = now; // Update last time
+    if (dt <= 0.0f) return; // Avoid division by zero
     // Calculate the average wheel speed
     state->speed = d.speed;
     state->pose.theta = sumTheta(d.yaw, -state->pose.initial_theta); // Update theta with current yaw
+    state->pose.x += state->speed.linear_velocity * dt * cos(state->pose.theta);
+    state->pose.y += state->speed.linear_velocity * dt * sin(state->pose.theta);
     //目前没有发现其他数据的作用，暂且处理这些数据
 }
 

@@ -62,6 +62,7 @@ short drug_change = 1;
 //用于标记是否需要进行药物模式的转化，
 //只有在最开始的时候是1，以及在最后程序停止的时候是1，中间为0，即中间不需要检测是否装药
 uint32_t mode_begin_t = 0;//记录模式开始的时间
+char command_From_Bluetooth = 0; // 用于存储蓝牙接收到的命令
 
 //测量过的转弯参数
 const float r = 0.17;
@@ -178,32 +179,36 @@ int main(void)
         // 等待模式下的处理逻辑
         break;
       case PROPEL_MODE:
-        // 药物模式下的处理逻辑
-        if(!isEndOfWay(mode.loc)) // 检查当前位置是否是终点，如果不是循迹正行
+        if(command_From_Bluetooth != 'C')
         {
-					if(!CheckAndTurn())//因为不是终点，所以转弯
-            lineWalking(); // 进行循迹行走
+          if(!isWaitingLoc(mode.loc))
+          {
+            if(!CheckAndTurn())
+              lineWalking(); // 进行循迹行走
+          }
+          else
+          {
+            if(!CheckAndEnd())
+              lineWalking(); // 进行循迹行走
+          }
         }
-        else // 如果是终点
-          if(!CheckAndEnd()) // 因为是最终点，所以停止
-            lineWalking(); // 进行循迹行走
-        break;
-      case RETURN_MODE:
-        // 返回模式下的处理逻辑
-        if(mode.loc.n == 0) // 如果位置记录为空,说明小车已经回到了最开始的地方，则用停车逻辑来处理
+        else
         {
-          if(!CheckAndEnd()) // 检查是否需要结束当前模式
-            lineWalking(); // 进行循迹行走
-        }
-        else if(isEndOfWay(mode.loc)) //如果是除零点以外的终点，需要倒退
-        {
-          if(!CheckAndTurn())
-            Back(LocToTheta(mode.loc) + back_angle_cor); // 后退到上一个位置
-        }
-        else // 如果不是终点
-        {
-          if(!CheckAndTurn()) // 检查是否需要结束当前模式
-            lineWalking(); // 进行循迹行走
+          if(isWaitingLoc(mode.loc))
+          {
+            if(!CheckAndTurn)
+              Back(LocToTheta(mode.loc) + back_angle_cor); // 后退到上一个位置
+          }
+          else if(isEndOfWay(mode.loc)) //如果是除零点以外的终点          
+          {
+            if(!CheckAndEnd())
+              lineWalking(); // 进行循迹行走
+          }
+          else // 如果不是终点
+          {
+            if(!CheckAndTurn()) // 检查是否需要结束当前模式
+              lineWalking(); // 进行循迹行走
+          }
         }
         break;
       default:

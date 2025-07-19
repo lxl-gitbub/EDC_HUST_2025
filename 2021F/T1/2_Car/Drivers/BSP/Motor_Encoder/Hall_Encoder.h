@@ -21,6 +21,7 @@ typedef struct {
 	TIM_HandleTypeDef *realTimer; // The timer used to measure real time(reload time)
 	uint32_t reloadFre; // The frequency of the timer used to measure real time
 	EncoderParam param; // The parameter of the encoder, like wheel length and ppr
+	int16_t prev_cnt;
 } EncoderSpeed;
 
 
