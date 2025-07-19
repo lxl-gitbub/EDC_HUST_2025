@@ -28,6 +28,7 @@
 #include "AllHeader.h"
 #include "mode.h"
 #include "visual.h"
+#include "Bluetooth.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

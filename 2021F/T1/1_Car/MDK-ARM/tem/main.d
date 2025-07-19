@@ -55,4 +55,4 @@ tem/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Drivers\Kinematics_and_initialize\Initialize.h \
   ..\Drivers\Kinematics_and_initialize\kinematics.h \
   ..\Drivers\BSP\LED\led.h ..\Drivers\Mode\mode.h \
-  ..\Drivers\Visual\visual.h
+  ..\Drivers\Visual\visual.h ..\Drivers\BSP\HC05\Bluetooth.h
