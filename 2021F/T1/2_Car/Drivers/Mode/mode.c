@@ -1,6 +1,7 @@
 #include "mode.h"
 
 char command_From_Bluetooth = 0; // 用于存储蓝牙接收到的命令
+
 LOC target_loc; // 用于存储目标位置
 LOC waiting_loc;
 const LOC FAR_WAITING_LOC = {2, {FORWARD, LEFT}}; // 向远处送药时的等待位置
@@ -76,8 +77,25 @@ DIR DirGet(MODE* mode)
         mode->loc.n++;
         return mode->loc.trace[mode->loc.n - 1];
     }
-    
-	return FORWARD;
+    if(command_From_Bluetooth == 'C')
+    {
+        if(mode->loc.n == 2 && 
+           (mode->loc.trace[0] == FORWARD && mode->loc.trace[1] == FORWARD))
+        {
+            mode->loc.trace[mode->loc.n - 1] = target_loc.trace[mode->loc.n - 1];
+            return target_loc.trace[mode->loc.n - 1]; // 返回前进方向
+        }
+
+        if(mode->loc.n == 2 && 
+           (mode->loc.trace[0] == FORWARD && mode->loc.trace[1] == LEFT))
+        {
+            mode->loc.trace[mode->loc.n - 1] = FORWARD; // 将最后一个方向设置为前进,虽然实际上我们是右转，但该车的位置是直走再直走
+            return RIGHT; // 返回右转方向
+        }
+    }
+    mode->loc.trace[mode->loc.n] = mode->dir; // 将当前方向存入位置记录
+    mode->loc.n++; // 增加位置记录的数量 
+	return mode->dir; // 返回当前方向
 }
 
 //用于根据位置换算位姿

@@ -33,8 +33,6 @@ bool drugSet(MODE* mode);
 
 bool isEndOfWay(LOC l);
 // This function checks if the current location is the end of the way
-DIR ForToBack(DIR dir);
-// This function converts the forward direction to the backward direction
 DIR DirGet(MODE* mode);
 // This function returns the next direction based on the current mode and location
 float DirToTheta(DIR dir);
@@ -42,8 +40,6 @@ float DirToTheta(DIR dir);
 float LocToTheta(LOC loc);
 // This function converts the location to an angle
 
-void cpLoc(LOC* loc, LOC* loc2);
-// This function copies the location data from loc to loc2
 LOC BStringToLoc(char* str, int len);
 
 #endif
