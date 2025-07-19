@@ -3602,18 +3602,18 @@
       <ActiveTab>0</ActiveTab>
       <Doc>
         <Name>../Core/Src/main.c</Name>
-        <ColumnNumber>37</ColumnNumber>
-        <TopLine>158</TopLine>
-        <CurrentLine>170</CurrentLine>
+        <ColumnNumber>20</ColumnNumber>
+        <TopLine>302</TopLine>
+        <CurrentLine>309</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
         <Name>..\Drivers\BSP\Motor_Encoder\Hall_Encoder.c</Name>
-        <ColumnNumber>5</ColumnNumber>
-        <TopLine>58</TopLine>
-        <CurrentLine>84</CurrentLine>
+        <ColumnNumber>13</ColumnNumber>
+        <TopLine>83</TopLine>
+        <CurrentLine>27</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>

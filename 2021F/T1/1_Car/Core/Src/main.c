@@ -306,6 +306,7 @@ bool CheckAndTurn()//所有check和turn函数都调用了dirget，在dirget中更新了mode.loc
   {
     if(cross_Roads_Detect())
     {
+			HAL_Delay(10);
       switch(DirGet(&mode)) // 获取下一个方向
       {
 				case BACKWARD://在第二题会用到，目前不会用到
