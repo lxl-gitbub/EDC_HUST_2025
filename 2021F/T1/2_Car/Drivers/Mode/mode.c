@@ -1,6 +1,6 @@
 #include "mode.h"
 
-char command_From_Bluetooth = 0; // 用于存储蓝牙接收到的命令
+extern char command_From_Bluetooth; // 用于存储蓝牙接收到的命令
 
 LOC target_loc; // 用于存储目标位置
 LOC waiting_loc;

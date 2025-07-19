@@ -22,6 +22,11 @@
 extern "C" {
 #endif
 
+void Bluetooth_Init(void);
+void GetMessage(UART_HandleTypeDef *huart, uint16_t Size);
+// This function processes the received data and updates the command_From_Bluetooth variable
+//写在中断里面
+
 #ifdef __cplusplus
 }   // extern "C"
 #endif
