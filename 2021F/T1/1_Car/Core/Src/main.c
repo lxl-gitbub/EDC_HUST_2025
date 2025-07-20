@@ -156,9 +156,7 @@ int main(void)
 	
 	//初始化OLED屏幕
 	OLED_Init();
-	OLED_Clear();
-	OLED_ShowString(10, 3, "EDC-HUST-2025",16);
-	// 接收中断初始化
+	OLED_Clear();	// 接收中断初始化
   HAL_UARTEx_ReceiveToIdle_IT(&huart6, USART_RX_BUF, USART_RX_BUF_LEN);
   float distance = 0.0f; // 初始化距离变量
   /* USER CODE END 2 */
@@ -167,56 +165,61 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		OLED_ShowString(11, 0, "Hello, oled", 16);
-    IIC_Get_Digtal(Digtal); // 获取数字传感器数据,每一步都要执行以获取数据
+		IIC_Get_Digtal(Digtal); // 获取数字传感器数据,每一步都要执行以获取数据
+		lineWalking_low();
+//    OLED_ShowString(0, 0, "Digital:", 16);
+//    for(int i = 0; i < 8; i++) {
+//      sprintf(message, "%d ", Digtal[i]);
+//      OLED_ShowString(60 + i * 16, 0, message, 16);
+//    }
 
-    if(drug_change)
-    {
-      if(drugSet(&mode))// 进行药物模式的转化，如果转换成功进入if
-      {
-        drug_change = 0; // 转化完成后将标志位设为0
-        mode_begin_t = HAL_GetTick(); // 记录模式开始的时间
-      }
-      continue; // 继续下一次循环
-    }
-    switch (mode.drug)
-    {
-      case WAIT_MODE:
-        // 等待模式下的处理逻辑
-        break;
-      case PROPEL_MODE:
-        // 药物模式下的处理逻辑
-        if(!isEndOfWay(mode.loc)) // 检查当前位置是否是终点，如果不是循迹正行
-        {
-					if(!CheckAndTurn())//因为不是终点，所以转弯
-            lineWalking(); // 进行循迹行走
-        }
-        else // 如果是终点
-          if(!CheckAndEnd()) // 因为是最终点，所以停止
-            lineWalking(); // 进行循迹行走
-        break;
-      case RETURN_MODE:
-        // 返回模式下的处理逻辑
-        if(mode.loc.n == 0) // 如果位置记录为空,说明小车已经回到了最开始的地方，则用停车逻辑来处理
-        {
-          if(!CheckAndEnd()) // 检查是否需要结束当前模式
-            lineWalking(); // 进行循迹行走
-        }
-        else if(isEndOfWay(mode.loc)) //如果是除零点以外的终点，需要倒退
-        {
-          if(!CheckAndTurn())
-            Back(LocToTheta(mode.loc) + back_angle_cor); // 后退到上一个位置
-        }
-        else // 如果不是终点
-        {
-          if(!CheckAndTurn()) // 检查是否需要结束当前模式
-            lineWalking(); // 进行循迹行走
-        }
-        break;
-      default:
-        // 未知模式的处理逻辑
-        break;
-    }
+//    if(drug_change)
+//    {
+//      if(drugSet(&mode))// 进行药物模式的转化，如果转换成功进入if
+//      {
+//        drug_change = 0; // 转化完成后将标志位设为0
+//        mode_begin_t = HAL_GetTick(); // 记录模式开始的时间
+//      }
+//      continue; // 继续下一次循环
+//    }
+//    switch (mode.drug)
+//    {
+//      case WAIT_MODE:
+//        // 等待模式下的处理逻辑
+//        break;
+//      case PROPEL_MODE:
+//        // 药物模式下的处理逻辑
+//        if(!isEndOfWay(mode.loc)) // 检查当前位置是否是终点，如果不是循迹正行
+//        {
+//					if(!CheckAndTurn())//因为不是终点，所以转弯
+//            lineWalking(); // 进行循迹行走
+//        }
+//        else // 如果是终点
+//          if(!CheckAndEnd()) // 因为是最终点，所以停止
+//            lineWalking(); // 进行循迹行走
+//        break;
+//      case RETURN_MODE:
+//        // 返回模式下的处理逻辑
+//        if(mode.loc.n == 0) // 如果位置记录为空,说明小车已经回到了最开始的地方，则用停车逻辑来处理
+//        {
+//          if(!CheckAndEnd()) // 检查是否需要结束当前模式
+//            lineWalking(); // 进行循迹行走
+//        }
+//        else if(isEndOfWay(mode.loc)) //如果是除零点以外的终点，需要倒退
+//        {
+//          if(!CheckAndTurn())
+//            Back(LocToTheta(mode.loc) + back_angle_cor); // 后退到上一个位置
+//        }
+//        else // 如果不是终点
+//        {
+//          if(!CheckAndTurn()) // 检查是否需要结束当前模式
+//            lineWalking(); // 进行循迹行走
+//        }
+//        break;
+//      default:
+//        // 未知模式的处理逻辑
+//        break;
+//    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

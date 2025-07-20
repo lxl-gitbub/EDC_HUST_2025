@@ -1,6 +1,6 @@
 Dependencies for Project 'tem', Target 'tem': (DO NOT MODIFY !)
 F (..\Core\Inc\AllHeader.h)(0x687B99B7)()
-F (../Core/Src/main.c)(0x687BA0E7)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/Motor_Encoder -I ../Drivers/BSP/GanWei -I ../Drivers/Tracking -I ../Drivers/Mode -I ../Drivers/Visual -I ../Drivers/Kinematics_and_initialize -I ../Drivers/BSP/LED -I ../Drivers/BSP/HC05 -I ../Drivers/BSP/OLED-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/main.o -MD)
+F (../Core/Src/main.c)(0x687C9B03)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/Motor_Encoder -I ../Drivers/BSP/GanWei -I ../Drivers/Tracking -I ../Drivers/Mode -I ../Drivers/Visual -I ../Drivers/Kinematics_and_initialize -I ../Drivers/BSP/LED -I ../Drivers/BSP/HC05 -I ../Drivers/BSP/OLED-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/main.o -MD)
 I (..\Core\Inc\main.h)(0x687A442F)
 I (..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h)(0x6867DC6D)
 I (..\Core\Inc\stm32h7xx_hal_conf.h)(0x68674A41)
@@ -51,7 +51,7 @@ I (..\Drivers\BSP\ATK_MS601M\atk_ms601m.h)(0x68674A42)
 I (..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.h)(0x686896F2)
 I (..\Drivers\BSP\GanWei\GanWei_i2c.h)(0x6870B40A)
 I (..\Drivers\BSP\GanWei\gw_grayscale_sensor.h)(0x6870B40A)
-I (..\Drivers\Tracking\tracking.h)(0x68735089)
+I (..\Drivers\Tracking\tracking.h)(0x687C9ACF)
 I (..\Drivers\Tracking\tracking_delay.h)(0x6871C09B)
 I (..\Drivers\BSP\Motor_Encoder\tb6612fng.h)(0x6868E4BE)
 I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x687B7BC1)
@@ -276,7 +276,7 @@ I (..\Drivers\BSP\ATK_MS601M\atk_ms601m.h)(0x68674A42)
 I (..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.h)(0x686896F2)
 I (..\Drivers\BSP\GanWei\GanWei_i2c.h)(0x6870B40A)
 I (..\Drivers\BSP\GanWei\gw_grayscale_sensor.h)(0x6870B40A)
-I (..\Drivers\Tracking\tracking.h)(0x68735089)
+I (..\Drivers\Tracking\tracking.h)(0x687C9ACF)
 I (..\Drivers\Tracking\tracking_delay.h)(0x6871C09B)
 I (..\Drivers\BSP\Motor_Encoder\tb6612fng.h)(0x6868E4BE)
 I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x687B7BC1)
@@ -1175,7 +1175,7 @@ I (D:\Keil_v5\ARM\ARMCLANG\include\stdbool.h)(0x5B739900)
 I (..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.h)(0x686896F2)
 I (..\Drivers\BSP\GanWei\GanWei_i2c.h)(0x6870B40A)
 I (..\Drivers\BSP\GanWei\gw_grayscale_sensor.h)(0x6870B40A)
-I (..\Drivers\Tracking\tracking.h)(0x68735089)
+I (..\Drivers\Tracking\tracking.h)(0x687C9ACF)
 I (..\Drivers\Tracking\tracking_delay.h)(0x6871C09B)
 I (..\Drivers\BSP\Motor_Encoder\tb6612fng.h)(0x6868E4BE)
 I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x687B7BC1)
@@ -1236,7 +1236,7 @@ I (D:\Keil_v5\ARM\ARMCLANG\include\stdbool.h)(0x5B739900)
 I (..\Drivers\BSP\ATK_MS601M\atk_ms601m.h)(0x68674A42)
 I (..\Drivers\BSP\GanWei\GanWei_i2c.h)(0x6870B40A)
 I (..\Drivers\BSP\GanWei\gw_grayscale_sensor.h)(0x6870B40A)
-I (..\Drivers\Tracking\tracking.h)(0x68735089)
+I (..\Drivers\Tracking\tracking.h)(0x687C9ACF)
 I (..\Drivers\Tracking\tracking_delay.h)(0x6871C09B)
 I (..\Drivers\BSP\Motor_Encoder\tb6612fng.h)(0x6868E4BE)
 I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x687B7BC1)
@@ -1428,7 +1428,7 @@ I (D:\Keil_v5\ARM\ARMCLANG\include\stdbool.h)(0x5B739900)
 I (..\Drivers\BSP\ATK_MS601M\atk_ms601m.h)(0x68674A42)
 I (..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.h)(0x686896F2)
 I (..\Drivers\BSP\GanWei\gw_grayscale_sensor.h)(0x6870B40A)
-I (..\Drivers\Tracking\tracking.h)(0x68735089)
+I (..\Drivers\Tracking\tracking.h)(0x687C9ACF)
 I (..\Drivers\Tracking\tracking_delay.h)(0x6871C09B)
 I (..\Drivers\BSP\Motor_Encoder\tb6612fng.h)(0x6868E4BE)
 I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x687B7BC1)
@@ -1438,8 +1438,8 @@ I (..\Drivers\Kinematics_and_initialize\Initialize.h)(0x687B0DEF)
 I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x6874A721)
 I (..\Drivers\BSP\OLED\oled.h)(0x687B99B7)
 I (..\Drivers\BSP\LED\led.h)(0x6878D3E7)
-F (..\Drivers\Tracking\tracking.c)(0x687B0B90)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/Motor_Encoder -I ../Drivers/BSP/GanWei -I ../Drivers/Tracking -I ../Drivers/Mode -I ../Drivers/Visual -I ../Drivers/Kinematics_and_initialize -I ../Drivers/BSP/LED -I ../Drivers/BSP/HC05 -I ../Drivers/BSP/OLED-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/tracking.o -MD)
-I (..\Drivers\Tracking\tracking.h)(0x68735089)
+F (..\Drivers\Tracking\tracking.c)(0x687C9AB6)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/Motor_Encoder -I ../Drivers/BSP/GanWei -I ../Drivers/Tracking -I ../Drivers/Mode -I ../Drivers/Visual -I ../Drivers/Kinematics_and_initialize -I ../Drivers/BSP/LED -I ../Drivers/BSP/HC05 -I ../Drivers/BSP/OLED-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/tracking.o -MD)
+I (..\Drivers\Tracking\tracking.h)(0x687C9ACF)
 I (..\Core\Inc\AllHeader.h)(0x687B99B7)
 I (..\Core\Inc\main.h)(0x687A442F)
 I (..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h)(0x6867DC6D)
@@ -1591,7 +1591,7 @@ I (..\Drivers\BSP\ATK_MS601M\atk_ms601m.h)(0x68674A42)
 I (..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.h)(0x686896F2)
 I (..\Drivers\BSP\GanWei\GanWei_i2c.h)(0x6870B40A)
 I (..\Drivers\BSP\GanWei\gw_grayscale_sensor.h)(0x6870B40A)
-I (..\Drivers\Tracking\tracking.h)(0x68735089)
+I (..\Drivers\Tracking\tracking.h)(0x687C9ACF)
 I (..\Drivers\Tracking\tracking_delay.h)(0x6871C09B)
 I (..\Drivers\BSP\Motor_Encoder\tb6612fng.h)(0x6868E4BE)
 I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x687B7BC1)
@@ -1652,7 +1652,7 @@ I (..\Drivers\BSP\ATK_MS601M\atk_ms601m.h)(0x68674A42)
 I (..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.h)(0x686896F2)
 I (..\Drivers\BSP\GanWei\GanWei_i2c.h)(0x6870B40A)
 I (..\Drivers\BSP\GanWei\gw_grayscale_sensor.h)(0x6870B40A)
-I (..\Drivers\Tracking\tracking.h)(0x68735089)
+I (..\Drivers\Tracking\tracking.h)(0x687C9ACF)
 I (..\Drivers\Tracking\tracking_delay.h)(0x6871C09B)
 I (..\Drivers\BSP\Motor_Encoder\tb6612fng.h)(0x6868E4BE)
 I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x687B7BC1)
@@ -1715,7 +1715,7 @@ I (..\Drivers\BSP\ATK_MS601M\atk_ms601m.h)(0x68674A42)
 I (..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.h)(0x686896F2)
 I (..\Drivers\BSP\GanWei\GanWei_i2c.h)(0x6870B40A)
 I (..\Drivers\BSP\GanWei\gw_grayscale_sensor.h)(0x6870B40A)
-I (..\Drivers\Tracking\tracking.h)(0x68735089)
+I (..\Drivers\Tracking\tracking.h)(0x687C9ACF)
 I (..\Drivers\Tracking\tracking_delay.h)(0x6871C09B)
 I (..\Drivers\BSP\Motor_Encoder\tb6612fng.h)(0x6868E4BE)
 I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x687B7BC1)
@@ -1776,7 +1776,7 @@ I (..\Drivers\BSP\ATK_MS601M\atk_ms601m.h)(0x68674A42)
 I (..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.h)(0x686896F2)
 I (..\Drivers\BSP\GanWei\GanWei_i2c.h)(0x6870B40A)
 I (..\Drivers\BSP\GanWei\gw_grayscale_sensor.h)(0x6870B40A)
-I (..\Drivers\Tracking\tracking.h)(0x68735089)
+I (..\Drivers\Tracking\tracking.h)(0x687C9ACF)
 I (..\Drivers\Tracking\tracking_delay.h)(0x6871C09B)
 I (..\Drivers\BSP\Motor_Encoder\tb6612fng.h)(0x6868E4BE)
 I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x687B7BC1)
@@ -1837,7 +1837,7 @@ I (..\Drivers\BSP\ATK_MS601M\atk_ms601m.h)(0x68674A42)
 I (..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.h)(0x686896F2)
 I (..\Drivers\BSP\GanWei\GanWei_i2c.h)(0x6870B40A)
 I (..\Drivers\BSP\GanWei\gw_grayscale_sensor.h)(0x6870B40A)
-I (..\Drivers\Tracking\tracking.h)(0x68735089)
+I (..\Drivers\Tracking\tracking.h)(0x687C9ACF)
 I (..\Drivers\Tracking\tracking_delay.h)(0x6871C09B)
 I (..\Drivers\BSP\Motor_Encoder\tb6612fng.h)(0x6868E4BE)
 I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x687B7BC1)
@@ -1898,7 +1898,7 @@ I (..\Drivers\BSP\ATK_MS601M\atk_ms601m.h)(0x68674A42)
 I (..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.h)(0x686896F2)
 I (..\Drivers\BSP\GanWei\GanWei_i2c.h)(0x6870B40A)
 I (..\Drivers\BSP\GanWei\gw_grayscale_sensor.h)(0x6870B40A)
-I (..\Drivers\Tracking\tracking.h)(0x68735089)
+I (..\Drivers\Tracking\tracking.h)(0x687C9ACF)
 I (..\Drivers\Tracking\tracking_delay.h)(0x6871C09B)
 I (..\Drivers\BSP\Motor_Encoder\tb6612fng.h)(0x6868E4BE)
 I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x687B7BC1)
