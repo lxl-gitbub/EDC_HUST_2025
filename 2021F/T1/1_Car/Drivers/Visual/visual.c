@@ -153,6 +153,7 @@ void visual_process_command(bool* sampling_command)
     {
         // 开始进入数据收集阶段
         visual_reset_sampling_status();
+        OLED_ShowString(10, 2, "Visual Loading",16);
     }
 
    // --- 数据收集阶段：当命令为 true 时执行 ---
