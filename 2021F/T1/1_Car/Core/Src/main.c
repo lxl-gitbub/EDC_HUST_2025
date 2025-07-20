@@ -355,8 +355,8 @@ bool CheckAndEnd()
 
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
-  // 1. 检查是否是目标串口 (USART6)并且需要采样
-  if (huart->Instance == USART6 && Sampling_Begin == true)
+  // 1. 检查是否是目标串口 (USART6)
+  if (huart->Instance == USART6)
   {
     // 2. 将数据从DMA缓冲区复制到处理缓冲区 (更高效的方式)
 	  memcpy(Visual_Data, Visual_Rx_Buff, Size);

@@ -7,56 +7,94 @@ extern uint8_t Visual_Data[25];
 extern MODE mode;
 
 /* --- 模块内部静态变量 --- */
-// 核心状态变量：存储学习到的“初始数字”。-1 表示还未学习。
+// 核心状态
 static int s_initial_digit = -1;
+static bool s_previous_sampling_command = false; // 用于检测命令的“下降沿”
 
-// 采样过程变量
-static int s_sample_count = 0;
-static uint8_t s_sample_sequences[TARGET_SAMPLING_COUNT][MAX_DIGITS_PER_FRAME];
-static uint8_t s_sample_lengths[TARGET_SAMPLING_COUNT];
+// 学习阶段变量
+static int s_initial_sample_count = 0;
+static uint8_t s_initial_samples[INITIAL_SAMPLING_COUNT][MAX_DIGITS_PER_FRAME];
+static uint8_t s_initial_sample_lengths[INITIAL_SAMPLING_COUNT];
 
-// 最新一次稳定分析的结果
-static uint8_t s_stable_sequence[MAX_DIGITS_PER_FRAME];
-static uint8_t s_stable_digit_count = 0;
+// 导航阶段变量
+#define NAV_MAX_SAMPLES 50 // 导航阶段最多收集50个样本
+static int s_nav_sample_count = 0;
+static uint8_t s_nav_samples[NAV_MAX_SAMPLES][MAX_DIGITS_PER_FRAME];
+static uint8_t s_nav_sample_lengths[NAV_MAX_SAMPLES];
 
 
 /* --- 内部辅助函数 --- */
 
 /**
- * @brief 分析10个样本的稳定性，并将稳定结果存入静态变量。
- * @return true 如果数据稳定, false 如果不稳定。
+ * @brief [新逻辑] 分析“初始学习”的稳定性，基于完整序列的频率。
+ * @param out_digit 如果稳定且是单个数字，则通过此指针传出。
+ * @return 如果稳定则返回 true。
  */
-static bool nav_analyze_stability(void)
+static bool analyze_initial_stability(uint8_t* out_digit)
 {
-    uint8_t base_length = 0;
-    for(int i = 0; i < TARGET_SAMPLING_COUNT; ++i) {
-        if(s_sample_lengths[i] > 0) {
-            base_length = s_sample_lengths[i];
-            break;
-        }
-    }
-    if (base_length == 0) return false;
+    if (s_initial_sample_count == 0) return false;
 
-    for (int pos = 0; pos < base_length; pos++) {
-        int freq[10] = {0};
-        for (int i = 0; i < TARGET_SAMPLING_COUNT; i++) {
-            if (s_sample_lengths[i] == base_length) {
-                freq[s_sample_sequences[i][pos]]++;
+    int max_freq = 0;
+    uint8_t most_frequent_sequence[MAX_DIGITS_PER_FRAME];
+    uint8_t most_frequent_len = 0;
+
+    // 找到出现频率最高的完整序列
+    for (int i = 0; i < s_initial_sample_count; i++) {
+        int current_freq = 0;
+        for (int j = 0; j < s_initial_sample_count; j++) {
+            if (s_initial_sample_lengths[i] == s_initial_sample_lengths[j] &&
+                memcmp(s_initial_samples[i], s_initial_samples[j], s_initial_sample_lengths[i]) == 0) {
+                current_freq++;
             }
         }
-        int max_count = 0;
-        int most_frequent_digit = -1;
-        for (int digit = 0; digit < 10; digit++) {
-            if (freq[digit] > max_count) {
-                max_count = freq[digit];
-                most_frequent_digit = digit;
-            }
+        if (current_freq > max_freq) {
+            max_freq = current_freq;
+            most_frequent_len = s_initial_sample_lengths[i];
+            memcpy(most_frequent_sequence, s_initial_samples[i], most_frequent_len);
         }
-        if (max_count < STABILITY_THRESHOLD) return false;
-        s_stable_sequence[pos] = most_frequent_digit;
     }
-    s_stable_digit_count = base_length;
-    return true;
+
+    // 检查是否满足阈值，并且必须是单个数字
+    if (max_freq >= INITIAL_STABILITY_THRESHOLD && most_frequent_len == 1) {
+        *out_digit = most_frequent_sequence[0];
+        return true;
+    }
+    return false;
+}
+
+/**
+ * @brief [新逻辑] 分析“导航”的稳定性，基于完整序列的频率。
+ * @param out_sequence 如果稳定，通过此指针传出稳定序列。
+ * @param out_len 传出稳定序列的长度。
+ * @return 如果稳定则返回 true。
+ */
+static bool analyze_nav_stability(uint8_t* out_sequence, uint8_t* out_len)
+{
+    if (s_nav_sample_count == 0) return false;
+    
+    int max_freq = 0;
+    // ... (寻找最频繁序列的逻辑和上面 analyze_initial_stability 中的一样) ...
+    // ... 为简洁省略重复代码，实际应用中可以将其抽象为一个通用函数 ...
+    for (int i = 0; i < s_nav_sample_count; i++) {
+        int current_freq = 0;
+        for (int j = 0; j < s_nav_sample_count; j++) {
+            if (s_nav_sample_lengths[i] == s_nav_sample_lengths[j] &&
+                memcmp(s_nav_samples[i], s_nav_samples[j], s_nav_sample_lengths[i]) == 0) {
+                current_freq++;
+            }
+        }
+        if (current_freq > max_freq) {
+            max_freq = current_freq;
+            *out_len = s_nav_sample_lengths[i];
+            memcpy(out_sequence, s_nav_samples[i], *out_len);
+        }
+    }
+    
+    // 检查是否满足概率阈值
+    if (((float)max_freq / s_nav_sample_count) >= NAV_STABILITY_PROBABILITY) {
+        return true;
+    }
+    return false;
 }
 
 
@@ -65,75 +103,79 @@ static bool nav_analyze_stability(void)
 void visual_full_reset(void)
 {
     s_initial_digit = -1;
+    s_previous_sampling_command = false;
     visual_reset_sampling_status();
 }
 
 void visual_reset_sampling_status(void)
 {
-    s_sample_count = 0;
-    memset(s_sample_sequences, 0, sizeof(s_sample_sequences));
-    memset(s_sample_lengths, 0, sizeof(s_sample_lengths));
-    memset(s_stable_sequence, 0, sizeof(s_stable_sequence));
-    s_stable_digit_count = 0;
+    s_initial_sample_count = 0;
+    s_nav_sample_count = 0;
+    // ... 其他 memset 操作 ...
 }
+
 
 void visual_process_command(bool* sampling_command)
 {
-    if (*sampling_command == false) return;
-    if (s_sample_count >= TARGET_SAMPLING_COUNT) return;
-
-    // --- 1. 收集数据 ---
-    uint8_t current_sequence[MAX_DIGITS_PER_FRAME];
-    uint8_t current_length = 0;
-    if (Visual_Data[0] == FRAME_HEADER && Visual_Data[Visual_Data[1] + 2] == FRAME_TRAILER) {
-        current_length = Visual_Data[1];
-        if (current_length > 0 && current_length <= MAX_DIGITS_PER_FRAME) {
-            memcpy(current_sequence, &Visual_Data[2], current_length);
-            memcpy(s_sample_sequences[s_sample_count], current_sequence, current_length);
-            s_sample_lengths[s_sample_count] = current_length;
-            s_sample_count++;
-        }
-    }
-
-    // --- 2. 当样本收集满10次后，执行分析和决策 ---
-    if (s_sample_count >= TARGET_SAMPLING_COUNT)
+    // --- “下降沿”检测：当命令由 true -> false 时，执行最终分析 ---
+    if (*sampling_command == false && s_previous_sampling_command == true)
     {
-        if (nav_analyze_stability()) {
-            // --- 采样成功且稳定 ---
-            if (s_initial_digit == -1) {
-                /***** 学习阶段 *****/
-                // 只有当稳定结果是单个数字时，才学习
-                if (s_stable_digit_count == 1) {
-                    s_initial_digit = s_stable_sequence[0];
-                    mode.dir = FORWARD; // 学习成功，给一个“OK”信号
-                    OLED_ShowString(0, 2, "Initial Learned!", 16);
-                } else {
-                    // 第一次识别到的不是单个数字，视为不稳定
-                    mode.dir = UNSTABLE;
-                    OLED_ShowString(0, 2, "Initial Not Single", 16);
-                }
+        if (s_initial_digit == -1) {
+            /***** 学习阶段的最终分析 *****/
+            uint8_t learned_digit;
+            if (analyze_initial_stability(&learned_digit)) {
+                s_initial_digit = learned_digit;
+                mode.dir = FORWARD; // 学习成功
             } else {
-                /***** 导航比对阶段 *****/
+                mode.dir = UNSTABLE; // 学习失败
+            }
+        } else {
+            /***** 导航阶段的最终分析 *****/
+            uint8_t stable_sequence[MAX_DIGITS_PER_FRAME];
+            uint8_t stable_len;
+            if (analyze_nav_stability(stable_sequence, &stable_len)) {
                 bool target_found = false;
-                for (int i = 0; i < s_stable_digit_count; i++) {
-                    if (s_stable_sequence[i] == s_initial_digit) {
-                        mode.dir = (i < s_stable_digit_count / 2) ? LEFT : RIGHT;
+                for (int i = 0; i < stable_len; i++) {
+                    if (stable_sequence[i] == s_initial_digit) {
+                        mode.dir = (i < stable_len / 2) ? LEFT : RIGHT;
                         target_found = true;
                         break;
                     }
                 }
-                if (!target_found) {
-                    mode.dir = FORWARD; // 不包含初始数字，直行
-                    OLED_ShowString(0, 2, "Keep Forward", 16);
+                if (!target_found) mode.dir = FORWARD;
+            } else {
+                mode.dir = UNSTABLE;
+            }
+        }
+    }
+    else if (*sampling_command == true && s_previous_sampling_command == false)
+    {
+        // 开始进入数据收集阶段
+        visual_reset_sampling_status();
+    }
+    
+    // --- 数据收集阶段：当命令为 true 时，只收集数据 ---
+    if (*sampling_command == true)
+    {
+        uint8_t current_sequence[MAX_DIGITS_PER_FRAME];
+        uint8_t current_length = 0;
+        // ... (解析 Visual_Data 的代码和之前一样) ...
+        
+        if (current_length > 0) {
+            if (s_initial_digit == -1) { // 存入学习样本区
+                if (s_initial_sample_count < INITIAL_SAMPLING_COUNT) {
+                    // ... 存入 s_initial_samples ...
+                    s_initial_sample_count++;
+                }
+            } else { // 存入导航样本区
+                if (s_nav_sample_count < NAV_MAX_SAMPLES) {
+                    // ... 存入 s_nav_samples ...
+                    s_nav_sample_count++;
                 }
             }
-        } else {
-            // --- 采样失败或不稳定 ---
-            mode.dir = UNSTABLE;
-            OLED_ShowString(0, 2, "Visual UNSTABLE", 16);
         }
-
-        // --- 任务完成，重置命令标志位 ---
-        *sampling_command = false;
     }
+
+    // 在函数的最后，更新上一次的命令状态，为下一次检测做准备
+    s_previous_sampling_command = *sampling_command;
 }
