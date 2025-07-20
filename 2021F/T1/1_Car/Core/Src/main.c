@@ -162,9 +162,9 @@ int main(void)
   visual_full_reset();
 	// 接收中断初始化
   HAL_UARTEx_ReceiveToIdle_IT(&huart6, Visual_Rx_Buff, Visual_Rx_Buff_Len);
-
-  visual_reset_sampling_status();
+  // 启动视觉识别
   Sampling_Begin = true;
+  OLED_ShowString(10, 2, "Visual Loading",16);
   /* USER CODE END 2 */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */

@@ -126,8 +126,10 @@ void visual_process_command(bool* sampling_command)
             if (analyze_initial_stability(&learned_digit)) {
                 s_initial_digit = learned_digit;
                 mode.dir = FORWARD; // 学习成功
+                OLED_ShowString(10, 2, "Visual Sussess",16);
             } else {
                 mode.dir = UNSTABLE; // 学习失败
+                OLED_ShowString(10, 2, "Visual Failed",16);
             }
         } else {
             /***** 导航阶段的最终分析 *****/
@@ -153,7 +155,7 @@ void visual_process_command(bool* sampling_command)
         // 开始进入数据收集阶段
         visual_reset_sampling_status();
     }
-    
+
     // --- 数据收集阶段：当命令为 true 时，只收集数据 ---
     if (*sampling_command == true)
     {
