@@ -19,6 +19,11 @@ void PID_Update(PIDdata *pid, float target, float current, float dt) {
 }
 float PID_Compute(PIDdata *pid, float Kp, float Ki, float Kd) {
     if (pid == NULL) return 0.0f;
+    if (pid->sum > 1000.0f) {
+        pid->sum = 1000.0f; // 防止积分过大
+    } else if (pid->sum < -1000.0f) {
+        pid->sum = -1000.0f; // 防止积分过小
+    }
     return Kp * pid->error + Ki * pid->sum + Kd * pid->difference;
 }
 

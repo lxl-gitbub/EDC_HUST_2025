@@ -50,8 +50,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern CarState car; // Declare car state for kinematics
-extern Data current_data; // Declare current data for kinematics
+extern const CarState car; // Declare car state for kinematics
+extern const Data current_data; // Declare current data for kinematics
 
 void MEInit(Motor* L, Motor* R);
 void LMotorSet(MOVETYPE type, uint16_t duty);
@@ -69,7 +69,7 @@ float getYaw(); // 获取当前的偏航角
 float getWz(); // 获取当前的角速度
 // 获取数据函数声明
 void UpdateData(); // 更新当前数据
-
+void UpdateData_Car(); // 更新汽车状态数据
 
 void Back(float theta); // 后退函数，theta为目标偏航角
 

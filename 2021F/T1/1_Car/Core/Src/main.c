@@ -167,8 +167,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-       // 每周期更新数据
-      UpdateData();
+    // 每周期更新数据
+    UpdateData_Car(); // 更新汽车状态数据
 		IIC_Get_Digtal(Digtal); // 获取数字传感器数据,每一步都要执行以获取数据
     OLED_ShowString(0, 0, "Digital:", 16);
     for(int i = 0; i < 8; i++) {

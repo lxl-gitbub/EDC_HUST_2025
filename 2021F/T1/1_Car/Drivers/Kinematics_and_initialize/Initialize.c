@@ -118,7 +118,13 @@ void UpdateData()
 
     return; // Exit the function
 }
-	
+
+void UpdateData_Car()
+{
+    // Update the car state with the current data
+    UpdateData(); // Update the current data
+    CarState_Update(&car, current_data); // Update the car state with the current data
+}
 
 
 void Back( float theta)
