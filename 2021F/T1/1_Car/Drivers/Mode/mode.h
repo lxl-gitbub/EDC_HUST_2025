@@ -1,8 +1,8 @@
 #ifndef MODE_H
 #define MODE_H
 
+#include <stdbool.h>
 #include "kinematics.h"
-
 // Define the modes for the car
 typedef enum {
     PROPEL_MODE,  // Propeller mode ËÍÒ©Ä£Ê½

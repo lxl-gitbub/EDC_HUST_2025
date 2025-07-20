@@ -1,7 +1,6 @@
 #ifndef BLUETOOTH_H
 #define BLUETOOTH_H
 
-#include "AllHeader.h"
 #include "mode.h"//需要用到相关的mode变量
 
 #define BUF_LEN 256

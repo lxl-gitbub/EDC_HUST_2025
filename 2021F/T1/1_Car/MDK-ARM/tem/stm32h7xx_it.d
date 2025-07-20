@@ -53,4 +53,7 @@ tem/stm32h7xx_it.o: ..\Core\Src\stm32h7xx_it.c ..\Core\Inc\main.h \
   ..\Drivers\BSP\Motor_Encoder\Mem.h \
   ..\Drivers\Kinematics_and_initialize\Initialize.h \
   ..\Drivers\Kinematics_and_initialize\kinematics.h \
-  ..\Drivers\BSP\OLED\oled.h ..\Core\Inc\i2c.h ..\Drivers\BSP\LED\led.h
+  ..\Drivers\BSP\OLED\oled.h ..\Core\Inc\i2c.h \
+  ..\Drivers\BSP\HC05\Bluetooth.h ..\Drivers\Mode\mode.h \
+  ..\Drivers\Kinematics_and_initialize\kinematics.h \
+  ..\Drivers\Visual\visual.h ..\Drivers\BSP\LED\led.h

@@ -2,6 +2,7 @@
 
 Motor Le, Ri;  // Declare motors for left and right
 CarState car; // Declare car state for kinematics
+Data current_data;
 
 void MEInit(Motor* L, Motor* R)
 {
@@ -94,6 +95,31 @@ float getWz()
     atk_ms601m_get_gyro_accelerometer(&gyro_dat, &accelerometer_dat, 10);
     return gyro_dat.z; // Return the angular velocity around the z-axis
 }
+
+void UpdateData()
+{
+    static uint32_t last_time = 0; // Last update time
+    uint32_t now = HAL_GetTick(); // Get the current time
+    static bool first_run = true; // Flag to indicate the first run
+    current_data.speed.linear_velocity = cSpeed(); // Get the current speed
+    current_data.speed.angular_velocity = getWz(); // Get the current angular velocity
+    current_data.yaw = getYaw(); // Get the current yaw angle
+    if(first_run)
+    {
+        first_run = false; // Set the flag to false after the first run
+        current_data.dt = 0; // Initialize dt on the first run
+    }
+    else
+    {
+        current_data.dt = (now - last_time) * 1e-3f; // Calculate the time difference in seconds
+    }
+    if(current_data.dt <= 0.0f) current_data.dt = 0.01f; // Ensure dt is not zero to avoid division by zero 
+    last_time = now; // Initialize last_time on the first run
+
+    return; // Exit the function
+}
+	
+
 
 void Back( float theta)
 {

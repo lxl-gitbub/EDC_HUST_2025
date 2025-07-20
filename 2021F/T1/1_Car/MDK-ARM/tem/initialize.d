@@ -1,5 +1,7 @@
 tem/initialize.o: ..\Drivers\Kinematics_and_initialize\Initialize.c \
   ..\Drivers\Kinematics_and_initialize\Initialize.h \
+  ..\Drivers\Kinematics_and_initialize\kinematics.h \
+  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdbool.h \
   ..\Core\Inc\AllHeader.h ..\Core\Inc\main.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
   ..\Core\Inc\stm32h7xx_hal_conf.h \
@@ -41,7 +43,6 @@ tem/initialize.o: ..\Drivers\Kinematics_and_initialize\Initialize.c \
   ..\Core\Inc\i2c.h ..\Core\Inc\tim.h ..\Core\Inc\usart.h \
   ..\Core\Inc\gpio.h D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h \
-  D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdbool.h \
   ..\Drivers\BSP\ATK_MS601M\atk_ms601m.h \
   ..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.h \
   ..\Drivers\BSP\GanWei\GanWei_i2c.h \
@@ -53,5 +54,7 @@ tem/initialize.o: ..\Drivers\Kinematics_and_initialize\Initialize.c \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
   ..\Drivers\BSP\Motor_Encoder\Mem.h \
   ..\Drivers\Kinematics_and_initialize\Initialize.h \
+  ..\Drivers\BSP\OLED\oled.h ..\Core\Inc\i2c.h \
+  ..\Drivers\BSP\HC05\Bluetooth.h ..\Drivers\Mode\mode.h \
   ..\Drivers\Kinematics_and_initialize\kinematics.h \
-  ..\Drivers\BSP\OLED\oled.h ..\Core\Inc\i2c.h ..\Drivers\BSP\LED\led.h
+  ..\Drivers\Visual\visual.h ..\Drivers\BSP\LED\led.h

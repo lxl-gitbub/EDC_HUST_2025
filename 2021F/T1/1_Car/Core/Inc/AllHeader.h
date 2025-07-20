@@ -36,15 +36,13 @@
 // 电机和编码器初始化头文件
 #include "Initialize.h"
 
-// 运动学头文件，包括常见的直行转弯函数
-#include "kinematics.h"
-
 //OLED显示屏头文件
 #include "oled.h"
 //状态机头文件,但是我的mode文件在逻辑上属于最下层，
 //也就是实际上它时建立在以上文件的基础上写成的，包含了我在kinematics中写成的方向等等变量类型
 //所以需要单独include，避免循环出错
-//#include "mode.h"
+#include "Bluetooth.h"
+#include "visual.h"
 
 #include "led.h"
 
