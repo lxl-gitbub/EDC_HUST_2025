@@ -125,10 +125,10 @@ void visual_process_command(bool* sampling_command)
             if (analyze_initial_stability(&learned_digit)) {
                 s_initial_digit = learned_digit;
                 mode.dir = FORWARD; // 学习成功
-                OLED_ShowString(10, 2, "Visual Sussess",16);
+                OLED_ShowString(2, 2, "Visual Sussess",16);
             } else {
                 mode.dir = UNSTABLE; // 学习失败
-                OLED_ShowString(10, 2, "Visual Failed",16);
+                OLED_ShowString(2, 2, "Visual Failed",16);
             }
         } else {
             /***** 导航阶段的最终分析 *****/
@@ -153,7 +153,7 @@ void visual_process_command(bool* sampling_command)
     {
         // 开始进入数据收集阶段
         visual_reset_sampling_status();
-        OLED_ShowString(10, 2, "Visual Loading",16);
+        OLED_ShowString(2, 2, "Visual Loading",16);
     }
 
    // --- 数据收集阶段：当命令为 true 时执行 ---
@@ -189,10 +189,10 @@ void visual_process_command(bool* sampling_command)
                 if (analyze_initial_stability(&learned_digit)) {
                     s_initial_digit = learned_digit;
                     mode.dir = FORWARD; // 学习成功，给OK信号
-                    OLED_ShowString(10, 2, "Initial Success",16);
+                    OLED_ShowString(2, 2, "Initial Success",16);
                 } else {
                     mode.dir = UNSTABLE; // 学习失败
-                    OLED_ShowString(10, 2, "Initial Failed",16);
+                    OLED_ShowString(2, 2, "Initial Failed",16);
                 }
                 *sampling_command = false; // 任务完成，自动将命令标志位置为 false
             }

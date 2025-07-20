@@ -12,8 +12,8 @@
 #define MAX_DIGITS_PER_FRAME 4
 
 // --- 学习阶段配置 ---
-#define INITIAL_SAMPLING_COUNT 10
-#define INITIAL_STABILITY_THRESHOLD 6
+#define INITIAL_SAMPLING_COUNT 30
+#define INITIAL_STABILITY_THRESHOLD 20
 
 // --- 导航阶段配置 ---
 // 稳定性判断标准：在导航任务开始后，某个数字在对应位置出现的概率要大于等于这个值
