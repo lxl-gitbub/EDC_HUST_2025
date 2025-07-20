@@ -1,22 +1,32 @@
 #include "kinematics.h"
+#include "AllHeader.h"
+#include "Initialize.h"
+
+// --- PID结构体与相关函数保持不变 ---
 
 void PID_Init(PIDdata *pid) {
-    if (pid == NULL) return; // Check for null pointer
+    if (pid == NULL) return;
     pid->error = 0.0f;
     pid->sum = 0.0f;
     pid->difference = 0.0f;
 }
 void PID_Update(PIDdata *pid, float target, float current, float dt) {
-    if (pid == NULL || dt <= 0.0f) return; // Check for null pointer and valid dt
-		float preerror = pid->error;
-    pid->error = target - current; // Calculate error
-    pid->sum += pid->error * dt; // Integral term
-    pid->difference = (pid->error - preerror) / dt; // Derivative term
+    if (pid == NULL || dt <= 0.0f) return;
+    float preerror = pid->error;
+    pid->error = target - current;
+    pid->sum += pid->error * dt;
+    pid->difference = (pid->error - preerror) / dt;
 }
 float PID_Compute(PIDdata *pid, float Kp, float Ki, float Kd) {
-    if (pid == NULL) return 0.0f; // Check for null pointer
-    return Kp * pid->error + Ki * pid->sum + Kd * pid->difference; // PID output
+    if (pid == NULL) return 0.0f;
+    if (pid->sum > 1000.0f) {
+        pid->sum = 1000.0f; // 防止积分过大
+    } else if (pid->sum < -1000.0f) {
+        pid->sum = -1000.0f; // 防止积分过小
+    }
+    return Kp * pid->error + Ki * pid->sum + Kd * pid->difference;
 }
+
 
 // Initializes the car state to default values
 void CarState_Init(CarState *state) {
@@ -47,125 +57,132 @@ void CarState_Update(CarState *state, Data d) {
 }
 
 
-WheelSpeed SpeedToWheelSpeed(Speed speed)
-{
-    WheelSpeed wheel_speed;
-    // Assuming a differential drive robot, calculate left and right wheel speeds
-    wheel_speed.left_wheel_speed = speed.linear_velocity - (speed.angular_velocity / 180 * PI * WHEEL_DIS / 2000);
-    wheel_speed.right_wheel_speed = speed.linear_velocity + (speed.angular_velocity / 180 * PI * WHEEL_DIS / 2000);
-    return wheel_speed;
-}
+// --- 角度归一化 ---
 float sumTheta(float theta1, float theta2)
 {
     float sum = theta1 + theta2;
-    if (sum < -180.0f) {
-        sum += 360.0f; // Normalize angle to [-180, 180]
-    } else if (sum > 180.0f) {
-        sum -= 360.0f; // Normalize angle to [-180, 180]
-    }
+    while (sum < -180.0f) sum += 360.0f;
+    while (sum > 180.0f) sum -= 360.0f;
     return sum;
 }
 
-
-Speed PID_Move(float v, float w, float dt, short isreload)
+// --- 轮速转换 ---
+WheelSpeed SpeedToWheelSpeed(Speed speed)
 {
-    static PIDdata pidSpeed;   // PID控制直线速度
-    static PIDdata pidAngular; // PID控制角速度
-    static Speed last_speed; // 上一次的速度
+    WheelSpeed wheel_speed;
+    wheel_speed.left_wheel_speed = speed.linear_velocity - (speed.angular_velocity / 180.0f * PI * WHEEL_DIS / 2000.0f);
+    wheel_speed.right_wheel_speed = speed.linear_velocity + (speed.angular_velocity / 180.0f * PI * WHEEL_DIS / 2000.0f);
+    return wheel_speed;
+}
 
-    Speed final_speed = {0.0f, 0.0f}; // 初始化最终速度
-    // PID参数，可根据实际情况调整
-    float K_p_v = 1.0f;
-    float K_i_v = 0.0f;
-    float K_d_v = 0.0f;
+// --- PID速度控制 ---
+// 理由：直接用current_data，dt用current_data.dt，主循环保证UpdateData()已调用
+Speed PID_Move(float v, float w, short isreload)
+{
+    static PIDdata pidSpeed;
+    static PIDdata pidAngular;
+    static Speed last_target = {0.0f, 0.0f};
 
-    float K_p_w = 1.0f;
-    float K_i_w = 0.1f;
-    float K_d_w = 0.1f;
-
-    last_speed.linear_velocity = v; // 重置上一次的线速度
-    last_speed.angular_velocity = w; // 重置上一次的角速度
+    // PID参数可根据实际调整
+    float K_p_v = 1.0f, K_i_v = 0.0f, K_d_v = 0.0f;
+    float K_p_w = 1.0f, K_i_w = 0.1f, K_d_w = 0.1f;
 
     if (isreload) {
         PID_Init(&pidSpeed);
         PID_Init(&pidAngular);
+        last_target.linear_velocity = v;
+        last_target.angular_velocity = w;
+        return current_data.speed;
     }
-    else{
-        Data data = getData(); // 获取当前速度和角速度
-        final_speed = data.speed; // 获取当前速度
 
-        PID_Update(&pidSpeed, last_speed.linear_velocity, data.speed.linear_velocity, dt);
-        PID_Update(&pidAngular, last_speed.angular_velocity, data.speed.angular_velocity, dt);
-    }
+    // 用current_data.dt作为dt
+    float dt = current_data.dt;
+    if (dt <= 0.0f) dt = 0.01f; // 防止dt为0
+
+    PID_Update(&pidSpeed, v, current_data.speed.linear_velocity, dt);
+    PID_Update(&pidAngular, w, current_data.speed.angular_velocity, dt);
+
     Speed target_speed;
     target_speed.linear_velocity = v + PID_Compute(&pidSpeed, K_p_v, K_i_v, K_d_v);
     target_speed.angular_velocity = w + PID_Compute(&pidAngular, K_p_w, K_i_w, K_d_w);
 
     WheelSpeed wheel_speed = SpeedToWheelSpeed(target_speed);
 
-    LSet((int16_t)(STOD * wheel_speed.left_wheel_speed)); // 设置左轮速度
-    RSet((int16_t)(STOD * wheel_speed.right_wheel_speed)); // 设置右轮速度
-    
-    return final_speed; // 返回初始速度
+    LSet((int16_t)(STOD * wheel_speed.left_wheel_speed));
+    RSet((int16_t)(STOD * wheel_speed.right_wheel_speed));
+
+    return current_data.speed;
 }
-float runCircle(float radius, float speed, float angle, DIR dir)
+
+// --- 直行控制 ---
+// 理由：用current_data，dt用current_data.dt，yaw误差用sumTheta(current_data.yaw, -target_yaw)
+bool Straight(float distance, float speed, float target_yaw, DIR dir)
 {
-    static int first_run = 1; // 静态变量用于判断是否第一次运行
-    static uint32_t last_time = 0; // 上次更新时间
-    static float target_angle = 0.0f; // 目标角度
-    uint32_t now = HAL_GetTick(); // 获取当前时间
+    static int first_run = 1;
+    static float remain = 0.0f;
+    static float total = 0.0f;
 
-    float linear_velocity = speed; // 线速度
-    float angular_velocity = linear_velocity / radius * (180 / PI); // 角速度，转换为度
-
-    if (first_run || now - last_time > 1000 ) // 如果是第一次运行或超过1秒未更新
-    {
-        first_run = 0; // 标记为非第一次运行
-        last_time = now; // 更新上次更新时间
-        target_angle = angle; // 设置目标角度
-        PID_Move(linear_velocity, dir == LEFT? angular_velocity : -angular_velocity, 0.1f, 1); // 初始化PID控制
-        return target_angle;
+    if (first_run) {
+        first_run = 0;
+        remain = distance;
+        total = distance;
+        PID_Move(0, 0, 1); // 复位PID
+        return false;
     }
 
-    float dt = (now - last_time) / 1000.0f; // 计算时间间隔
-    last_time = now; // 更新上次更新时间
-    Speed current_speed = PID_Move(linear_velocity, dir == LEFT? angular_velocity : -angular_velocity, dt, 0); // 更新速度
-    target_angle -= fabs(current_speed.angular_velocity) * dt * 8 ; // 更新目标角度
-    return target_angle; // 返回剩余角度
-}
-float Straight(float distance, float speed, float yaw, DIR dir)
-{
-    static int first_run = 1; // 静态变量用于判断是否第一次运行
-    static uint32_t last_time = 0; // 上次更新时间
-    static float target_distance = 0.0f; // 目标距离
-    uint32_t now = HAL_GetTick(); // 获取当前时间
-    Data data = getData(); // 获取当前速度和角速度
-    float k_w = 6; // 角速度的系数
+    float dt = current_data.dt;
+    if (dt <= 0.0f) dt = 0.01f;
 
-    speed = speed * (dir == FORWARD ? 1 : -1); // 根据方向调整速度
+    float v = (dir == FORWARD ? speed : -speed);
+    float yaw_error = sumTheta(current_data.yaw, -target_yaw);
+    float k_w = 6.0f; // 角度修正系数
 
-    if (first_run || now - last_time > 1000 ) // 如果是第一次运行或超过1秒未更新
-    {
-        first_run = 0; // 标记为非第一次运行
-        last_time = now; // 更新上次更新时间
-        target_distance = distance; // 设置目标距离
-        PID_Move(speed, -k_w * sumTheta(data.yaw, -yaw), 0.1f, 1); // 初始化PID控制
-        return target_distance;
+    Speed cur = PID_Move(v, -k_w * yaw_error, 0);
+    remain -= fabs(cur.linear_velocity) * dt;
+
+    // 到达目标距离后复位first_run
+    if (fabs(remain) < 0.02f) {
+        first_run = 1;
+        LSet(0);
+        RSet(0);
+        return true;
     }
-    float dt = (now - last_time) / 1000.0f; // 计算时间间隔
-    last_time = now; // 更新上次更新时间
-    Speed current_speed = PID_Move(speed, -k_w * sumTheta(data.yaw, -yaw), dt, 0); // 更新速度
-    target_distance -= fabs(current_speed.linear_velocity) * dt; // 更新目标距离
-    return target_distance; // 返回剩余距离
-    
+    return false;
 }
 
-Data getData()
+// --- 圆周运动 ---
+// 理由：用current_data，dt用current_data.dt，角度积分用实际角速度
+bool runCircle(float radius, float speed, float angle, DIR dir)
 {
-    Data data;
-    data.speed.angular_velocity = getWz(); // 获取当前的角速度
-    data.speed.linear_velocity = cSpeed();
-    data.yaw = getYaw(); // 获取当前的偏航角
+    static int first_run = 1;
+    static float start_yaw = 0.0f;
 
-    return data;
+    if (first_run) {
+        first_run = 0;
+        start_yaw = current_data.yaw;
+        PID_Move(0, 0, 1); // 复位PID
+        return false;
+    }
+
+    float dt = current_data.dt;
+    if (dt <= 0.0f) dt = 0.01f;
+
+    float linear_velocity = speed;
+    float angular_velocity = linear_velocity / radius * (180.0f / PI);
+    if (dir == RIGHT) angular_velocity = -angular_velocity;
+
+    Speed cur = PID_Move(linear_velocity, angular_velocity, 0);
+
+    // 用实际yaw与起始yaw的差值判断剩余角度
+    float delta_yaw = sumTheta(current_data.yaw, -start_yaw);
+    float remain_angle = angle - fabs(delta_yaw);
+
+    // 到达目标角度后复位first_run
+    if (fabs(remain_angle) < 2.0f) {
+        first_run = 1;
+        LSet(0);
+        RSet(0);
+        return true;
+    }
+    return false;
 }

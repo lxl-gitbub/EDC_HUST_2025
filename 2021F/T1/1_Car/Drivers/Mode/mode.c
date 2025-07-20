@@ -1,4 +1,5 @@
 #include "mode.h"
+#include "AllHeader.h"
 
 bool drugSet(MODE* mode)
 {

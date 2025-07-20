@@ -1,6 +1,8 @@
 #ifndef INITIALIZE_H
 #define INITIALIZE_H
 
+// 运动学头文件，包括常见的直行转弯函数
+#include "kinematics.h"
 #include "AllHeader.h"
 
 // Parameters for the encoder
@@ -44,9 +46,12 @@
 #define RIGHT_ENCODER_CHANNEL_B TIM_CHANNEL_2
 #define ENCODER_REAL_TIMER      &htim7
 
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+extern const CarState car; // Declare car state for kinematics
+extern const Data current_data; // Declare current data for kinematics
 
 void MEInit(Motor* L, Motor* R);
 void LMotorSet(MOVETYPE type, uint16_t duty);
@@ -62,6 +67,9 @@ bool isInTheYaw(float targetYaw, float tolerance);
 
 float getYaw(); // 获取当前的偏航角
 float getWz(); // 获取当前的角速度
+// 获取数据函数声明
+void UpdateData(); // 更新当前数据
+void UpdateData_Car(); // 更新汽车状态数据
 
 void Back(float theta); // 后退函数，theta为目标偏航角
 

@@ -1,7 +1,7 @@
 #ifndef KINEMATICS_H
 #define KINEMATICS_H
 
-#include "AllHeader.h"
+#include <stdbool.h>
 
 #define STOD 999/1.30
 
@@ -49,6 +49,7 @@ typedef struct{
 typedef struct{
     Speed speed; // 线速度和角速度
     float yaw; // 偏航角
+	float dt;
 }Data; //这个数据结构用于从编码器和陀螺仪中获取数据
 
 typedef struct{
@@ -62,9 +63,6 @@ typedef struct{
     PIDdata pid; // PID数据
 }CarKinematics;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 //PID 函数声明
 void PID_Init(PIDdata *pid);
@@ -79,12 +77,9 @@ void CarState_Update(CarState *state,  Data d);
 WheelSpeed SpeedToWheelSpeed(Speed speed);
 float sumTheta(float, float);
 
-// 获取数据函数声明
-Data getData();
-
 // 运动学函数声明
-Speed PID_Move(float v, float w, float dt, short isreload);
-float runCircle(float radius, float speed, float angle, DIR dir); // 圆周运动函数
-float Straight(float distance, float speed, float yaw, DIR dir); // 直行函数
+Speed PID_Move(float v, float w, short isreload);
+bool runCircle(float radius, float speed, float angle, DIR dir); // 圆周运动函数
+bool Straight(float distance, float speed, float yaw, DIR dir); // 直行函数
 
  #endif
