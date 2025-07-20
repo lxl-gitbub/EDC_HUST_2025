@@ -165,8 +165,13 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		
-//    IIC_Get_Digtal(Digtal); // 获取数字传感器数据,每一步都要执行以获取数据
+		IIC_Get_Digtal(Digtal); // 获取数字传感器数据,每一步都要执行以获取数据
+		lineWalking_low();
+//    OLED_ShowString(0, 0, "Digital:", 16);
+//    for(int i = 0; i < 8; i++) {
+//      sprintf(message, "%d ", Digtal[i]);
+//      OLED_ShowString(60 + i * 16, 0, message, 16);
+//    }
 
 //    if(drug_change)
 //    {
