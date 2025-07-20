@@ -10,6 +10,7 @@ typedef enum {
     RIGHT = 1,
     FORWARD,
     BACKWARD,
+    UNSTABLE,
 }DIR;
 
 #ifdef __cplusplus

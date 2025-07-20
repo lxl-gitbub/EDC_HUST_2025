@@ -20,6 +20,7 @@ typedef struct{
     DRUG drug;  // Current mode of the car
     LOC loc;    // Current location of the car
     DIR dir;    // The Next direction of the car
+
 }MODE;
 
 

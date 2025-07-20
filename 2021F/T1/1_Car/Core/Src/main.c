@@ -54,30 +54,31 @@ atk_ms601m_attitude_data_t attitude_dat;
 atk_ms601m_gyro_data_t gyro_dat;
 atk_ms601m_accelerometer_data_t accelerometer_dat;
 char message[256]; 
+float current_yaw;//用于存储现在的yaw
+const float back_angle_cor = 10;//用于纠正陀螺仪的系统误差，当角度过小（逆时针不够）
+float distance = 0.0f;// 距离变量
 
 //感为传感器数据变量
 int Digtal[8];
 
+//状态机变量
 MODE mode = {WAIT_MODE}; // 初始化模式为送药模式，位置为零
 short drug_change = 1;
 //用于标记是否需要进行药物模式的转化，
 //只有在最开始的时候是1，以及在最后程序停止的时候是1，中间为0，即中间不需要检测是否装药
+bool Sampling_Begin = true; //视觉模块是否开始采样
 uint32_t mode_begin_t = 0;//记录模式开始的时间
 
 //测量过的转弯参数
 const float r = 0.17;
 const float tel = 26;
 
-float current_yaw;//用于存储现在的yaw
-
 const int back_delay = 300;//防止敲头，在后转之后停止一段时间
-const float back_angle_cor = 10;//用于纠正陀螺仪的系统误差，当角度过小（逆时针不够很）
 
 // 接收状态和缓冲区
-uint8_t USART_RX_BUF[USART_RX_BUF_LEN] = {0}; 
+uint8_t Visual_Rx_Buff[Visual_Rx_Buff_Len] = {0}; 
 // 真正接受数据的函数
-uint8_t arr[25] = {0} ;
-uint8_t USART_EYE_RX_BUF[USART_EYE_RX_LEN] = {0};
+uint8_t Visual_Data[25] = {0} ;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -148,18 +149,16 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	//陀螺仪初始化
 	atk_ms601m_init(115200);
-	
+  //状态机初始化
 	mode.loc.n = 0;
 	// 电机和编码器初始化	
   Motor Left, Right;  
 	MEInit(&Left, &Right); 
-	
-	//初始化OLED屏幕
+	//OLED屏幕初始化
 	OLED_Init();
-	OLED_ShowString(10, 3, "EDC-HUST-2025",16);
+	OLED_ShowString(11, 0, "EDC-HUST-2025",8);
 	// 接收中断初始化
-  HAL_UARTEx_ReceiveToIdle_IT(&huart6, USART_RX_BUF, USART_RX_BUF_LEN);
-  float distance = 0.0f; // 初始化距离变量
+  HAL_UARTEx_ReceiveToIdle_IT(&huart6, Visual_Rx_Buff, Visual_Rx_Buff_Len);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -346,44 +345,17 @@ bool CheckAndEnd()
 
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
-  if (huart->Instance == USART6)
+  // 1. 检查是否是目标串口 (USART6)并且需要采样
+  if (huart->Instance == USART6 && Sampling_Begin == true)
   {
-	  int j = 0 ;
-	  for ( j = 0 ; j < Size ; j ++ )
-	  {
-		  arr[j] = USART_EYE_RX_BUF[j] ;
-	  }
-	  
-	  
-	  /*
-	  核心函数,如下:
-	  */
-	  
-	 // 设置房间存储数组
-	  setRoomArray() ;
-	  SampleGoalNumFromArr(arr) ;
-	  control() ;
-	  
-	  
-	  
-    // 2.使用字符串匹配代替固定长度检查
- 
-
-	// 3. 发送回显（添加\r\n+正确长度+状态检查）
-    const char *echo_str = "get!"; // 不换行的回显字符串
-    uint16_t echo_len = strlen(echo_str); // 计算长度
-	
-    if (huart6.gState == HAL_UART_STATE_READY) 
-	{ 
-      HAL_UART_Transmit_IT(&huart6, (uint8_t *)echo_str, echo_len); // 检查UART是否就绪
-    }
-
-    // 4.重启接收前清除缓存区
-    memset(USART_EYE_RX_BUF, 0, USART_EYE_RX_LEN);
-	
-	// 再次接收
-    HAL_UARTEx_ReceiveToIdle_IT(&huart6, USART_EYE_RX_BUF, USART_EYE_RX_LEN);
+    OLED_ShowString(0, 2, "Visual Sampling Begin", 16);
+    // 2. 将数据从DMA缓冲区复制到处理缓冲区 (更高效的方式)
+	  memcpy(Visual_Data, Visual_Rx_Buff, Size);
+    // 3. 解析数据并进行方向控制
+    visual_process_command(&Sampling_Begin);
   }
+	// 4.再次接收
+  HAL_UARTEx_ReceiveToIdle_IT(&huart6, Visual_Rx_Buff, Visual_Rx_Buff_Len);
 }
 
 
