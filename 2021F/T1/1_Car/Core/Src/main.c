@@ -156,17 +156,22 @@ int main(void)
 	MEInit(&Left, &Right); 
 	//OLED屏幕初始化
 	OLED_Init();
+  OLED_Clear();
 	OLED_ShowString(11, 0, "EDC-HUST-2025",8);
+  //视觉模块初始化
+  visual_full_reset();
 	// 接收中断初始化
   HAL_UARTEx_ReceiveToIdle_IT(&huart6, Visual_Rx_Buff, Visual_Rx_Buff_Len);
-  /* USER CODE END 2 */
 
+  visual_reset_sampling_status();
+  Sampling_Begin = true;
+  /* USER CODE END 2 */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
 		IIC_Get_Digtal(Digtal); // 获取数字传感器数据,每一步都要执行以获取数据
-		lineWalking_low();
+		//lineWalking_low();
 //    OLED_ShowString(0, 0, "Digital:", 16);
 //    for(int i = 0; i < 8; i++) {
 //      sprintf(message, "%d ", Digtal[i]);
@@ -353,7 +358,6 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
   // 1. 检查是否是目标串口 (USART6)并且需要采样
   if (huart->Instance == USART6 && Sampling_Begin == true)
   {
-    OLED_ShowString(0, 2, "Visual Sampling Begin", 16);
     // 2. 将数据从DMA缓冲区复制到处理缓冲区 (更高效的方式)
 	  memcpy(Visual_Data, Visual_Rx_Buff, Size);
     // 3. 解析数据并进行方向控制

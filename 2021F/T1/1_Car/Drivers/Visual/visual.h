@@ -1,33 +1,39 @@
 #ifndef VISUAL_H
 #define VISUAL_H
 
-#include "AllHeader.h" // 假设包含了 DIR, MODE 等定义
-#include <stdbool.h>  // 引入 bool 类型
+#include "AllHeader.h"
+#include <stdbool.h>
 
 /* --- 宏定义 --- */
 #define FRAME_HEADER 0x12
 #define FRAME_TRAILER 0x5B
-#define Visual_Rx_Buff_Len 25 // 接收缓冲区长度
+#define Visual_Rx_Buff_Len 25
 
-#define TARGET_SAMPLING_COUNT 10  // 需要采样的次数
-#define MAX_DIGITS_PER_FRAME 4    // 每帧最多识别的数字个数
-#define STABILITY_THRESHOLD 6     // 稳定性阈值：10次采样中，一个数字至少要稳定出现这么多次
-
+#define TARGET_SAMPLING_COUNT 10
+#define MAX_DIGITS_PER_FRAME 4
+#define STABILITY_THRESHOLD 6 // 稳定性阈值：10次中至少稳定出现6次
 
 /* --- 对外公共函数 --- */
 
 /**
  * @brief 视觉数据处理的主入口函数。
- * @note  此函数应由UART接收中断回调函数调用。它会检查命令标志位，并在后台执行采样和分析任务。
- * @param sampling_command 指向主函数中的“开始采样”标志位的指针。模块完成任务后会将其置为 false。
+ * @note  由UART中断调用。它会根据是否已学习“初始数字”，自动执行学习或导航比对任务。
+ * @param sampling_command 指向主函数中的“开始采样”标志位的指针。
  */
 void visual_process_command(bool* sampling_command);
 
 /**
- * @brief 重置视觉模块的内部所有状态。
- * @note  在主函数中每次发起新的视觉任务前，都应调用此函数来清空旧数据和状态。
+ * @brief 重置视觉模块的采样状态。
+ * @note  在主函数中每次发起新的视觉任务前调用。
+ * 重要：此函数不会重置已学习的“初始数字”，只会重置采样计数器。
  */
-void visual_reset_state(void);
+void visual_reset_sampling_status(void);
+
+/**
+ * @brief 完全重置视觉模块所有状态，包括已学习的“初始数字”。
+ * @note  仅在整个程序开始时，或需要彻底重新学习时调用。
+ */
+void visual_full_reset(void);
 
 
 #endif // VISUAL_H
