@@ -17,7 +17,7 @@ static uint8_t s_initial_samples[INITIAL_SAMPLING_COUNT][MAX_DIGITS_PER_FRAME];
 static uint8_t s_initial_sample_lengths[INITIAL_SAMPLING_COUNT];
 
 // 导航阶段变量
-#define NAV_MAX_SAMPLES 50 // 导航阶段最多收集50个样本
+#define NAV_MAX_SAMPLES 200 // 导航阶段最多收集50个样本
 static int s_nav_sample_count = 0;
 static uint8_t s_nav_samples[NAV_MAX_SAMPLES][MAX_DIGITS_PER_FRAME];
 static uint8_t s_nav_sample_lengths[NAV_MAX_SAMPLES];
@@ -100,13 +100,6 @@ static bool analyze_nav_stability(uint8_t* out_sequence, uint8_t* out_len)
 
 /* --- 对外公共函数实现 --- */
 
-void visual_full_reset(void)
-{
-    s_initial_digit = -1;
-    s_previous_sampling_command = false;
-    visual_reset_sampling_status();
-}
-
 void visual_reset_sampling_status(void)
 {
     s_initial_sample_count = 0;
@@ -114,6 +107,12 @@ void visual_reset_sampling_status(void)
     // ... 其他 memset 操作 ...
 }
 
+void visual_full_reset(void)
+{
+    s_initial_digit = -1;
+    s_previous_sampling_command = false;
+    visual_reset_sampling_status();
+}
 
 void visual_process_command(bool* sampling_command)
 {
@@ -156,24 +155,52 @@ void visual_process_command(bool* sampling_command)
         visual_reset_sampling_status();
     }
 
-    // --- 数据收集阶段：当命令为 true 时，只收集数据 ---
+   // --- 数据收集阶段：当命令为 true 时执行 ---
     if (*sampling_command == true)
     {
         uint8_t current_sequence[MAX_DIGITS_PER_FRAME];
         uint8_t current_length = 0;
-        // ... (解析 Visual_Data 的代码和之前一样) ...
-        
-        if (current_length > 0) {
-            if (s_initial_digit == -1) { // 存入学习样本区
-                if (s_initial_sample_count < INITIAL_SAMPLING_COUNT) {
-                    // ... 存入 s_initial_samples ...
-                    s_initial_sample_count++;
+        // 解析 Visual_Data 数据
+        if (Visual_Data[0] == FRAME_HEADER && Visual_Data[Visual_Data[1] + 2] == FRAME_TRAILER) {
+            current_length = Visual_Data[1];
+            if (current_length > 0 && current_length <= MAX_DIGITS_PER_FRAME) {
+                memcpy(current_sequence, &Visual_Data[2], current_length);
+            } else {
+                current_length = 0;
+            }
+        }
+        if (current_length == 0) { // 如果帧无效，直接更新上一次的状态并返回
+             s_previous_sampling_command = *sampling_command;
+             return;
+        }
+
+        // --- 根据是否已学习，分发任务 ---
+        if (s_initial_digit == -1) {
+            /***** 学习阶段 (自动结束) *****/
+            if (s_initial_sample_count < INITIAL_SAMPLING_COUNT) {
+                memcpy(s_initial_samples[s_initial_sample_count], current_sequence, current_length);
+                s_initial_sample_lengths[s_initial_sample_count] = current_length;
+                s_initial_sample_count++;
+            }
+            // 修正点：当样本收集满10次后，立即分析并自动结束
+            if (s_initial_sample_count >= INITIAL_SAMPLING_COUNT) {
+                uint8_t learned_digit;
+                if (analyze_initial_stability(&learned_digit)) {
+                    s_initial_digit = learned_digit;
+                    mode.dir = FORWARD; // 学习成功，给OK信号
+                    OLED_ShowString(10, 2, "Initial Success",16);
+                } else {
+                    mode.dir = UNSTABLE; // 学习失败
+                    OLED_ShowString(10, 2, "Initial Failed",16);
                 }
-            } else { // 存入导航样本区
-                if (s_nav_sample_count < NAV_MAX_SAMPLES) {
-                    // ... 存入 s_nav_samples ...
-                    s_nav_sample_count++;
-                }
+                *sampling_command = false; // 任务完成，自动将命令标志位置为 false
+            }
+        } else {
+            /***** 导航阶段 (只收集数据) *****/
+            if (s_nav_sample_count < NAV_MAX_SAMPLES) {
+                memcpy(s_nav_samples[s_nav_sample_count], current_sequence, current_length);
+                s_nav_sample_lengths[s_nav_sample_count] = current_length;
+                s_nav_sample_count++;
             }
         }
     }
