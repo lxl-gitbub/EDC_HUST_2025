@@ -65,6 +65,7 @@ short drug_change = 1;
 //只有在最开始的时候是1，以及在最后程序停止的时候是1，中间为0，即中间不需要检测是否装药
 bool Sampling_Begin = true; //视觉模块是否开始采样
 uint32_t mode_begin_t = 0;//记录模式开始的时间
+bool hasStopped = false;
 
 //测量过的转弯参数
 const float r = 0.17;
@@ -76,6 +77,7 @@ const int back_delay = 300;//防止敲头，在后转之后停止一段时间
 uint8_t Visual_Rx_Buff[Visual_Rx_Buff_Len] = {0}; 
 // 真正接受数据的函数
 uint8_t Visual_Data[25] = {0} ;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -167,14 +169,10 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+//		OLED_Clear();
     // 每周期更新数据
     UpdateData_Car(); // 更新汽车状态数据
 		IIC_Get_Digtal(Digtal); // 获取数字传感器数据,每一步都要执行以获取数据
-    OLED_ShowString(0, 0, "Digital:", 16);
-    for(int i = 0; i < 8; i++) {
-      sprintf(message, "%d ", Digtal[i]);
-      OLED_ShowString(60 + i * 16, 0, message, 16);
-    }
 
     if(drug_change)
     {
@@ -194,9 +192,37 @@ int main(void)
         // 药物模式下的处理逻辑
         if(!isEndOfWay(mode.loc)) // 检查当前位置是否是终点，如果不是循迹正行
         {
-					if(!CheckAndTurn())//因为不是终点，所以转弯
-            lineWalking_high(); // 进行循迹行走
-        }
+          if(isIntheCheckLoc(mode.loc)) // 如果在检查位置
+          {
+            if(isInTheCheckplace(mode.loc)) // 如果在检查位置
+            {
+              Sampling_Begin = true; // 开始采样
+              lineWalking_low(); // 进行低速循迹行走
+            }
+            else // 如果不在检查位置
+            {
+              if(Sampling_Begin == true) // 如果开始采样
+              {
+                Sampling_Begin = false; // 停止采样
+                visual_process_command(&Sampling_Begin);
+              }
+              if(mode.dir == UNSTABLE && !hasStopped) // 如果方向不稳定
+              {
+                Sampling_Begin = true; // 重新开始采样
+                hasStopped = true; // 停止前进
+                Break(); // 停止小车
+                HAL_Delay(500); // 等待500ms
+              }
+              if(!CheckAndTurn()) // 检查是否需要结束当前模式
+              {
+                lineWalking_high(); // 进行高速循迹行走
+              }
+            }
+          }
+          else // 如果不在检查位置
+            if(!CheckAndTurn()) // 检查是否需要结束当前模式
+              lineWalking_high(); // 进行高速循迹行走
+        }       
         else // 如果是终点
           if(!CheckAndEnd()) // 因为是最终点，所以停止
             lineWalking_high(); // 进行循迹行走
@@ -312,6 +338,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 bool CheckAndTurn()//所有check和turn函数都调用了dirget，在dirget中更新了mode.loc.trace和mode.loc.n
 {
+  hasStopped = false; // 重置停止状态
   if(HAL_GetTick() - mode_begin_t > 1000)
   {
     if(cross_Roads_Detect())

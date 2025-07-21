@@ -1,6 +1,8 @@
 #include "mode.h"
 #include "AllHeader.h"
 
+static float last_cross = 0.0f;
+
 bool drugSet(MODE* mode)
 {
     if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5) == GPIO_PIN_RESET && mode->loc.n == 0)
@@ -54,6 +56,42 @@ bool isEndOfWay(LOC l)
     return false; // 其他情况不是终点
 }
 
+bool isIntheCheckLoc(LOC l)
+{
+    if(l.n == 1 && l.trace[0] == FORWARD)
+    {
+        return true; // 如果只有一个方向且是前进，表示在检查位置
+    }
+    else if(l.n == 2 && l.trace[0] == FORWARD && l.trace[1] == FORWARD)
+    {
+        return true; // 如果有两个方向且都是前进，表示在检查位置
+    }
+    else if(l.n == 3 && l.trace[0] == FORWARD && l.trace[1] == FORWARD && (l.trace[2] == LEFT || l.trace[2] == RIGHT))
+    {
+        return true; // 如果有三个方向且都是前进，表示在检查位置
+    }
+   return false;
+}
+bool isInTheCheckplace(LOC l)
+{
+    if(fabs(LocToTheta(l)) < 0.01f)
+    {
+        if(car.pose.x - last_cross > 0.22 && car.pose.x - last_cross < 0.27)
+        {
+            return true; // 进入检查点
+        }
+    }
+    else{
+        if(car.pose.y - last_cross > 0.21 && car.pose.y - last_cross < 0.27)
+        {
+            return true; // 进入检查点
+        }
+    }
+    return false; // 没有进入检查点
+}
+
+
+
 DIR ForToBack(DIR dir)
 {
     // 将前进方向转换为返回方向
@@ -72,6 +110,13 @@ DIR ForToBack(DIR dir)
 
 DIR DirGet(MODE* mode)
 {
+    if(fabs(LocToTheta(mode->loc)) < 0.01f)
+    {
+        last_cross = car.pose.x; // 记录上次交叉点的x坐标
+    }
+    else{
+        last_cross = car.pose.y; // 记录上次交叉点的y坐标
+    }
     // 获取下一个方向
    if(mode->drug == PROPEL_MODE)
     {
@@ -91,7 +136,7 @@ DIR DirGet(MODE* mode)
             return ForToBack(mode->loc.trace[mode->loc.n]); // 返回转换后的方向
         }
     }
-		return FORWARD;
+	return FORWARD;
 }
 
 float DirToTheta(DIR dir)

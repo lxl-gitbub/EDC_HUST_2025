@@ -34,6 +34,11 @@ bool drugSet(MODE* mode);
 
 bool isEndOfWay(LOC l);
 // This function checks if the current location is the end of the way
+bool isIntheCheckLoc(LOC l);
+// This function checks if the car is in the check location
+bool isInTheCheckplace(LOC l);
+// This function checks if the car is in the check place
+
 DIR ForToBack(DIR dir);
 // This function converts the forward direction to the backward direction
 DIR DirGet(MODE* mode);

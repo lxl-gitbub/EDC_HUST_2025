@@ -5,9 +5,9 @@
 #define IRR_SPEED_LOW   200  // 低速巡线速度
 
 // 高速PID参数
-#define IRTrack_Trun_KP_HIGH 35
+#define IRTrack_Trun_KP_HIGH 50
 #define IRTrack_Trun_KI_HIGH 0
-#define IRTrack_Trun_KD_HIGH 1
+#define IRTrack_Trun_KD_HIGH 0
 
 // 低速PID参数
 #define IRTrack_Trun_KP_LOW  20
@@ -58,75 +58,37 @@ void lineWalking_low(void)
 // --- 核心巡线逻辑，参数可配置 ---
 void lineWalking_core(int16_t speed, float kp, float ki, float kd)
 {
-    static int8_t err = 0;
-    static u8 x1,x2,x3,x4,x5,x6,x7,x8;
+    // 在 lineWalking_core 函数中
+	// ...
+	float sum_position = 0;
+	int num_active_sensors = 0;
 
-    x1 = Digtal[0];
-    x2 = Digtal[1];
-    x3 = Digtal[2];
-    x4 = Digtal[3];
-    x5 = Digtal[4];
-    x6 = Digtal[5];
-    x7 = Digtal[6];
-    x8 = Digtal[7];
+	// 为每个传感器分配一个位置权重，中心为0
+	// 对于8个传感器，可以这样分配：
+	// 索引:   0    1    2    3    4    5    6    7
+	// 权重: -3.5 -2.5 -1.5 -0.5  0.5  1.5  2.5  3.5
+	float sensor_positions[] = {-3.5f, -2.5f, -1.5f, -0.5f, 0.5f, 1.5f, 2.5f, 3.5f};
 
-    if(x1 == 0 && x2 == 0  && x3 == 0&& x4 == 0 && x5 == 0 && x6 == 1  && x7 == 1 && x8 == 1)
-    {
-        err = -15;
-        HAL_Delay(100);
-    }
-    else if(x1 == 1 && x2 == 1  && x3 == 1&& x4 == 0 && x5 == 0 && x6 == 0  && x7 == 0 && x8 == 0)
-    {
-        err = 15;
-        HAL_Delay(100);
-    }
-    else if(x1 == 0 &&  x2 == 0  && x3 == 0 && x6 == 0 && x7 == 0 && x8 == 0 )
-    {
-        err = 0;
-        if(trun_flag == 1)
-        {
-            trun_flag = 0;
-        }
-    }
-    else if(x1 == 1 && x2 == 1  && x3 == 1&& x4 == 0 && x5 == 1 && x6 == 1  && x7 == 1 && x8 == 1)
-    {
-        err = -2;
-    }
-    else if(x1 == 1 && x2 == 1  && x3 == 0&& x4 == 0 && x5 == 1 && x6 == 1  && x7 == 1 && x8 == 1)
-    {
-        err = -4;
-    }
-    else if(x1 == 1 && x2 == 0  && x3 == 0&& x4 == 1 && x5 == 1 && x6 == 1  && x7 == 1 && x8 == 1)
-    {
-        err = -8;
-    }
-    else if(x1 == 0 && x2 == 1  && x3 == 1&& x4 == 1 && x5 == 1 && x6 == 1  && x7 == 1 && x8 == 1)
-    {
-        err = -10; 
-    }
-    else if(x1 == 1 && x2 == 1  && x3 == 1&& x4 == 1 && x5 == 0 && x6 == 1  && x7 == 1 && x8 == 1)
-    {
-        err = 2;
-    } 
-    else if(x1 == 1 && x2 == 1  && x3 == 1&& x4 == 1 && x5 == 0 && x6 == 0  && x7 == 1 && x8 == 1)
-    {
-        err = 4;
-    }
-    else if(x1 == 1 && x2 == 1  && x3 == 1&& x4 == 1 && x5 == 1 && x6 == 0  && x7 == 0 && x8 == 1)
-    {
-        err = 8;
-    }
-    else if(x1 == 1 && x2 == 1  && x3 == 1&& x4 == 1 && x5 == 1 && x6 == 1  && x7 == 1 && x8 == 0)
-    {
-        err = 10;
-    }
-    else if(x1 == 1 &&x2 == 1 &&x3 == 1 && x4 == 0 && x5 == 0 && x6 == 1 && x7 == 1&& x8 == 1)
-    {
-        err = 0;
-    }
-    // 其余情况保持上一个err
+	for (int i = 0; i < 8; i++) {
+		if (Digtal[i] == 0) { // 如果传感器检测到线
+				sum_position += sensor_positions[i];
+				num_active_sensors++;
+		}
+	}
 
-    pid_output_IRR = (int)(PID_IR_Calc_Custom(err*3, kp, ki, kd));  
+	if (num_active_sensors > 0) {
+		float average_position = sum_position / num_active_sensors;
+		// 将平均位置乘以一个缩放因子，得到您期望的误差范围
+		// 例如，乘以10或20，让err的绝对值更大，以便KP能更明显地作用
+		err = (int8_t)(average_position * 10.0f); // 这里的10.0f是示例，需要根据实际效果调整
+	} else {
+		// 如果所有传感器都没有检测到线，通常意味着机器人完全偏离了。
+		// 您需要在这里实现一个“失线”恢复策略，例如停车、旋转寻找线等。
+		// 暂时可以保持上一次的err，或者根据实际情况设定一个默认值。
+	}
+
+	// 然后将这个更精细的 err 传递给 PID_IR_Calc_Custom
+		pid_output_IRR = (int)(PID_IR_Calc_Custom(err, kp, ki, kd)); // 注意这里不再需要 err * 3 
     Motion_Car_Control(speed, 0, pid_output_IRR);
 }
 
