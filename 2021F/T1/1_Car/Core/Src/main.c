@@ -68,8 +68,8 @@ uint32_t mode_begin_t = 0;//记录模式开始的时间
 bool hasStopped = false;
 
 //测量过的转弯参数
-const float r = 0.17;
-const float tel = 26;
+const float r = 0.22;
+const float tel = 20;
 
 const int back_delay = 300;//防止敲头，在后转之后停止一段时间
 
@@ -172,88 +172,84 @@ int main(void)
 //		LSet(200);
 //		RSet(200);
 //    // 每周期更新数据
-//    UpdateData_Car(); // 更新汽车状态数据
-//		OLED_Clear(); // 清除OLED屏幕内容
-//    // 显示当前状态
-//    sprintf(message, "theta: %.2f, x: %.2f, y: %.2f", car.pose.theta, car.pose.x, car.pose.y);
-//    OLED_ShowString(0, 0, message, 8); // 显示
-//		IIC_Get_Digtal(Digtal); // 获取数字传感器数据,每一步都要执行以获取数据
-
-//		if(mode.dir == UNSTABLE)
-//			RED_up();
-//    if(drug_change)
-//    {
-//      if(drugSet(&mode))// 进行药物模式的转化，如果转换成功进入if
-//      {
-//        drug_change = 0; // 转化完成后将标志位设为0
-//        mode_begin_t = HAL_GetTick(); // 记录模式开始的时间
-//      }
-//      continue; // 继续下一次循环
-//    }
-//    switch (mode.drug)
-//    {
-//      case WAIT_MODE:
-//        // 等待模式下的处理逻辑
-//        break;
-//      case PROPEL_MODE:
-//        // 药物模式下的处理逻辑
-//        if(!isEndOfWay(mode.loc)) // 检查当前位置是否是终点，如果不是循迹正行
-//        {
-//          if(isIntheCheckLoc(mode.loc)) // 如果在检查位置
-//          {
-////            if(isInTheCheckplace(mode.loc)) // 如果在检查位置
-////            {
-//              Sampling_Begin = true; // 开始采样
-////              lineWalking_low(); // 进行低速循迹行走
-////           }
-////            else // 如果不在检查位置
-////            {
-////              if(Sampling_Begin == true) // 如果开始采样
-////              {
-////                Sampling_Begin = false; // 停止采样
-////                visual_process_command(&Sampling_Begin);
-////              }
-////              if(mode.dir == UNSTABLE && !hasStopped) // 如果方向不稳定
-////              {
-////                Sampling_Begin = true; // 重新开始采样
-////                hasStopped = true; // 停止前进
-////                Break(); // 停止小车
-////                HAL_Delay(500); // 等待500ms
-////              }
-//              if(!CheckAndTurn()) // 检查是否需要结束当前模式
-//                lineWalking_low(); // 进行高速循迹行走
-////           }
-//          }
-//          else // 如果不在检查位置
-//            if(!CheckAndTurn()) // 检查是否需要结束当前模式
-//              lineWalking_high(); // 进行高速循迹行走
-//        }      
-//        else // 如果是终点
-//          if(!CheckAndEnd()) // 因为是最终点，所以停止
-//            lineWalking_high(); // 进行循迹行走
-//        break;
-//      case RETURN_MODE:
-//        // 返回模式下的处理逻辑
-//        if(mode.loc.n == 0) // 如果位置记录为空,说明小车已经回到了最开始的地方，则用停车逻辑来处理
-//        {
-//          if(!CheckAndEnd()) // 检查是否需要结束当前模式
-//            lineWalking_high(); // 进行循迹行走
-//        }
-//        else if(isEndOfWay(mode.loc)) //如果是除零点以外的终点，需要倒退
-//        {
-//          if(!CheckAndTurn())
-//            Back(LocToTheta(mode.loc) + back_angle_cor); // 后退到上一个位置
-//        }
-//        else // 如果不是终点
-//        {
-//          if(!CheckAndTurn()) // 检查是否需要结束当前模式
-//            lineWalking_high(); // 进行循迹行走
-//        }
-//        break;
-//      default:
-//        // 未知模式的处理逻辑
-//        break;
-//    }
+    UpdateData_Car(); // 更新汽车状态数据
+		IIC_Get_Digtal(Digtal); // 获取数字传感器数据,每一步都要执行以获取数据
+		SwitchLED(mode.loc.n);
+		if(mode.dir == UNSTABLE)
+			RED_up();
+    if(drug_change)
+    {
+      if(drugSet(&mode))// 进行药物模式的转化，如果转换成功进入if
+      {
+        drug_change = 0; // 转化完成后将标志位设为0
+        mode_begin_t = HAL_GetTick(); // 记录模式开始的时间
+      }
+      continue; // 继续下一次循环
+    }
+    switch (mode.drug)
+    {
+      case WAIT_MODE:
+        // 等待模式下的处理逻辑
+        break;
+      case PROPEL_MODE:
+        // 药物模式下的处理逻辑
+        if(!isEndOfWay(mode.loc)) // 检查当前位置是否是终点，如果不是循迹正行
+        {
+          if(isIntheCheckLoc(mode.loc)) // 如果在检查位置
+          {
+//            if(isInTheCheckplace(mode.loc)) // 如果在检查位置
+//            {
+              Sampling_Begin = true; // 开始采样
+//              lineWalking_low(); // 进行低速循迹行走
+//           }
+//            else // 如果不在检查位置
+//            {
+//              if(Sampling_Begin == true) // 如果开始采样
+//              {
+//                Sampling_Begin = false; // 停止采样
+//                visual_process_command(&Sampling_Begin);
+//              }
+//              if(mode.dir == UNSTABLE && !hasStopped) // 如果方向不稳定
+//              {
+//                Sampling_Begin = true; // 重新开始采样
+//                hasStopped = true; // 停止前进
+//                Break(); // 停止小车
+//                HAL_Delay(500); // 等待500ms
+//              }
+              if(!CheckAndTurn()) // 检查是否需要结束当前模式
+                lineWalking_low(); // 进行高速循迹行走
+//           }
+          }
+          else // 如果不在检查位置
+            if(!CheckAndTurn()) // 检查是否需要结束当前模式
+              lineWalking_high(); // 进行高速循迹行走
+        }      
+        else // 如果是终点
+          if(!CheckAndEnd()) // 因为是最终点，所以停止
+            lineWalking_high(); // 进行循迹行走
+        break;
+      case RETURN_MODE:
+        // 返回模式下的处理逻辑
+        if(mode.loc.n == 0) // 如果位置记录为空,说明小车已经回到了最开始的地方，则用停车逻辑来处理
+        {
+          if(!CheckAndEnd()) // 检查是否需要结束当前模式
+            lineWalking_high(); // 进行循迹行走
+        }
+        else if(isEndOfWay(mode.loc)) //如果是除零点以外的终点，需要倒退
+        {
+          if(!CheckAndTurn())
+            Back(LocToTheta(mode.loc) + back_angle_cor); // 后退到上一个位置
+        }
+        else // 如果不是终点
+        {
+          if(!CheckAndTurn()) // 检查是否需要结束当前模式
+            lineWalking_high(); // 进行循迹行走
+        }
+        break;
+      default:
+        // 未知模式的处理逻辑
+        break;
+    }
     /* USER CODE END WHILE */
 	}
     /* USER CODE BEGIN 3 */
@@ -353,8 +349,6 @@ bool CheckAndTurn()//所有checkturn函数都调用了dirget，在dirget中更新了mode.loc.t
 			{
 				Sampling_Begin = false;
 				visual_process_command(&Sampling_Begin);
-        sprintf(message, "loc: %d, dir: %d", mode.loc.n, mode.dir);
-        OLED_ShowString(0, 0, message, 8);
 				GREEN_up();
 			}
       switch(DirGet(&mode)) // 获取下一个方向
@@ -364,13 +358,13 @@ bool CheckAndTurn()//所有checkturn函数都调用了dirget，在dirget中更新了mode.loc.t
           return true; // 继续前进
         case LEFT:
 					current_yaw = getYaw();
-          while(!isInTheYaw(sumTheta(current_yaw, 90), tel)) {runCircle(r, 0.5, 90, LEFT); UpdateData_Car();}
+          while(!isInTheYaw(sumTheta(current_yaw, 90), tel)) {runCircle(r, 0.3, 90, LEFT); UpdateData_Car();}
 					RED_down();
           Break();
           return true; // 继续前进
         case RIGHT:
 					current_yaw = getYaw();
-          while(!isInTheYaw(sumTheta(current_yaw, -90), tel)){runCircle(r, 0.5, 90, RIGHT); UpdateData_Car();}
+          while(!isInTheYaw(sumTheta(current_yaw, -90), tel)){runCircle(r, 0.3, 90, RIGHT); UpdateData_Car();}
           Break();
           return true; // 继续前进
       }
@@ -381,12 +375,16 @@ bool CheckAndTurn()//所有checkturn函数都调用了dirget，在dirget中更新了mode.loc.t
 }
 bool CheckAndEnd()
 {
-  if(half_Detect())
+	if(HAL_GetTick() - mode_begin_t > 1000)
   {
-    Break();
-    drug_change = 1; // 设置标志位为1，表示需要进行药物模式的转化
-    return true; // 需要结束当前模式
-  }
+		mode_begin_t = HAL_GetTick();
+		if(half_Detect())
+		{
+			Break();
+			drug_change = 1; // 设置标志位为1，表示需要进行药物模式的转化
+			return true; // 需要结束当前模式
+		}
+	}
   return false; // 没有需要结束的情况
 }
 

@@ -13,6 +13,8 @@ void GREEN_up();
 void GREEN_down();
 void YELLOW_up();
 void YELLOW_down();
+void Alldown();
+void SwitchLED(short led);
 
 #ifdef __cplusplus
 }

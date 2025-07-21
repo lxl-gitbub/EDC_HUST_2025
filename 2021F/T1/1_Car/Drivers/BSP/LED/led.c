@@ -24,3 +24,29 @@ void YELLOW_down()
 {
     HAL_GPIO_WritePin(YELLOW_GPIO_Port, YELLOW_Pin, GPIO_PIN_RESET);
 }
+
+void Alldown()
+{
+    RED_down();
+    GREEN_down();
+    YELLOW_down();
+}
+
+void SwitchLED(short led)
+{
+    Alldown(); // 先关闭所有LED灯
+    switch(led)
+    {
+        case 0:
+            RED_up();
+            break;
+        case 1:
+            GREEN_up();
+            break;
+        case 2:
+            YELLOW_up();
+            break;
+        default:
+            break;
+    }
+}

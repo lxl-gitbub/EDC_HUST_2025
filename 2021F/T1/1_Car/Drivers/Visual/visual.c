@@ -101,13 +101,6 @@ static bool analyze_nav_stability(uint8_t* out_sequence, uint8_t* out_len)
 
 /* --- 对外公共函数实现 --- */
 
-void visual_full_reset(void)
-{
-    s_initial_digit = -1;
-    s_previous_sampling_command = false;
-    visual_reset_sampling_status();
-}
-
 void visual_reset_sampling_status(void)
 {
     s_initial_sample_count = 0;
@@ -117,6 +110,12 @@ void visual_reset_sampling_status(void)
     s_nav_sample_count = 0;
     memset(s_nav_samples, 0, sizeof(s_nav_samples));
     memset(s_nav_sample_lengths, 0, sizeof(s_nav_sample_lengths));
+}
+void visual_full_reset(void)
+{
+    s_initial_digit = -1;
+    s_previous_sampling_command = false;
+    visual_reset_sampling_status();
 }
 
 
@@ -132,7 +131,7 @@ void visual_process_command(bool* sampling_command)
                 bool target_found = false;
                 for (int i = 0; i < stable_len; i++) {
                     if (stable_sequence[i] == s_initial_digit) {
-                        mode.dir = (i < stable_len / 2) ? LEFT : RIGHT;
+                        mode.dir = (i <= stable_len / 2) ? LEFT : RIGHT;
                         target_found = true;
                         break;
                     }
