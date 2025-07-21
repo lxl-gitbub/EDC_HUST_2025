@@ -58,7 +58,10 @@ bool isEndOfWay(LOC l)
 
 bool isIntheCheckLoc(LOC l)
 {
-    if(l.n == 1 && l.trace[0] == FORWARD)
+//	char message[256];
+//    sprintf(message, "n: %d, trace[0]: %d, trace[1]: %d, trace[2]: %d", l.n, l.trace[0], l.trace[1], l.trace[2]);
+//    OLED_ShowString(4, 0, message, 8);
+    if(l.n == 1 && l.trace[0] == FORWARD)//这两个判定是正常的
     {
         return true; // 如果只有一个方向且是前进，表示在检查位置
     }
@@ -123,8 +126,8 @@ DIR DirGet(MODE* mode)
     // 获取下一个方向
    if(mode->drug == PROPEL_MODE)
     {
-        mode->loc.trace[mode->loc.n++] = mode->dir; // 记录当前方向
-				if(mode->dir == FORWARD) YELLOW_up();
+        mode->loc.trace[mode->loc.n] = mode->dir; // 记录当前方向
+				mode->loc.n++;
         return mode->dir; // 返回当前方向
     }
     else if(mode->drug == RETURN_MODE)
