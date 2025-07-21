@@ -188,8 +188,10 @@ void visual_process_command(bool* sampling_command)
                 uint8_t learned_digit;
                 if (analyze_initial_stability(&learned_digit)) {
                     s_initial_digit = learned_digit;
-                    mode.dir = FORWARD; // 学习成功，给OK信号
                     OLED_ShowString(2, 2, "Initial Success",16);
+                    if (learned_digit == 1) mode.dir = LEFT; // 如果学到的是1，准备左转
+                    else if (learned_digit == 2) mode.dir = RIGHT; // 如果学到的是2，准备右转
+                    else mode.dir = FORWARD; // 如果是其他数字(3-8)，则返回FORWARD作为“成功”信号，小车将继续前进
                 } else {
                     mode.dir = UNSTABLE; // 学习失败
                     OLED_ShowString(2, 2, "Initial Failed",16);
