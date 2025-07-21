@@ -42,17 +42,11 @@ void CarState_Init(CarState *state) {
 }
 // Updates the car state based on wheel speeds and time delta
 void CarState_Update(CarState *state, Data d) {
-    static uint32_t last_time = 0; // Last update time
-    uint32_t now = HAL_GetTick(); // Get current time
-    if (state == NULL) return; // Check for null pointer
-    float dt = (now - last_time) * 1e-3f; // Calculate time difference in seconds
-    last_time = now; // Update last time
-    if (dt <= 0.0f) return; // Avoid division by zero
     // Calculate the average wheel speed
     state->speed = d.speed;
     state->pose.theta = sumTheta(d.yaw, -state->pose.initial_theta); // Update theta with current yaw
-    state->pose.x += state->speed.linear_velocity * dt * cos(state->pose.theta);
-    state->pose.y += state->speed.linear_velocity * dt * sin(state->pose.theta);
+    state->pose.x += state->speed.linear_velocity * d.dt * cos(state->pose.theta);
+    state->pose.y += state->speed.linear_velocity * d.dt * sin(state->pose.theta);
     //目前没有发现其他数据的作用，暂且处理这些数据
 }
 
@@ -121,18 +115,20 @@ bool Straight(float distance, float speed, float target_yaw, DIR dir)
     static int first_run = 1;
     static float remain = 0.0f;
     static float total = 0.0f;
+		static uint32_t last_time = 0;
+		uint32_t now = HAL_GetTick();
 
-    if (first_run) {
+    if (first_run && now - last_time > 1000) {
         first_run = 0;
         remain = distance;
         total = distance;
         PID_Move(0, 0, 1); // 复位PID
         return false;
     }
+		last_time = now;
 
     float dt = current_data.dt;
-    if (dt <= 0.0f) dt = 0.01f;
-
+		
     float v = (dir == FORWARD ? speed : -speed);
     float yaw_error = sumTheta(current_data.yaw, -target_yaw);
     float k_w = 6.0f; // 角度修正系数
@@ -141,12 +137,12 @@ bool Straight(float distance, float speed, float target_yaw, DIR dir)
     remain -= fabs(cur.linear_velocity) * dt;
 
     // 到达目标距离后复位first_run
-    if (fabs(remain) < 0.02f) {
-        first_run = 1;
-        LSet(0);
-        RSet(0);
-        return true;
-    }
+//    if (fabs(remain) < 0.02f) {
+//        first_run = 1;
+//        LSet(0);
+//        RSet(0);
+//        return true;
+//    }
     return false;
 }
 
@@ -156,17 +152,18 @@ bool runCircle(float radius, float speed, float angle, DIR dir)
 {
     static int first_run = 1;
     static float start_yaw = 0.0f;
+		static uint32_t last_time = 0;
+		uint32_t now = HAL_GetTick();
 
-    if (first_run) {
+    if (first_run || now - last_time > 1000) {
         first_run = 0;
         start_yaw = current_data.yaw;
         PID_Move(0, 0, 1); // 复位PID
+				last_time = now;
+        RED_up();
         return false;
     }
-
-    float dt = current_data.dt;
-    if (dt <= 0.0f) dt = 0.01f;
-
+	last_time = now;
     float linear_velocity = speed;
     float angular_velocity = linear_velocity / radius * (180.0f / PI);
     if (dir == RIGHT) angular_velocity = -angular_velocity;
@@ -178,11 +175,11 @@ bool runCircle(float radius, float speed, float angle, DIR dir)
     float remain_angle = angle - fabs(delta_yaw);
 
     // 到达目标角度后复位first_run
-    if (fabs(remain_angle) < 2.0f) {
-        first_run = 1;
-        LSet(0);
-        RSet(0);
-        return true;
-    }
+//    if (fabs(remain_angle) < 2.0f) {
+//        first_run = 1;
+//        LSet(0);
+//        RSet(0);
+//        return true;
+//    }
     return false;
 }

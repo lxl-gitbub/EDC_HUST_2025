@@ -74,6 +74,9 @@ bool isIntheCheckLoc(LOC l)
 }
 bool isInTheCheckplace(LOC l)
 {
+    char message[256];
+    sprintf(message, "last_cross: %.2f, car.pose.x: %.2f, car.pose.y: %.2f", last_cross, car.pose.x, car.pose.y);
+    OLED_ShowString(0, 0, message, 8);
     if(fabs(LocToTheta(l)) < 0.01f)
     {
         if(car.pose.x - last_cross > 0.22 && car.pose.x - last_cross < 0.27)
@@ -121,6 +124,7 @@ DIR DirGet(MODE* mode)
    if(mode->drug == PROPEL_MODE)
     {
         mode->loc.trace[mode->loc.n++] = mode->dir; // 记录当前方向
+				if(mode->dir == FORWARD) YELLOW_up();
         return mode->dir; // 返回当前方向
     }
     else if(mode->drug == RETURN_MODE)

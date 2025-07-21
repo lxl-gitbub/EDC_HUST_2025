@@ -129,7 +129,7 @@ void UpdateData_Car()
 
 void Back( float theta)
 {
-    float speed = 0.5f; // Set the speed for backward movement
+    float speed = 0.3f; // Set the speed for backward movement
     float targetYaw = sumTheta(car.pose.initial_theta, theta); // Calculate the target yaw angle
     Straight(0.3, speed, targetYaw, BACKWARD); // Move backward with the specified speed and target yaw
 }

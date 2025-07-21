@@ -1,6 +1,6 @@
 Dependencies for Project 'tem', Target 'tem': (DO NOT MODIFY !)
 F (..\Core\Inc\AllHeader.h)(0x687CDA1C)()
-F (../Core/Src/main.c)(0x687DE2A7)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/Motor_Encoder -I ../Drivers/BSP/GanWei -I ../Drivers/Tracking -I ../Drivers/Mode -I ../Drivers/Visual -I ../Drivers/Kinematics_and_initialize -I ../Drivers/BSP/LED -I ../Drivers/BSP/HC05 -I ../Drivers/BSP/OLED-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/main.o -MD)
+F (../Core/Src/main.c)(0x687DF946)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/Motor_Encoder -I ../Drivers/BSP/GanWei -I ../Drivers/Tracking -I ../Drivers/Mode -I ../Drivers/Visual -I ../Drivers/Kinematics_and_initialize -I ../Drivers/BSP/LED -I ../Drivers/BSP/HC05 -I ../Drivers/BSP/OLED-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/main.o -MD)
 I (..\Core\Inc\main.h)(0x687A442F)
 I (..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h)(0x6867DC6D)
 I (..\Core\Inc\stm32h7xx_hal_conf.h)(0x68674A41)
@@ -58,7 +58,7 @@ I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x687B7BC1)
 I (..\Drivers\BSP\Motor_Encoder\Mem.h)(0x6868CC5D)
 I (D:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x5B739900)
 I (..\Drivers\Kinematics_and_initialize\Initialize.h)(0x687DD49A)
-I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687CE53D)
+I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687DF0A3)
 I (..\Drivers\BSP\OLED\oled.h)(0x687B99B7)
 I (..\Drivers\BSP\HC05\Bluetooth.h)(0x687CDA1E)
 I (..\Drivers\Mode\mode.h)(0x687CFD74)
@@ -283,7 +283,7 @@ I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x687B7BC1)
 I (..\Drivers\BSP\Motor_Encoder\Mem.h)(0x6868CC5D)
 I (D:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x5B739900)
 I (..\Drivers\Kinematics_and_initialize\Initialize.h)(0x687DD49A)
-I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687CE53D)
+I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687DF0A3)
 I (..\Drivers\BSP\OLED\oled.h)(0x687B99B7)
 I (..\Drivers\BSP\HC05\Bluetooth.h)(0x687CDA1E)
 I (..\Drivers\Mode\mode.h)(0x687CFD74)
@@ -1185,7 +1185,7 @@ I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x687B7BC1)
 I (..\Drivers\BSP\Motor_Encoder\Mem.h)(0x6868CC5D)
 I (D:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x5B739900)
 I (..\Drivers\Kinematics_and_initialize\Initialize.h)(0x687DD49A)
-I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687CE53D)
+I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687DF0A3)
 I (..\Drivers\BSP\OLED\oled.h)(0x687B99B7)
 I (..\Drivers\BSP\HC05\Bluetooth.h)(0x687CDA1E)
 I (..\Drivers\Mode\mode.h)(0x687CFD74)
@@ -1249,7 +1249,7 @@ I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x687B7BC1)
 I (..\Drivers\BSP\Motor_Encoder\Mem.h)(0x6868CC5D)
 I (D:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x5B739900)
 I (..\Drivers\Kinematics_and_initialize\Initialize.h)(0x687DD49A)
-I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687CE53D)
+I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687DF0A3)
 I (..\Drivers\BSP\OLED\oled.h)(0x687B99B7)
 I (..\Drivers\BSP\HC05\Bluetooth.h)(0x687CDA1E)
 I (..\Drivers\Mode\mode.h)(0x687CFD74)
@@ -1444,7 +1444,7 @@ I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x687B7BC1)
 I (..\Drivers\BSP\Motor_Encoder\Mem.h)(0x6868CC5D)
 I (D:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x5B739900)
 I (..\Drivers\Kinematics_and_initialize\Initialize.h)(0x687DD49A)
-I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687CE53D)
+I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687DF0A3)
 I (..\Drivers\BSP\OLED\oled.h)(0x687B99B7)
 I (..\Drivers\BSP\HC05\Bluetooth.h)(0x687CDA1E)
 I (..\Drivers\Mode\mode.h)(0x687CFD74)
@@ -1508,7 +1508,7 @@ I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x687B7BC1)
 I (..\Drivers\BSP\Motor_Encoder\Mem.h)(0x6868CC5D)
 I (D:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x5B739900)
 I (..\Drivers\Kinematics_and_initialize\Initialize.h)(0x687DD49A)
-I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687CE53D)
+I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687DF0A3)
 I (..\Drivers\BSP\OLED\oled.h)(0x687B99B7)
 I (..\Drivers\BSP\HC05\Bluetooth.h)(0x687CDA1E)
 I (..\Drivers\Mode\mode.h)(0x687CFD74)
@@ -1553,10 +1553,10 @@ I (..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_tim.h)(0x6867DC6D)
 I (..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_tim_ex.h)(0x6867DC6D)
 I (..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart.h)(0x6867DC6D)
 I (..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart_ex.h)(0x6867DC6D)
-F (..\Drivers\Mode\mode.c)(0x687CFD63)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/Motor_Encoder -I ../Drivers/BSP/GanWei -I ../Drivers/Tracking -I ../Drivers/Mode -I ../Drivers/Visual -I ../Drivers/Kinematics_and_initialize -I ../Drivers/BSP/LED -I ../Drivers/BSP/HC05 -I ../Drivers/BSP/OLED-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/mode.o -MD)
+F (..\Drivers\Mode\mode.c)(0x687DF5E4)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/Motor_Encoder -I ../Drivers/BSP/GanWei -I ../Drivers/Tracking -I ../Drivers/Mode -I ../Drivers/Visual -I ../Drivers/Kinematics_and_initialize -I ../Drivers/BSP/LED -I ../Drivers/BSP/HC05 -I ../Drivers/BSP/OLED-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/mode.o -MD)
 I (..\Drivers\Mode\mode.h)(0x687CFD74)
 I (D:\Keil_v5\ARM\ARMCLANG\include\stdbool.h)(0x5B739900)
-I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687CE53D)
+I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687DF0A3)
 I (..\Core\Inc\AllHeader.h)(0x687CDA1C)
 I (..\Core\Inc\main.h)(0x687A442F)
 I (..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h)(0x6867DC6D)
@@ -1617,7 +1617,7 @@ I (..\Drivers\BSP\OLED\oled.h)(0x687B99B7)
 I (..\Drivers\BSP\HC05\Bluetooth.h)(0x687CDA1E)
 I (..\Drivers\Visual\visual.h)(0x687CEA3A)
 I (..\Drivers\BSP\LED\led.h)(0x6878D3E7)
-F (..\Drivers\Visual\visual.c)(0x687CEA3A)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/Motor_Encoder -I ../Drivers/BSP/GanWei -I ../Drivers/Tracking -I ../Drivers/Mode -I ../Drivers/Visual -I ../Drivers/Kinematics_and_initialize -I ../Drivers/BSP/LED -I ../Drivers/BSP/HC05 -I ../Drivers/BSP/OLED-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/visual.o -MD)
+F (..\Drivers\Visual\visual.c)(0x687DE36F)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/Motor_Encoder -I ../Drivers/BSP/GanWei -I ../Drivers/Tracking -I ../Drivers/Mode -I ../Drivers/Visual -I ../Drivers/Kinematics_and_initialize -I ../Drivers/BSP/LED -I ../Drivers/BSP/HC05 -I ../Drivers/BSP/OLED-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/visual.o -MD)
 I (..\Drivers\Visual\visual.h)(0x687CEA3A)
 I (..\Core\Inc\AllHeader.h)(0x687CDA1C)
 I (..\Core\Inc\main.h)(0x687A442F)
@@ -1676,14 +1676,14 @@ I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x687B7BC1)
 I (..\Drivers\BSP\Motor_Encoder\Mem.h)(0x6868CC5D)
 I (D:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x5B739900)
 I (..\Drivers\Kinematics_and_initialize\Initialize.h)(0x687DD49A)
-I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687CE53D)
+I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687DF0A3)
 I (..\Drivers\BSP\OLED\oled.h)(0x687B99B7)
 I (..\Drivers\BSP\HC05\Bluetooth.h)(0x687CDA1E)
 I (..\Drivers\Mode\mode.h)(0x687CFD74)
 I (..\Drivers\BSP\LED\led.h)(0x6878D3E7)
-F (..\Drivers\Kinematics_and_initialize\Initialize.c)(0x687CEEA8)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/Motor_Encoder -I ../Drivers/BSP/GanWei -I ../Drivers/Tracking -I ../Drivers/Mode -I ../Drivers/Visual -I ../Drivers/Kinematics_and_initialize -I ../Drivers/BSP/LED -I ../Drivers/BSP/HC05 -I ../Drivers/BSP/OLED-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/initialize.o -MD)
+F (..\Drivers\Kinematics_and_initialize\Initialize.c)(0x687DF511)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/Motor_Encoder -I ../Drivers/BSP/GanWei -I ../Drivers/Tracking -I ../Drivers/Mode -I ../Drivers/Visual -I ../Drivers/Kinematics_and_initialize -I ../Drivers/BSP/LED -I ../Drivers/BSP/HC05 -I ../Drivers/BSP/OLED-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/initialize.o -MD)
 I (..\Drivers\Kinematics_and_initialize\Initialize.h)(0x687DD49A)
-I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687CE53D)
+I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687DF0A3)
 I (D:\Keil_v5\ARM\ARMCLANG\include\stdbool.h)(0x5B739900)
 I (..\Core\Inc\AllHeader.h)(0x687CDA1C)
 I (..\Core\Inc\main.h)(0x687A442F)
@@ -1745,8 +1745,8 @@ I (..\Drivers\BSP\HC05\Bluetooth.h)(0x687CDA1E)
 I (..\Drivers\Mode\mode.h)(0x687CFD74)
 I (..\Drivers\Visual\visual.h)(0x687CEA3A)
 I (..\Drivers\BSP\LED\led.h)(0x6878D3E7)
-F (..\Drivers\Kinematics_and_initialize\kinematics.c)(0x687CED4E)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/Motor_Encoder -I ../Drivers/BSP/GanWei -I ../Drivers/Tracking -I ../Drivers/Mode -I ../Drivers/Visual -I ../Drivers/Kinematics_and_initialize -I ../Drivers/BSP/LED -I ../Drivers/BSP/HC05 -I ../Drivers/BSP/OLED-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/kinematics.o -MD)
-I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687CE53D)
+F (..\Drivers\Kinematics_and_initialize\kinematics.c)(0x687DF6D8)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-3 -O0 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../Drivers/BSP/ATK_MS601M -I ../Drivers/BSP/Motor_Encoder -I ../Drivers/BSP/GanWei -I ../Drivers/Tracking -I ../Drivers/Mode -I ../Drivers/Visual -I ../Drivers/Kinematics_and_initialize -I ../Drivers/BSP/LED -I ../Drivers/BSP/HC05 -I ../Drivers/BSP/OLED-I./RTE/_tem-ID:/Keil_v5/ARM/PACK/ARM/CMSIS/5.4.0/CMSIS/Core/Include-ID:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/3.1.1/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx-o tem/kinematics.o -MD)
+I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687DF0A3)
 I (D:\Keil_v5\ARM\ARMCLANG\include\stdbool.h)(0x5B739900)
 I (..\Core\Inc\AllHeader.h)(0x687CDA1C)
 I (..\Core\Inc\main.h)(0x687A442F)
@@ -1868,7 +1868,7 @@ I (..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h)(0x687B7BC1)
 I (..\Drivers\BSP\Motor_Encoder\Mem.h)(0x6868CC5D)
 I (D:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x5B739900)
 I (..\Drivers\Kinematics_and_initialize\Initialize.h)(0x687DD49A)
-I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687CE53D)
+I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687DF0A3)
 I (..\Drivers\BSP\OLED\oled.h)(0x687B99B7)
 I (..\Drivers\BSP\HC05\Bluetooth.h)(0x687CDA1E)
 I (..\Drivers\Mode\mode.h)(0x687CFD74)
@@ -1877,7 +1877,7 @@ F (..\Drivers\BSP\HC05\Bluetooth.c)(0x687CDAEB)(-xc -std=c99 --target=arm-arm-no
 I (..\Drivers\BSP\HC05\Bluetooth.h)(0x687CDA1E)
 I (..\Drivers\Mode\mode.h)(0x687CFD74)
 I (D:\Keil_v5\ARM\ARMCLANG\include\stdbool.h)(0x5B739900)
-I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687CE53D)
+I (..\Drivers\Kinematics_and_initialize\kinematics.h)(0x687DF0A3)
 I (..\Core\Inc\AllHeader.h)(0x687CDA1C)
 I (..\Core\Inc\main.h)(0x687A442F)
 I (..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h)(0x6867DC6D)

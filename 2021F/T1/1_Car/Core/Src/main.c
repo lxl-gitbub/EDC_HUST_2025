@@ -52,7 +52,7 @@ atk_ms601m_gyro_data_t gyro_dat;
 atk_ms601m_accelerometer_data_t accelerometer_dat;
 char message[256]; 
 float current_yaw;//用于存储现在的yaw
-const float back_angle_cor = 10;//用于纠正陀螺仪的系统误差，当角度过小（逆时针不够）
+const float back_angle_cor = 5;//用于纠正陀螺仪的系统误差，当角度过小（逆时针不够）
 float distance = 0.0f;// 距离变量
 
 //感为传感器数据变量
@@ -156,7 +156,6 @@ int main(void)
 	//OLED屏幕初始化
 	OLED_Init();
   OLED_Clear();
-	OLED_ShowString(11, 0, "EDC-HUST-2025",8);
   //视觉模块初始化
   visual_full_reset();
 	// 接收中断初始化
@@ -194,30 +193,28 @@ int main(void)
         {
           if(isIntheCheckLoc(mode.loc)) // 如果在检查位置
           {
-            if(isInTheCheckplace(mode.loc)) // 如果在检查位置
-            {
+//            if(isInTheCheckplace(mode.loc)) // 如果在检查位置
+//            {
               Sampling_Begin = true; // 开始采样
-              lineWalking_low(); // 进行低速循迹行走
-            }
-            else // 如果不在检查位置
-            {
-              if(Sampling_Begin == true) // 如果开始采样
-              {
-                Sampling_Begin = false; // 停止采样
-                visual_process_command(&Sampling_Begin);
-              }
-              if(mode.dir == UNSTABLE && !hasStopped) // 如果方向不稳定
-              {
-                Sampling_Begin = true; // 重新开始采样
-                hasStopped = true; // 停止前进
-                Break(); // 停止小车
-                HAL_Delay(500); // 等待500ms
-              }
+//              lineWalking_low(); // 进行低速循迹行走
+//           }
+//            else // 如果不在检查位置
+//            {
+//              if(Sampling_Begin == true) // 如果开始采样
+//              {
+//                Sampling_Begin = false; // 停止采样
+//                visual_process_command(&Sampling_Begin);
+//              }
+//              if(mode.dir == UNSTABLE && !hasStopped) // 如果方向不稳定
+//              {
+//                Sampling_Begin = true; // 重新开始采样
+//                hasStopped = true; // 停止前进
+//                Break(); // 停止小车
+//                HAL_Delay(500); // 等待500ms
+//              }
               if(!CheckAndTurn()) // 检查是否需要结束当前模式
-              {
                 lineWalking_high(); // 进行高速循迹行走
-              }
-            }
+//           }
           }
           else // 如果不在检查位置
             if(!CheckAndTurn()) // 检查是否需要结束当前模式
@@ -343,25 +340,30 @@ bool CheckAndTurn()//所有check和turn函数都调用了dirget，在dirget中更新了mode.loc
   {
     if(cross_Roads_Detect())
     {
-			HAL_Delay(10);
+			mode_begin_t = HAL_GetTick();
       switch(DirGet(&mode)) // 获取下一个方向
       {
 				case BACKWARD://在第二题会用到，目前不会用到
         case FORWARD:
+					Sampling_Begin = false;
           return true; // 继续前进
         case LEFT:
 					current_yaw = getYaw();
-          while(!isInTheYaw(sumTheta(current_yaw, 90), tel)) {runCircle(r, 0.5, 90, LEFT); HAL_Delay(10);}
+          while(!isInTheYaw(sumTheta(current_yaw, 90), tel)) {runCircle(r, 0.5, 90, LEFT); UpdateData_Car();}
+					RED_down();
           Break();
+					Sampling_Begin = false;
           return true; // 继续前进
         case RIGHT:
 					current_yaw = getYaw();
-          while(!isInTheYaw(sumTheta(current_yaw, -90), tel)){runCircle(r, 0.5, 90, RIGHT); HAL_Delay(10);}
+          while(!isInTheYaw(sumTheta(current_yaw, -90), tel)){runCircle(r, 0.5, 90, RIGHT); UpdateData_Car();}
           Break();
+					Sampling_Begin = false;
           return true; // 继续前进
       }
     }
   }
+
   return false; // 没有需要转向的情况
 }
 bool CheckAndEnd()
