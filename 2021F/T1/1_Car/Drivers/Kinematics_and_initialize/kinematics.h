@@ -2,8 +2,8 @@
 #define KINEMATICS_H
 
 #include <stdbool.h>
-
 #define DEG_TO_RAD(degrees) ((degrees) * (PI / 180.0f))
+// 弧度到角度的转换宏 (如果您也需要)
 #define RAD_TO_DEG(radians) ((radians) * (180.0f / PI))
 
 #define STOD 999/1.30

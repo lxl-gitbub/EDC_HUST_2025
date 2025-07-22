@@ -1,2 +1,8 @@
-Load "tem\\tem.axf" 
-Erase Done.Programming Done.Verify OK.Flash Load finished at 10:31:04
+*** Using Compiler 'V6.11', folder: 'D:\Keil_v5\ARM\ARMCLANG\Bin'
+Build target 'tem'
+compiling Hall_Encoder.c...
+linking...
+Program Size: Code=58544 RO-data=3144 RW-data=80 ZI-data=33128  
+FromELF: creating hex file...
+"tem\tem.axf" - 0 Error(s), 0 Warning(s).
+Build Time Elapsed:  00:00:01

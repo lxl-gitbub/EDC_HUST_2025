@@ -6,7 +6,7 @@
 #include "Mem.h"
 
 
-#define PI 3.1415926 // Pi constant
+#define PI 3.1415926535 // Pi constant
 #define MAXENCODERNUM 10 // The maximum number of encoders that can be used in this code
 
 typedef struct{

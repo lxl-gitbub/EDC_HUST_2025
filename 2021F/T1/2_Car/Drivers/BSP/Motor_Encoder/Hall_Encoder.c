@@ -26,7 +26,7 @@ void EncoderInit(TIM_HandleTypeDef *Timer, uint32_t chan1, uint32_t chan2, TIM_H
 	encoders[numEncoders].speed = 0; // Initialize speed to 0
 	encoders[numEncoders].dis = 0.0; // Initialize distance to 0
 	encoders[numEncoders].timer->Instance->CNT = 0;
-  	encoders[numEncoders].prev_cnt = encoders[numEncoders].timer->Instance->CNT; // 初始化 prev_cnt
+  encoders[numEncoders].prev_cnt = encoders[numEncoders].timer->Instance->CNT; // 初始化 prev_cnt
 
 
 	EncoderParamInit(&encoders[numEncoders].param, wheelLength, ppr);
