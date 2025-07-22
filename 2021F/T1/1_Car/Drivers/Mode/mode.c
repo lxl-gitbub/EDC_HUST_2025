@@ -21,11 +21,13 @@ bool drugSet(MODE* mode)
         if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5) == GPIO_PIN_SET) // 再次确认状态
         {
             mode->drug = RETURN_MODE; // 回归模式
+            RED_down(); // 关闭红灯
             return true;
         }
     }
     return false; // 没有模式变化
 }
+
 
 bool isEndOfWay(LOC l)
 {
@@ -77,9 +79,6 @@ bool isIntheCheckLoc(LOC l)
 }
 bool isInTheCheckplace(LOC l)
 {
-    char message[256];
-    sprintf(message, "last_cross: %.2f, car.pose.x: %.2f, car.pose.y: %.2f", last_cross, car.pose.x, car.pose.y);
-    OLED_ShowString(0, 0, message, 8);
     if(fabs(LocToTheta(l)) < 0.01f)
     {
         if(car.pose.x - last_cross > 0.22 && car.pose.x - last_cross < 0.27)

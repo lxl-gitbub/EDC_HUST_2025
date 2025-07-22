@@ -131,7 +131,7 @@ void visual_process_command(bool* sampling_command)
                 bool target_found = false;
                 for (int i = 0; i < stable_len; i++) {
                     if (stable_sequence[i] == s_initial_digit) {
-                        mode.dir = (i <= stable_len / 2) ? LEFT : RIGHT;
+                        mode.dir = (i < stable_len / 2) ? LEFT : RIGHT;
                         target_found = true;
                         break;
                     }

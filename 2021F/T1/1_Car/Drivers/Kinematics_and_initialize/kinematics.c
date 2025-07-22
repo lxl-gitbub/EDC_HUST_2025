@@ -160,7 +160,6 @@ bool runCircle(float radius, float speed, float angle, DIR dir)
         start_yaw = current_data.yaw;
         PID_Move(0, 0, 1); // ¸´Î»PID
 				last_time = now;
-        RED_up();
         return false;
     }
 	last_time = now;
