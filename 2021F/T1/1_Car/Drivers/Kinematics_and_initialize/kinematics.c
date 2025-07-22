@@ -45,8 +45,8 @@ void CarState_Update(CarState *state, Data d) {
     // Calculate the average wheel speed
     state->speed = d.speed;
     state->pose.theta = sumTheta(d.yaw, -state->pose.initial_theta); // Update theta with current yaw
-    state->pose.x += state->speed.linear_velocity * d.dt * cos(state->pose.theta);
-    state->pose.y += state->speed.linear_velocity * d.dt * sin(state->pose.theta);
+    state->pose.x += state->speed.linear_velocity * d.dt * cos(DEG_TO_RAD(state->pose.theta));
+    state->pose.y += state->speed.linear_velocity * d.dt * sin(DEG_TO_RAD(state->pose.theta));
     //目前没有发现其他数据的作用，暂且处理这些数据
 }
 

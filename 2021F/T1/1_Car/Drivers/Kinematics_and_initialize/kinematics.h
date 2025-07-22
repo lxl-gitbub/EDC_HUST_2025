@@ -3,6 +3,9 @@
 
 #include <stdbool.h>
 
+#define DEG_TO_RAD(degrees) ((degrees) * (PI / 180.0f))
+#define RAD_TO_DEG(radians) ((radians) * (180.0f / PI))
+
 #define STOD 999/1.30
 
 typedef enum {
