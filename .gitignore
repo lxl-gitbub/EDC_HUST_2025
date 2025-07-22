@@ -45,7 +45,7 @@ build/            # 自定义构建目录（如有）
 # 通用忽略规则（补充）
 # ------------------------------
 *.user            # 用户工具链配置（如 VS Code 等）
-.vscode/          # VS Code 配置目录（如使用其他编辑器）
+/.vscode/          # VS Code 配置目录（如使用其他编辑器）
 .idea/            # JetBrains IDE 配置目录
 .DS_Store         # macOS 系统文件
 Thumbs.db         # Windows 缩略图缓存
