@@ -137,12 +137,12 @@ bool Straight(float distance, float speed, float target_yaw, DIR dir)
     remain -= fabs(cur.linear_velocity) * dt;
 
     // 到达目标距离后复位first_run
-//    if (fabs(remain) < 0.02f) {
-//        first_run = 1;
-//        LSet(0);
-//        RSet(0);
-//        return true;
-//    }
+    if (fabs(remain) < 0.02f) {
+        first_run = 1;
+        LSet(0);
+        RSet(0);
+        return true;
+    }
     return false;
 }
 
@@ -175,11 +175,11 @@ bool runCircle(float radius, float speed, float angle, DIR dir)
     float remain_angle = angle - fabs(delta_yaw);
 
     // 到达目标角度后复位first_run
-//    if (fabs(remain_angle) < 2.0f) {
-//        first_run = 1;
-//        LSet(0);
-//        RSet(0);
-//        return true;
-//    }
+    if (fabs(remain_angle) < 2.0f) {
+        first_run = 1;
+        LSet(0);
+        RSet(0);
+        return true;
+    }
     return false;
 }

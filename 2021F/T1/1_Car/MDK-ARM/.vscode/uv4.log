@@ -1,5 +1,2 @@
 Load "tem\\tem.axf" 
-Erase Done.Programming Done.Verify Failed!ST-LINK USB communication error
-ST-LINK USB communication error
-Error: Flash Download failed  -  "Cortex-M7"
-Flash Load finished at 17:04:59
+Erase Done.Programming Done.Verify OK.Flash Load finished at 17:44:46

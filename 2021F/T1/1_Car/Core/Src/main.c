@@ -170,7 +170,6 @@ int main(void)
   while (1)
   {
     UpdateData_Car(); // 更新汽车状态数据
-    Back(90 + back_angle_cor); // 后退到90度位置
 //		SwitchLED(mode.loc.n);
 //		if(mode.dir == UNSTABLE)
 //			RED_up();
