@@ -27,11 +27,15 @@ Project File Date:  07/19/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.11', folder: 'D:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'tem'
-compiling Hall_Encoder.c...
+../Core/Src/main.c(351): warning: enumeration value 'UNSTABLE' not handled in switch [-Wswitch]
+      switch(DirGet(&mode)) // <BB><F1>ȡ<CF><C2>һ<B8><F6><B7><BD><CF><F2>
+             ^
+1 warning generated.
+compiling main.c...
 linking...
-Program Size: Code=58544 RO-data=3144 RW-data=80 ZI-data=33128  
+Program Size: Code=54984 RO-data=1052 RW-data=84 ZI-data=32892  
 FromELF: creating hex file...
-"tem\tem.axf" - 0 Error(s), 0 Warning(s).
+"tem\tem.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -54,7 +58,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.1.2
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

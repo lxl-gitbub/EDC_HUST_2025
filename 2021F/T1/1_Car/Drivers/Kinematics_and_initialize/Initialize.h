@@ -63,14 +63,18 @@ void RSet(int16_t duty);
 void Break(); // Set both motors to break mode
 // This function sets both motors to break mode, stopping them quickly
 
-bool isInTheYaw(float targetYaw, float tolerance);
-
 float getYaw(); // 获取当前的偏航角
 float getWz(); // 获取当前的角速度
+float CalibrateYawOffset(); // 校准偏航角偏移
+
 // 获取数据函数声明
 void UpdateData(); // 更新当前数据
 void UpdateData_Car(); // 更新汽车状态数据
 
 void Back(float theta); // 后退函数，theta为目标偏航角
+bool isInTheYaw(float targetYaw, float tolerance);
 
+#ifdef __cplusplus
+}
+#endif
 #endif /* INITIALIZE_H */

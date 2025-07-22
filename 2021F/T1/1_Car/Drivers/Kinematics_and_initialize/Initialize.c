@@ -1,5 +1,7 @@
 #include "Initialize.h"
 
+//以下段落为车辆实例化代码，不改动车体的情况下，不进行改动
+
 Motor Le, Ri;  // Declare motors for left and right
 CarState car; // Declare car state for kinematics
 Data current_data;
@@ -22,6 +24,7 @@ void MEInit(Motor* L, Motor* R)
 
     CarState_Init(&car); // Initialize the car state
     // Set the initial speed to default
+    car.pose.initial_theta = CalibrateYawOffset(); // Calibrate the initial yaw offset
 }
 
 void LMotorSet(MOVETYPE type, uint16_t duty)
@@ -67,18 +70,6 @@ void Break()
     RMotorSet(BREAK, 0);
 }
 
-bool isInTheYaw(float targetYaw, float tolerance)
-{
-    // Check if the current yaw is within the specified tolerance of the target yaw
-    float currentYaw = getYaw(); // Get the current yaw angle
-    float dif = fabs(sumTheta(currentYaw, -targetYaw)); // Calculate the difference between current and target yaw
-    // If the absolute difference is less than the tolerance, return true
-    if (dif < tolerance || 180 - dif < tolerance) {
-        return true; // If within tolerance, return true
-    } else {
-        return false; // Otherwise, return false
-    }
-}
 float getYaw()
 {
     // Get the yaw angle from the MS601M sensor
@@ -94,6 +85,19 @@ float getWz()
 		atk_ms601m_accelerometer_data_t accelerometer_dat;
     atk_ms601m_get_gyro_accelerometer(&gyro_dat, &accelerometer_dat, 10);
     return gyro_dat.z; // Return the angular velocity around the z-axis
+}
+
+float CalibrateYawOffset()
+{
+    float sum = 0;
+    int N = 100;
+    for(int i = 0; i < N; ++i) {
+        sum += getYaw();
+        HAL_Delay(10);  // 等待模块稳定输出
+    }
+    float yaw_offset = sum / N;
+    // 计算平均值作为偏移量
+    return yaw_offset; // 返回偏移量
 }
 
 void UpdateData()
@@ -126,6 +130,22 @@ void UpdateData_Car()
     CarState_Update(&car, current_data); // Update the car state with the current data
 }
 
+
+
+//以下代码为特殊题目下用到的车辆控制函数，在出现新题的情况下可以更改
+
+bool isInTheYaw(float targetYaw, float tolerance)
+{
+    // Check if the current yaw is within the specified tolerance of the target yaw
+    float currentYaw = getYaw(); // Get the current yaw angle
+    float dif = fabs(sumTheta(currentYaw, -targetYaw)); // Calculate the difference between current and target yaw
+    // If the absolute difference is less than the tolerance, return true
+    if (dif < tolerance || 180 - dif < tolerance) {
+        return true; // If within tolerance, return true
+    } else {
+        return false; // Otherwise, return false
+    }
+}
 
 void Back(float theta)
 {

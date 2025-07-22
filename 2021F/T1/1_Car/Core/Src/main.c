@@ -52,7 +52,7 @@ atk_ms601m_gyro_data_t gyro_dat;
 atk_ms601m_accelerometer_data_t accelerometer_dat;
 char message[256]; 
 float current_yaw;//用于存储现在的yaw
-const float back_angle_cor = 5;//用于纠正陀螺仪的系统误差，当角度过小（逆时针不够）
+const float back_angle_cor = -1.6;//用于纠正陀螺仪的系统误差，当角度过小（逆时针不够）
 float distance = 0.0f;// 距离变量
 
 //感为传感器数据变量
@@ -169,15 +169,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		LSet(200);
-		RSet(200);
-    // 每周期更新数据
     UpdateData_Car(); // 更新汽车状态数据
-		IIC_Get_Digtal(Digtal); // 获取数字传感器数据,每一步都要执行以获取数据
-		
-		OLED_Clear();
-    sprintf(message, "x: %.2f, y: %.2f", car.pose.x, car.pose.y);
-    OLED_ShowString(0, 0, message, 16); // 显示位置数据
+    Back(90 + back_angle_cor); // 后退到90度位置
 //		SwitchLED(mode.loc.n);
 //		if(mode.dir == UNSTABLE)
 //			RED_up();
