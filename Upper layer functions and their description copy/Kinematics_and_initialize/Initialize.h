@@ -9,14 +9,14 @@
 #define PPR 13  // The Pulses Per Revolution of encoder
 
 // Parameters for the motor
-#define REDUCE 20
+#define REDUCE 28
 #define FULL_SPEED_RPM 300
 
 // Parameters for the wheel
-#define WHEEL_DIAMETER 48 // The diameter of the wheel in mm
-#define WHEEL_DIS      130
+#define WHEEL_DIAMETER 65 // The diameter of the wheel in mm
+#define WHEEL_DIS      115
 
-// ====================初始化函数参数宏定义====================
+// ====================初???化函数参数宏定??====================
 // 基于现有代码的初始化参数
 
 // 右轮电机初始化参数 (对应MotorInit(&Right, ...))
