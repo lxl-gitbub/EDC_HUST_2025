@@ -18,7 +18,7 @@ PB7     ------> I2C1_SDA
 
 ```c
 /* USER CODE BEGIN PV */
-int Digtal[7];
+int Digtal[8];
 /* USER CODE END PV */
 
 /* USER CODE BEGIN WHILE */
