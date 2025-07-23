@@ -5226,43 +5226,43 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-      1694         36         12          0          2       8310   atk_ms601m.o
-       596          0          0          0        282       5244   atk_ms601m_uart.o
-       168          0          0          0          0       2359   ganwei_i2c.o
-       414          0          0          0          0       3032   gpio.o
-      1130         32          0          0        328       8663   hall_encoder.o
-       564          0          0          0        168       8276   i2c.o
-      1266         12          0          1        164       8142   initialize.o
-      2352         92          0          8         52       4432   kinematics.o
-        64          0          0          0          0       1735   led.o
-      2264         20          0         27         91      14763   main.o
-      1428         44          0          0          4       3200   mode.o
-       334          0          0         27          0       3628   oled.o
-        36          8        664          0      29696        812   startup_stm32h743xx.o
-       402          0          0          5          4      13875   stm32h7xx_hal.o
-       796          0          0          0          0      11376   stm32h7xx_hal_cortex.o
-      4194          0          0          0          0      12852   stm32h7xx_hal_dma.o
-      1106          0          0          0          0       6993   stm32h7xx_hal_gpio.o
-      3422          0          0          0          0      36288   stm32h7xx_hal_i2c.o
-       330          0          0          0          0       7318   stm32h7xx_hal_i2c_ex.o
-        38          0          0          0          0       2200   stm32h7xx_hal_msp.o
-       170          0          0          0          0      10376   stm32h7xx_hal_pwr_ex.o
-      5152         66          0          0          0      11932   stm32h7xx_hal_rcc.o
-      6744         96          0          0          0      19298   stm32h7xx_hal_rcc_ex.o
-      6246         22          0          0          0      37731   stm32h7xx_hal_tim.o
-       388          0          0          0          0      17578   stm32h7xx_hal_tim_ex.o
-      9328        258         24          0          0      29220   stm32h7xx_hal_uart.o
-       802          0         16          0          0       8875   stm32h7xx_hal_uart_ex.o
-       150          0          0          0          0       1677   stm32h7xx_it.o
-       346          0         16          8          0       5779   system_stm32h7xx.o
-       768          6          0          0          0       6377   tb6612fng.o
-      1350          0          0          0        380      12348   tim.o
-      1260         32         32          0         31       2862   tracking.o
-      1282          0          0          0        592      12267   usart.o
-      1384          4          0          4       1159       3249   visual.o
+      1694         36         12          0          2       8338   atk_ms601m.o
+       596          0          0          0        282       5272   atk_ms601m_uart.o
+       168          0          0          0          0       2387   ganwei_i2c.o
+       414          0          0          0          0       3060   gpio.o
+      1130         32          0          0        328       8691   hall_encoder.o
+       564          0          0          0        168       8304   i2c.o
+      1266         12          0          1        164       8170   initialize.o
+      2352         92          0          8         52       4460   kinematics.o
+        64          0          0          0          0       1763   led.o
+      2264         20          0         27         91      14791   main.o
+      1428         44          0          0          4       3228   mode.o
+       334          0          0         27          0       3656   oled.o
+        36          8        664          0      29696        832   startup_stm32h743xx.o
+       402          0          0          5          4      13903   stm32h7xx_hal.o
+       796          0          0          0          0      11404   stm32h7xx_hal_cortex.o
+      4194          0          0          0          0      12880   stm32h7xx_hal_dma.o
+      1106          0          0          0          0       7021   stm32h7xx_hal_gpio.o
+      3422          0          0          0          0      36316   stm32h7xx_hal_i2c.o
+       330          0          0          0          0       7346   stm32h7xx_hal_i2c_ex.o
+        38          0          0          0          0       2228   stm32h7xx_hal_msp.o
+       170          0          0          0          0      10404   stm32h7xx_hal_pwr_ex.o
+      5152         66          0          0          0      11960   stm32h7xx_hal_rcc.o
+      6744         96          0          0          0      19326   stm32h7xx_hal_rcc_ex.o
+      6246         22          0          0          0      37759   stm32h7xx_hal_tim.o
+       388          0          0          0          0      17606   stm32h7xx_hal_tim_ex.o
+      9328        258         24          0          0      29248   stm32h7xx_hal_uart.o
+       802          0         16          0          0       8903   stm32h7xx_hal_uart_ex.o
+       150          0          0          0          0       1695   stm32h7xx_it.o
+       346          0         16          8          0       5807   system_stm32h7xx.o
+       768          6          0          0          0       6405   tb6612fng.o
+      1350          0          0          0        380      12376   tim.o
+      1260         32         32          0         31       2890   tracking.o
+      1282          0          0          0        592      12295   usart.o
+      1384          4          0          4       1159       3277   visual.o
 
     ----------------------------------------------------------------------
-     58620        772        796         84      32968     343067   Object Totals
+     58620        772        796         84      32968     344001   Object Totals
          0          0         32          0          0          0   (incl. Generated)
        652         44          0          4         15          0   (incl. Padding)
 
@@ -5319,8 +5319,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     60728       1018       1084         88      32968     343751   Grand Totals
-     60728       1018       1084         88      32968     343751   ELF Image Totals
+     60728       1018       1084         88      32968     344685   Grand Totals
+     60728       1018       1084         88      32968     344685   ELF Image Totals
      60728       1018       1084         88          0          0   ROM Totals
 
 ==============================================================================
