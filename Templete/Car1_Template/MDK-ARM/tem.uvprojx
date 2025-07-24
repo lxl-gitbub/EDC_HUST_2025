@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Drivers/BSP/ATK_MS601M;../Drivers/BSP/Motor_Encoder;../Drivers/BSP/GanWei;../Drivers/Tracking;../Drivers/Mode;../Drivers/Visual;../Drivers/Kinematics_and_initialize;../Drivers/BSP/LED;../Drivers/BSP/HC05;../Drivers/BSP/OLED</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Drivers/BSP/ATK_MS601M;../Drivers/BSP/Motor_Encoder;../Drivers/BSP/GanWei;../Drivers/Mode;../Drivers/Visual;../Drivers/BSP/LED;../Drivers/BSP/OLED;..\Drivers\Initialize;..\Drivers\Motion;..\Drivers\SensorProc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -647,21 +647,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Drivers\Tracking</GroupName>
-          <Files>
-            <File>
-              <FileName>tracking.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Drivers\Tracking\tracking.c</FilePath>
-            </File>
-            <File>
-              <FileName>tracking_delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Drivers\Tracking\tracking_delay.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>Drivers\Mode</GroupName>
           <Files>
             <File>
@@ -682,21 +667,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Drivers\Kinematics_Initialize</GroupName>
-          <Files>
-            <File>
-              <FileName>Initialize.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Drivers\Kinematics_and_initialize\Initialize.c</FilePath>
-            </File>
-            <File>
-              <FileName>kinematics.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Drivers\Kinematics_and_initialize\kinematics.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>Drivers\BSP\LED</GroupName>
           <Files>
             <File>
@@ -707,22 +677,52 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Drivers\BSP\Bluetooth</GroupName>
-          <Files>
-            <File>
-              <FileName>Bluetooth.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Drivers\BSP\HC05\Bluetooth.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>Drivers\BSP\OLED</GroupName>
           <Files>
             <File>
               <FileName>oled.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Drivers\BSP\OLED\oled.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Drivers\Motion</GroupName>
+          <Files>
+            <File>
+              <FileName>kinematics.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Motion\kinematics.c</FilePath>
+            </File>
+            <File>
+              <FileName>tracking.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Motion\tracking.c</FilePath>
+            </File>
+            <File>
+              <FileName>tracking_delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Motion\tracking_delay.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Drivers\Initialize</GroupName>
+          <Files>
+            <File>
+              <FileName>Initialize.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Initialize\Initialize.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Drivers\Sensor</GroupName>
+          <Files>
+            <File>
+              <FileName>SensorProc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\SensorProc\SensorProc.c</FilePath>
             </File>
           </Files>
         </Group>

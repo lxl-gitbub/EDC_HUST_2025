@@ -1,7 +1,7 @@
 #ifndef INITIALIZE_H
 #define INITIALIZE_H
 
-// ÔË¶¯Ñ§Í·ÎÄ¼þ£¬°üÀ¨³£¼ûµÄÖ±ÐÐ×ªÍäº¯Êý
+// ï¿½Ë¶ï¿½Ñ§Í·ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½×ªï¿½äº¯ï¿½ï¿½
 #include "kinematics.h"
 #include "AllHeader.h"
 
@@ -16,10 +16,10 @@
 #define WHEEL_DIAMETER 65 // The diameter of the wheel in mm
 #define WHEEL_DIS      115
 
-// ====================³õ???»¯º¯Êý²ÎÊýºê¶¨??====================
-// »ùÓÚÏÖÓÐ´úÂëµÄ³õÊ¼»¯²ÎÊý
+// ====================ï¿½ï¿½???ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê¶¨??====================
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½Ä³ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-// ÓÒÂÖµç»ú³õÊ¼»¯²ÎÊý (¶ÔÓ¦MotorInit(&Right, ...))
+// ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½Ó¦MotorInit(&Right, ...))
 #define RIGHT_MOTOR_IN1_PORT    GPIOC
 #define RIGHT_MOTOR_IN1_PIN     GPIO_PIN_5
 #define RIGHT_MOTOR_IN2_PORT    GPIOB
@@ -28,7 +28,7 @@
 #define RIGHT_MOTOR_PWM_CHANNEL TIM_CHANNEL_1
 #define RIGHT_MOTOR_INIT_DUTY   0
 
-// ×óÂÖµç»ú³õÊ¼»¯²ÎÊý (¶ÔÓ¦MotorInit(&Left, ...))
+// ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½Ó¦MotorInit(&Left, ...))
 #define LEFT_MOTOR_IN1_PORT     GPIOC
 #define LEFT_MOTOR_IN1_PIN      GPIO_PIN_4
 #define LEFT_MOTOR_IN2_PORT     GPIOB
@@ -37,7 +37,7 @@
 #define LEFT_MOTOR_PWM_CHANNEL  TIM_CHANNEL_2
 #define LEFT_MOTOR_INIT_DUTY    0
 
-// LRInitº¯Êý²ÎÊý (±àÂëÆ÷³õÊ¼»¯)
+// LRInitï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½)
 #define LEFT_ENCODER_TIMER      &htim3
 #define LEFT_ENCODER_CHANNEL_A  TIM_CHANNEL_2
 #define LEFT_ENCODER_CHANNEL_B  TIM_CHANNEL_1
@@ -52,8 +52,9 @@ extern "C" {
 #endif
 extern CarState car; // Declare car state for kinematics
 extern Data current_data; // Declare current data for kinematics
+extern int Digtal[8]; // Declare an array for digital sensor readings
 
-void MEInit(Motor* L, Motor* R);
+void MECInit();
 void LMotorSet(MOVETYPE type, uint16_t duty);
 void RMotorSet(MOVETYPE type, uint16_t duty);
 
@@ -63,14 +64,15 @@ void RSet(int16_t duty);
 void Break(); // Set both motors to break mode
 // This function sets both motors to break mode, stopping them quickly
 
-bool isInTheYaw(float targetYaw, float tolerance);
+float getYaw(); // ï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½Æ«ï¿½ï¿½ï¿½ï¿½
+float getWz(); // ï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½Ä½ï¿½ï¿½Ù¶ï¿½
+float CalibrateYawOffset(); // Ð£×¼Æ«ï¿½ï¿½ï¿½ï¿½Æ«ï¿½ï¿½
 
-float getYaw(); // »ñÈ¡µ±Ç°µÄÆ«º½½Ç
-float getWz(); // »ñÈ¡µ±Ç°µÄ½ÇËÙ¶È
-// »ñÈ¡Êý¾Ýº¯ÊýÉùÃ÷
-void UpdateData(); // ¸üÐÂµ±Ç°Êý¾Ý
-void UpdateData_Car(); // ¸üÐÂÆû³µ×´Ì¬Êý¾Ý
+// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ýºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+void UpdateData(); // Update the current data with the latest sensor readings
+void UpdateData_Car(); // Update the car state with the latest sensor readings
 
-void Back(float theta); // ºóÍËº¯Êý£¬thetaÎªÄ¿±êÆ«º½½Ç
-
+#ifdef __cplusplus
+}
+#endif
 #endif /* INITIALIZE_H */

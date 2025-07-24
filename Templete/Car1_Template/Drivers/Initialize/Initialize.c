@@ -1,15 +1,18 @@
 #include "Initialize.h"
 
+
 Motor Le, Ri;  // Declare motors for left and right
 CarState car; // Declare car state for kinematics
 Data current_data;
+int Digtal[8];
 
-void MEInit(Motor* L, Motor* R)
+
+void MECInit()
 {
-    Motor_UI_Init(L, LEFT_MOTOR_IN1_PORT, LEFT_MOTOR_IN1_PIN,
+    Motor_UI_Init(&Le, LEFT_MOTOR_IN1_PORT, LEFT_MOTOR_IN1_PIN,
         LEFT_MOTOR_IN2_PORT, LEFT_MOTOR_IN2_PIN,
         LEFT_MOTOR_PWM_TIMER, LEFT_MOTOR_PWM_CHANNEL, LEFT_MOTOR_INIT_DUTY);
-    Motor_UI_Init(R, RIGHT_MOTOR_IN1_PORT, RIGHT_MOTOR_IN1_PIN,
+    Motor_UI_Init(&Ri, RIGHT_MOTOR_IN1_PORT, RIGHT_MOTOR_IN1_PIN,
         RIGHT_MOTOR_IN2_PORT, RIGHT_MOTOR_IN2_PIN,
         RIGHT_MOTOR_PWM_TIMER, RIGHT_MOTOR_PWM_CHANNEL, RIGHT_MOTOR_INIT_DUTY);
 
@@ -17,11 +20,9 @@ void MEInit(Motor* L, Motor* R)
            RIGHT_ENCODER_TIMER, RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B,
            WHEEL_DIAMETER, PPR * REDUCE, ENCODER_REAL_TIMER ); // Initialize the encoders with wheel length and pulses per revolution
     
-    Le = *L;  // Assign the left motor to Le
-    Ri = *R;  // Assign the right motor to Ri
-
-    CarState_Init(&car); // Initialize the car state
+   CarState_Init(&car); // Initialize the car state
     // Set the initial speed to default
+    car.pose.initial_theta = CalibrateYawOffset(); // Calibrate the initial yaw offset
 }
 
 void LMotorSet(MOVETYPE type, uint16_t duty)
@@ -67,18 +68,6 @@ void Break()
     RMotorSet(BREAK, 0);
 }
 
-bool isInTheYaw(float targetYaw, float tolerance)
-{
-    // Check if the current yaw is within the specified tolerance of the target yaw
-    float currentYaw = getYaw(); // Get the current yaw angle
-    float dif = fabs(sumTheta(currentYaw, -targetYaw)); // Calculate the difference between current and target yaw
-    // If the absolute difference is less than the tolerance, return true
-    if (dif < tolerance || 180 - dif < tolerance) {
-        return true; // If within tolerance, return true
-    } else {
-        return false; // Otherwise, return false
-    }
-}
 float getYaw()
 {
     // Get the yaw angle from the MS601M sensor
@@ -96,6 +85,20 @@ float getWz()
     return gyro_dat.z; // Return the angular velocity around the z-axis
 }
 
+float CalibrateYawOffset()
+{
+    float sum = 0;
+    int N = 100;
+    for(int i = 0; i < N; ++i) {
+        sum += getYaw();
+        HAL_Delay(10);  
+    }
+    float yaw_offset = sum / N;
+    // Calculate the average yaw offset over N samples
+    // This helps to reduce noise and improve accuracy
+    return yaw_offset; // Return the calibrated yaw offset
+}
+
 void UpdateData()
 {
     static uint32_t last_time = 0; // Last update time
@@ -104,6 +107,7 @@ void UpdateData()
     current_data.speed.linear_velocity = cSpeed(); // Get the current speed
     current_data.speed.angular_velocity = getWz(); // Get the current angular velocity
     current_data.yaw = getYaw(); // Get the current yaw angle
+    IIC_Get_Digtal(Digtal);
     if(first_run)
     {
         first_run = false; // Set the flag to false after the first run
@@ -127,9 +131,7 @@ void UpdateData_Car()
 }
 
 
-void Back(float theta)
-{
-    float speed = 0.3f; // Set the speed for backward movement
-    float targetYaw = sumTheta(car.pose.initial_theta, theta); // Calculate the target yaw angle
-    Straight(0.3, speed, targetYaw, BACKWARD); // Move backward with the specified speed and target yaw
-}
+
+/* Check if the current yaw is within the specified tolerance of the target yaw */
+
+

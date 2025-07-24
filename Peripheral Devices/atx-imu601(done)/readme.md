@@ -1,32 +1,32 @@
-## ×¢Òâ£º
+## æ³¨æ„ï¼š
 
-- Ã¿´ÎÊ¹ÓÃ×îºÃÏÈ½øĞĞĞ£×¼£¬Ğ£×¼ĞèÒªÓÃÉÏÎ»»ú£¨ATX-IMU1.0.4)
+- æ¯æ¬¡ä½¿ç”¨æœ€å¥½å…ˆè¿›è¡Œæ ¡å‡†ï¼Œæ ¡å‡†éœ€è¦ç”¨ä¸Šä½æœºï¼ˆATX-IMU1.0.4)
 
-## Ó²¼şÁ¬½Ó£º
+## ç¡¬ä»¶è¿æ¥ï¼š
 
-- USART2Á¬½ÓÍÓÂİÒÇ
-- USART1Á¬½Ó´®¿ÚÖúÊÖ
+- USART2è¿æ¥é™€èºä»ª
+- USART1è¿æ¥ä¸²å£åŠ©æ‰‹
 
-## ¹¤³ÌÅäÖÃ£º
+## å·¥ç¨‹é…ç½®ï¼š
 
-- USART2ĞèÒª´ò¿ªglobal interrupt£¬²¨ÌØÂÊ115200
-- TIM6ÉèÖÃÎªËùĞèº¯Êıdelay_us_halµÄÊ¹ÄÜÊ±ÖÓ£¨1us£©£¬prescalerÎª240-1
-- Driver¿âÖĞµ¼ÈëBSPÎÄ¼ş¼Ğ£¬ÄÚº¬¿âÎÄ¼ş
+- USART2éœ€è¦æ‰“å¼€global interruptï¼Œæ³¢ç‰¹ç‡115200
+- TIM6è®¾ç½®ä¸ºæ‰€éœ€å‡½æ•°delay_us_halçš„ä½¿èƒ½æ—¶é’Ÿï¼ˆ1usï¼‰ï¼Œprescalerä¸º240-1
+- Driveråº“ä¸­å¯¼å…¥BSPæ–‡ä»¶å¤¹ï¼Œå†…å«åº“æ–‡ä»¶
 
-## ´úÂë£º
-- º¯ÊıÓÃ·¨
+## ä»£ç ï¼š
+- å‡½æ•°ç”¨æ³•
 ```c
-    atk_ms601m_get_attitude(&attitude_dat, 100);                            /* ×ËÌ¬½Ç */
-    atk_ms601m_get_gyro_accelerometer(&gyro_dat, &accelerometer_dat, 100);  /* ½ÇËÙ¶ÈºÍ¼ÓËÙ¶È */
+    atk_ms601m_get_attitude(&attitude_dat, 100);                            /* å§¿æ€è§’ */
+    atk_ms601m_get_gyro_accelerometer(&gyro_dat, &accelerometer_dat, 100);  /* è§’é€Ÿåº¦å’ŒåŠ é€Ÿåº¦ */
 ```
-		ÕâÁ½¸öº¯Êı²¢²»·µ»ØÖµ£¬Êµ¼ÊÉÏ´«ÈëµÄ½á¹¹ÌåµÄÖµ½øĞĞ¸üĞÂ
+		è¿™ä¸¤ä¸ªå‡½æ•°å¹¶ä¸è¿”å›å€¼ï¼Œå®é™…ä¸Šä¼ å…¥çš„ç»“æ„ä½“çš„å€¼è¿›è¡Œæ›´æ–°
 
--**ÕâÁ½¸öº¯ÊıµÄÔËĞĞÊ±³¤Ò»°ãÔÚ10ms×óÓÒ£¬¸ßÆµ´ÎÖĞ¶Ïµ÷ÓÃÈİÒ×·¢Éú×èÈû**
+-**è¿™ä¸¤ä¸ªå‡½æ•°çš„è¿è¡Œæ—¶é•¿ä¸€èˆ¬åœ¨10mså·¦å³ï¼Œé«˜é¢‘æ¬¡ä¸­æ–­è°ƒç”¨å®¹æ˜“å‘ç”Ÿé˜»å¡**
 
-- ½á¹¹Ìå½âÎö
-- `atk_ms601m_attitude_data_t` ½á¹¹ÌåÓÃÓÚ´æ´¢×ËÌ¬½ÇÊı¾İ£¬°üÀ¨ `roll`£¨ºá¹ö½Ç£©¡¢`pitch`£¨¸©Ñö½Ç£©¡¢`yaw`£¨º½Ïò½Ç£©£¬µ¥Î»Îª¶È¡£
-- `atk_ms601m_gyro_data_t` ½á¹¹ÌåÓÃÓÚ´æ´¢½ÇËÙ¶ÈÊı¾İ£¬°üº¬ `x`¡¢`y`¡¢`z` Èı¸ö·ÖÁ¿£¬µ¥Î»Îª¶ÈÃ¿Ãë£¨¡ã/s£©£¬ĞèÒª×¢ÒâµÄÊÇ½ÇËÙ¶ÈµÄÕı¸º·½ÏòÊ¹ÓÃÓÒÊÖ¶¨Ôò£¬¼´´Ó¸Ã×ø±êÖáµÄÕı·½ÏòÏò¸º·½Ïò¿´È¥£¬ÄæÊ±ÕëÎªÕı·½Ïò¡£
-- `atk_ms601m_accelerometer_data_t` ½á¹¹ÌåÓÃÓÚ´æ´¢¼ÓËÙ¶ÈÊı¾İ£¬°üº¬ `x`¡¢`y`¡¢`z` Èı¸ö·ÖÁ¿£¬µ¥Î»Îª g£¨ÖØÁ¦¼ÓËÙ¶È£©¡£
+- ç»“æ„ä½“è§£æ
+- `atk_ms601m_attitude_data_t` ç»“æ„ä½“ç”¨äºå­˜å‚¨å§¿æ€è§’æ•°æ®ï¼ŒåŒ…æ‹¬ `roll`ï¼ˆæ¨ªæ»šè§’ï¼‰ã€`pitch`ï¼ˆä¿¯ä»°è§’ï¼‰ã€`yaw`ï¼ˆèˆªå‘è§’ï¼‰ï¼Œå•ä½ä¸ºåº¦ã€‚
+- `atk_ms601m_gyro_data_t` ç»“æ„ä½“ç”¨äºå­˜å‚¨è§’é€Ÿåº¦æ•°æ®ï¼ŒåŒ…å« `x`ã€`y`ã€`z` ä¸‰ä¸ªåˆ†é‡ï¼Œå•ä½ä¸ºåº¦æ¯ç§’ï¼ˆÂ°/sï¼‰ï¼Œéœ€è¦æ³¨æ„çš„æ˜¯è§’é€Ÿåº¦çš„æ­£è´Ÿæ–¹å‘ä½¿ç”¨å³æ‰‹å®šåˆ™ï¼Œå³ä»è¯¥åæ ‡è½´çš„æ­£æ–¹å‘å‘è´Ÿæ–¹å‘çœ‹å»ï¼Œé€†æ—¶é’ˆä¸ºæ­£æ–¹å‘ã€‚
+- `atk_ms601m_accelerometer_data_t` ç»“æ„ä½“ç”¨äºå­˜å‚¨åŠ é€Ÿåº¦æ•°æ®ï¼ŒåŒ…å« `x`ã€`y`ã€`z` ä¸‰ä¸ªåˆ†é‡ï¼Œå•ä½ä¸º gï¼ˆé‡åŠ›åŠ é€Ÿåº¦ï¼‰ã€‚
 
 - main.c
 
@@ -45,14 +45,14 @@ atk_ms601m_accelerometer_data_t accelerometer_dat;
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	/* »ñÈ¡ÍÓÂİÒÇÊı¾İ */
-    atk_ms601m_get_attitude(&attitude_dat, 100);                            /* ×ËÌ¬½Ç */
-    atk_ms601m_get_gyro_accelerometer(&gyro_dat, &accelerometer_dat, 100);  /* ½ÇËÙ¶ÈºÍ¼ÓËÙ¶È */
+	/* è·å–é™€èºä»ªæ•°æ® */
+    atk_ms601m_get_attitude(&attitude_dat, 100);                            /* å§¿æ€è§’ */
+    atk_ms601m_get_gyro_accelerometer(&gyro_dat, &accelerometer_dat, 100);  /* è§’é€Ÿåº¦å’ŒåŠ é€Ÿåº¦ */
 		
 		
-	//ºó¿ÉÒıÓÃ×ËÌ¬½ÇÊı¾İattitude_dat.roll, attitude_dat.pitch, attitude_dat.yaw
-	//ºó¿ÉÒıÓÃ½ÇËÙ¶ÈÊı¾İgyro_dat.x, gyro_dat.y, gyro_dat.z
-	//ºó¿ÉÒıÓÃ¼ÓËÙ¶ÈÊı¾İaccelerometer_dat.x, accelerometer_dat.y, accelerometer_dat.z)
+	//åå¯å¼•ç”¨å§¿æ€è§’æ•°æ®attitude_dat.roll, attitude_dat.pitch, attitude_dat.yaw
+	//åå¯å¼•ç”¨è§’é€Ÿåº¦æ•°æ®gyro_dat.x, gyro_dat.y, gyro_dat.z
+	//åå¯å¼•ç”¨åŠ é€Ÿåº¦æ•°æ®accelerometer_dat.x, accelerometer_dat.y, accelerometer_dat.z)
 
     /* USER CODE END WHILE */
 
@@ -82,7 +82,7 @@ void delay_us_hal(uint16_t nus)
 
   
 
-- **ĞèÒª½«ÔÚatk_ms601m_uart.hÓĞ¹Ø#define ATK_MS601M_UART_IRQHandler              USART2_IRQHandlerµÄºê¶¨Òå×¢ÊÍ»òÉ¾³ı£¬²¢°ÑÕâ¸öº¯Êı¸øÉùÃ÷£¬È»ºóÔÙitÎÄ¼şÖĞĞ´Èë#include "AllHeader.h" ²¢ÔÚUSART2_IRQHandlerÉÏÖĞĞ´ÈëATK_MS601M_UART_IRQHandler**
+- **éœ€è¦å°†åœ¨atk_ms601m_uart.hæœ‰å…³#define ATK_MS601M_UART_IRQHandler              USART2_IRQHandlerçš„å®å®šä¹‰æ³¨é‡Šæˆ–åˆ é™¤ï¼Œå¹¶æŠŠè¿™ä¸ªå‡½æ•°ç»™å£°æ˜ï¼Œç„¶åå†itæ–‡ä»¶ä¸­å†™å…¥#include "AllHeader.h" å¹¶åœ¨USART2_IRQHandlerä¸Šä¸­å†™å…¥ATK_MS601M_UART_IRQHandler**
 
-- **ĞèÒªÔÚatk_ms601m_uart.hÖĞ½«Òı½Å¶¨ÒåÌæ»»³ÉËùÓÃ´®¿ÚÒı½Å**
+- **éœ€è¦åœ¨atk_ms601m_uart.hä¸­å°†å¼•è„šå®šä¹‰æ›¿æ¢æˆæ‰€ç”¨ä¸²å£å¼•è„š**
 

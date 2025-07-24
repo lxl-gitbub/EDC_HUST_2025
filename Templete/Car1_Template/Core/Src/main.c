@@ -46,37 +46,13 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-// MS601M ´«¸ĞÆ÷Êı¾İ½á¹¹Ìå
+// MS601M ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ½á¹¹ï¿½ï¿½
 atk_ms601m_attitude_data_t attitude_dat;
 atk_ms601m_gyro_data_t gyro_dat;
 atk_ms601m_accelerometer_data_t accelerometer_dat;
 char message[256]; 
-float current_yaw;//ÓÃÓÚ´æ´¢ÏÖÔÚµÄyaw
-const float back_angle_cor = -1.6;//ÓÃÓÚ¾ÀÕıÍÓÂİÒÇµÄÏµÍ³Îó²î£¬µ±½Ç¶È¹ıĞ¡£¨ÄæÊ±Õë²»¹»£©
-float distance = 0.0f;// ¾àÀë±äÁ¿
-
-//¸ĞÎª´«¸ĞÆ÷Êı¾İ±äÁ¿
-int Digtal[8];
-
-//×´Ì¬»ú±äÁ¿
-MODE mode = {WAIT_MODE}; // ³õÊ¼»¯Ä£Ê½ÎªËÍÒ©Ä£Ê½£¬Î»ÖÃÎªÁã
-short drug_change = 1;
-//ÓÃÓÚ±ê¼ÇÊÇ·ñĞèÒª½øĞĞÒ©ÎïÄ£Ê½µÄ×ª»¯£¬
-//Ö»ÓĞÔÚ×î¿ªÊ¼µÄÊ±ºòÊÇ1£¬ÒÔ¼°ÔÚ×îºó³ÌĞòÍ£Ö¹µÄÊ±ºòÊÇ1£¬ÖĞ¼äÎª0£¬¼´ÖĞ¼ä²»ĞèÒª¼ì²âÊÇ·ñ×°Ò©
-bool Sampling_Begin = true; //ÊÓ¾õÄ£¿éÊÇ·ñ¿ªÊ¼²ÉÑù
-uint32_t mode_begin_t = 0;//¼ÇÂ¼Ä£Ê½¿ªÊ¼µÄÊ±¼ä
-bool hasStopped = false;
-
-//²âÁ¿¹ıµÄ×ªÍä²ÎÊı
-const float r = 0.20;
-const float tel = 20;
-
-const int back_delay = 300;//·ÀÖ¹ÇÃÍ·£¬ÔÚºó×ªÖ®ºóÍ£Ö¹Ò»¶ÎÊ±¼ä
-
-// ½ÓÊÕ×´Ì¬ºÍ»º³åÇø
-uint8_t Visual_Rx_Buff[Visual_Rx_Buff_Len] = {0}; 
-// ÕæÕı½ÓÊÜÊı¾İµÄº¯Êı
-uint8_t Visual_Data[25] = {0} ;
+const float back_angle_cor = -1.6;//ï¿½ï¿½ï¿½Ú¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Çµï¿½ÏµÍ³ï¿½ï¿½î£¬ï¿½ï¿½ï¿½Ç¶È¹ï¿½Ğ¡ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ë²»ï¿½ï¿½ï¿½ï¿½
+//ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ±ï¿½ï¿½ï¿½
 
 /* USER CODE END PV */
 
@@ -146,31 +122,23 @@ int main(void)
   MX_USART6_UART_Init();
   MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
-	//ÍÓÂİÒÇ³õÊ¼»¯
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ç³ï¿½Ê¼ï¿½ï¿½
 	atk_ms601m_init(115200);
-  //×´Ì¬»ú³õÊ¼»¯
-	mode.loc.n = 0;
-	// µç»úºÍ±àÂëÆ÷³õÊ¼»¯	
-  Motor Left, Right;  
-	MEInit(&Left, &Right); 
-	//OLEDÆÁÄ»³õÊ¼»¯
+	// ï¿½ï¿½ï¿½ï¿½Í±ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
+ 	MECInit();
+  uint32_t init_time = HAL_GetTick();
+	//OLEDï¿½Ä»ï¿½ï¿½Ê¼ï¿½ï¿½
 	OLED_Init();
   OLED_Clear();
-  //ÊÓ¾õÄ£¿é³õÊ¼»¯
-  visual_full_reset();
-	// ½ÓÊÕÖĞ¶Ï³õÊ¼»¯
-  HAL_UARTEx_ReceiveToIdle_IT(&huart6, Visual_Rx_Buff, Visual_Rx_Buff_Len);
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¶Ï³ï¿½Ê¼ï¿½ï¿½
  
-	mode.loc.n = 0;
-	
 //	
   /* USER CODE END 2 */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    UpdateData_Car(); // ¸üĞÂÆû³µ×´Ì¬Êı¾İ
-		IIC_Get_Digtal(Digtal);
+    UpdateData_Car(); // Update the car state with the latest sensor readings
     /* USER CODE END WHILE */
 	}
     /* USER CODE BEGIN 3 */
@@ -241,7 +209,7 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-//ÓÃÓÚ¸øÍÓÂİÒÇÌá¹©1usµÄ¶¨Ê±
+//ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á¹©1usï¿½Ä¶ï¿½Ê±
 void delay_us_hal(uint16_t nus)
 {
     __HAL_TIM_SET_COUNTER(&htim6, 0);
@@ -251,10 +219,10 @@ void delay_us_hal(uint16_t nus)
 }
 
 
-// ¶¨Ê±Æ÷ÖĞ¶Ï»Øµ÷º¯Êı£¬ÓÃÓÚ¸üĞÂ±àÂëÆ÷ËÙ¶È
+// ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ğ¶Ï»Øµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½Â±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-    // ¸üĞÂËùÓĞ±àÂëÆ÷µÄËÙ¶ÈÊı¾İ
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½ï¿½ï¿½ï¿½ï¿½
     UpdateAllSpeed(htim);
 }
 
