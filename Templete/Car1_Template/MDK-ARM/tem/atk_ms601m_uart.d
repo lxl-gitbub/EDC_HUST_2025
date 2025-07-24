@@ -52,4 +52,5 @@ tem/atk_ms601m_uart.o: ..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.c \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
   ..\Drivers\BSP\Motor_Encoder\Mem.h ..\Drivers\Initialize\Initialize.h \
   ..\Drivers\Motion\kinematics.h ..\Drivers\BSP\OLED\oled.h \
-  ..\Core\Inc\i2c.h ..\Drivers\Visual\visual.h ..\Drivers\BSP\LED\led.h
+  ..\Core\Inc\i2c.h ..\Drivers\Visual\visual.h ..\Drivers\BSP\LED\led.h \
+  ..\Drivers\Sensor\SensorProc.h

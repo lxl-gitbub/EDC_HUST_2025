@@ -51,7 +51,7 @@ atk_ms601m_attitude_data_t attitude_dat;
 atk_ms601m_gyro_data_t gyro_dat;
 atk_ms601m_accelerometer_data_t accelerometer_dat;
 char message[256]; 
-const float back_angle_cor = -1.6;//���ھ��������ǵ�ϵͳ�����Ƕȹ�С����ʱ�벻����
+const float back_angle_cor = -1.6;//���ھ��������ǵ�ϵͳ�����Ƕȹ�С����ʱ�벻����?
 //��Ϊ���������ݱ���
 
 /* USER CODE END PV */
@@ -122,26 +122,30 @@ int main(void)
   MX_USART6_UART_Init();
   MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
-	//�����ǳ�ʼ��
+	HAL_Delay(10);
 	atk_ms601m_init(115200);
-	// ����ͱ�����ʼ��
+	// ����ͱ�����ʼ��?
  	MECInit();
   uint32_t init_time = HAL_GetTick();
-	//OLED�Ļ��ʼ��
+	//OLED�Ļ��ʼ��?
 	OLED_Init();
-  OLED_Clear();
-	// �����жϳ�ʼ��
- 
-//	
+	OLED_Clear();
   /* USER CODE END 2 */
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     UpdateData_Car(); // Update the car state with the latest sensor readings
+    Straight(1.5, 0.2, 0.0, FORWARD); // Move forward with a speed of 1.0 m/s, acceleration of 0.2 m/s^2, and no steering
+    if(car.pose.x > 1.02)
+      GREEN_up(); // If the car has moved more than 1.02 meters, turn on the green LED
+//		PID_Move(0.5, 0, 0);
+//		runCircle(0.5, 0.6, 30, FORWARD);
     /* USER CODE END WHILE */
-	}
+
     /* USER CODE BEGIN 3 */
+	}
   /* USER CODE END 3 */
 }
 

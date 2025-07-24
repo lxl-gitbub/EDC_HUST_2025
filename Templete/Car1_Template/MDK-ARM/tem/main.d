@@ -53,4 +53,5 @@ tem/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
   ..\Drivers\BSP\Motor_Encoder\Mem.h ..\Drivers\Initialize\Initialize.h \
   ..\Drivers\Motion\kinematics.h ..\Drivers\BSP\OLED\oled.h \
-  ..\Drivers\Visual\visual.h ..\Drivers\BSP\LED\led.h
+  ..\Drivers\Visual\visual.h ..\Drivers\BSP\LED\led.h \
+  ..\Drivers\Sensor\SensorProc.h

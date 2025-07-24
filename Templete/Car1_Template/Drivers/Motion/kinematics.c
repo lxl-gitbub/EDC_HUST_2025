@@ -2,7 +2,7 @@
 #include "AllHeader.h"
 #include "Initialize.h"
 
-// --- PID结构体与相关函数保持不变 ---
+// --- PID??????????????????? ---
 
 void PID_Init(PIDdata *pid) {
     if (pid == NULL) return;
@@ -20,9 +20,9 @@ void PID_Update(PIDdata *pid, float target, float current, float dt) {
 float PID_Compute(PIDdata *pid, float Kp, float Ki, float Kd) {
     if (pid == NULL) return 0.0f;
     if (pid->sum > 1000.0f) {
-        pid->sum = 1000.0f; // 防止积分过大
+        pid->sum = 1000.0f; // ??????????
     } else if (pid->sum < -1000.0f) {
-        pid->sum = -1000.0f; // 防止积分过小
+        pid->sum = -1000.0f; // ????????锟斤拷
     }
     return Kp * pid->error + Ki * pid->sum + Kd * pid->difference;
 }
@@ -47,11 +47,11 @@ void CarState_Update(CarState *state, Data d) {
     state->pose.theta = sumTheta(d.yaw, -state->pose.initial_theta); // Update theta with current yaw
     state->pose.x += state->speed.linear_velocity * d.dt * cos(DEG_TO_RAD(state->pose.theta));
     state->pose.y += state->speed.linear_velocity * d.dt * sin(DEG_TO_RAD(state->pose.theta));
-    //目前没有发现其他数据的作用，暂且处理这些数据
+    //????锟斤拷??????????????????????????锟斤拷????
 }
 
 
-// --- 角度归一化 ---
+// --- ??????? ---
 float sumTheta(float theta1, float theta2)
 {
     float sum = theta1 + theta2;
@@ -60,7 +60,7 @@ float sumTheta(float theta1, float theta2)
     return sum;
 }
 
-// --- 轮速转换 ---
+// --- ??????? ---
 WheelSpeed SpeedToWheelSpeed(Speed speed)
 {
     WheelSpeed wheel_speed;
@@ -69,16 +69,16 @@ WheelSpeed SpeedToWheelSpeed(Speed speed)
     return wheel_speed;
 }
 
-// --- PID速度控制 ---
-// 理由：直接用current_data，dt用current_data.dt，主循环保证UpdateData()已调用
+// --- PID?????? ---
+// ??????????current_data??dt??current_data.dt??????????UpdateData()?????
 Speed PID_Move(float v, float w, short isreload)
 {
     static PIDdata pidSpeed;
     static PIDdata pidAngular;
     static Speed last_target = {0.0f, 0.0f};
 
-    // PID参数可根据实际调整
-    float K_p_v = 1.0f, K_i_v = 0.0f, K_d_v = 0.0f;
+    // PID???????????????
+    float K_p_v = 1.0f, K_i_v = 0.1f, K_d_v = 0.0f;
     float K_p_w = 1.0f, K_i_w = 0.1f, K_d_w = 0.1f;
 
     if (isreload) {
@@ -89,9 +89,9 @@ Speed PID_Move(float v, float w, short isreload)
         return current_data.speed;
     }
 
-    // 用current_data.dt作为dt
+    // ??current_data.dt???dt
     float dt = current_data.dt;
-    if (dt <= 0.0f) dt = 0.01f; // 防止dt为0
+    if (dt <= 0.0f) dt = 0.01f; // ???dt?0
 
     PID_Update(&pidSpeed, v, current_data.speed.linear_velocity, dt);
     PID_Update(&pidAngular, w, current_data.speed.angular_velocity, dt);
@@ -108,35 +108,33 @@ Speed PID_Move(float v, float w, short isreload)
     return current_data.speed;
 }
 
-// --- 直行控制 ---
-// 理由：用current_data，dt用current_data.dt，yaw误差用sumTheta(current_data.yaw, -target_yaw)
-bool Straight(float distance, float speed, float target_yaw, DIR dir)
+bool Straight(float distance, float speed, float target_theta, DIR dir)
 {
     static int first_run = 1;
     static float remain = 0.0f;
     static float total = 0.0f;
-		static uint32_t last_time = 0;
-		uint32_t now = HAL_GetTick();
+	static uint32_t last_time = 0;
+	uint32_t now = HAL_GetTick();
+
+    float v = (dir == FORWARD ? speed : -speed);
+    float theta_error = sumTheta(car.pose.theta, -target_theta);
+    float k_w = 6.0f; // ??????????
 
     if (first_run && now - last_time > 1000) {
         first_run = 0;
         remain = distance;
         total = distance;
-        PID_Move(0, 0, 1); // 复位PID
+        PID_Move(v, -k_w * theta_error, 1); // ??锟斤拷PID
         return false;
     }
-		last_time = now;
+	last_time = now;
 
     float dt = current_data.dt;
-		
-    float v = (dir == FORWARD ? speed : -speed);
-    float yaw_error = sumTheta(current_data.yaw, -target_yaw);
-    float k_w = 6.0f; // 角度修正系数
 
-    Speed cur = PID_Move(v, -k_w * yaw_error, 0);
+    Speed cur = PID_Move(v, -k_w * theta_error, 0);
     remain -= fabs(cur.linear_velocity) * dt;
 
-    // 到达目标距离后复位first_run
+    // ???????????锟斤拷first_run
     if (fabs(remain) < 0.02f) {
         first_run = 1;
         LSet(0);
@@ -146,39 +144,55 @@ bool Straight(float distance, float speed, float target_yaw, DIR dir)
     return false;
 }
 
-// --- 圆周运动 ---
-// 理由：用current_data，dt用current_data.dt，角度积分用实际角速度
 bool runCircle(float radius, float speed, float angle, DIR dir)
 {
     static int first_run = 1;
-    static float start_yaw = 0.0f;
+    static float start_theta = 0.0f;
 		static uint32_t last_time = 0;
 		uint32_t now = HAL_GetTick();
 
-    if (first_run || now - last_time > 1000) {
-        first_run = 0;
-        start_yaw = current_data.yaw;
-        PID_Move(0, 0, 1); // 复位PID
-				last_time = now;
-        return false;
-    }
-	last_time = now;
     float linear_velocity = speed;
     float angular_velocity = linear_velocity / radius * (180.0f / PI);
     if (dir == RIGHT) angular_velocity = -angular_velocity;
 
+    if (first_run || now - last_time > 1000) {
+        first_run = 0;
+        start_theta = car.pose.theta; // 锟斤拷录锟斤拷始锟角讹拷
+        PID_Move(linear_velocity, angular_velocity, 1); // 锟斤拷始锟斤拷PID
+				last_time = now;
+        return false;
+    }
+	last_time = now;
+
     Speed cur = PID_Move(linear_velocity, angular_velocity, 0);
 
-    // 用实际yaw与起始yaw的差值判断剩余角度
-    float delta_yaw = sumTheta(current_data.yaw, -start_yaw);
-    float remain_angle = angle - fabs(delta_yaw);
+    float delta_theta = sumTheta(car.pose.theta, -start_theta);
+    float remain_angle = angle - fabs(delta_theta);
 
-    // 到达目标角度后复位first_run
-    if (fabs(remain_angle) < 2.0f) {
+     if (fabs(remain_angle) < 2.0f) {
         first_run = 1;
         LSet(0);
         RSet(0);
         return true;
     }
     return false;
+}
+
+void track(float linear_velocity)
+{
+    static int first_run = 1;
+    static uint32_t last_time = 0;
+    uint32_t now = HAL_GetTick();
+    int init = 0;
+    if (first_run && now - last_time > 1000) {
+        first_run = 0;
+        init = 1; // 锟斤拷始锟斤拷锟斤拷志
+    }
+    last_time = now;
+    float k_w = 6.0f; // 锟斤拷锟劫度的憋拷锟斤拷系锟斤拷
+    float angular_velocity = k_w * thetaGrayscale(); 
+    if (angular_velocity > 100.0f) angular_velocity = 100.0f; // 锟斤拷锟斤拷锟斤拷锟斤拷锟劫讹拷
+    if (angular_velocity < -100.0f) angular_velocity = -100.0f; // 锟斤拷锟斤拷锟斤拷小锟斤拷锟劫讹拷
+    PID_Move(linear_velocity, angular_velocity, init);
+    return;
 }

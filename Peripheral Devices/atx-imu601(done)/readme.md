@@ -86,3 +86,4 @@ void delay_us_hal(uint16_t nus)
 
 - **需要在atk_ms601m_uart.h中将引脚定义替换成所用串口引脚**
 
+- **init前增加适当延时可以提高稳定性**

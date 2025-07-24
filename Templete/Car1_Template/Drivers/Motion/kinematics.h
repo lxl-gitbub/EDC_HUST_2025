@@ -3,10 +3,10 @@
 
 #include <stdbool.h>
 #define DEG_TO_RAD(degrees) ((degrees) * (PI / 180.0f))
-// »¡¶Èµ½½Ç¶ÈµÄ×ª»»ºê (Èç¹ûÄúÒ²ĞèÒª)
+// å¼§åº¦åˆ°è§’åº¦çš„è½¬æ¢å® (å¦‚æœæ‚¨ä¹Ÿéœ€è¦)
 #define RAD_TO_DEG(radians) ((radians) * (180.0f / PI))
 
-#define STOD 999/1.30
+#define STOD (999/1.30)
 
 typedef enum {
     LEFT = 0,
@@ -21,68 +21,69 @@ extern "C" {
 #endif
 
 typedef struct{
-    float error; // Îó²î
-    float sum; // »ı·Ö
-    float difference; // Î¢·Ö
+    float error; // è¯¯å·®
+    float sum; // ç§¯åˆ†
+    float difference; // å¾®åˆ†
 }PIDdata;
 
 typedef struct{
-    float Kp; // ±ÈÀıÏµÊı
-    float Ki; // »ı·ÖÏµÊı
-    float Kd; // Î¢·ÖÏµÊı
+    float Kp; // æ¯”ä¾‹ç³»æ•°
+    float Ki; // ç§¯åˆ†ç³»æ•°
+    float Kd; // å¾®åˆ†ç³»æ•°
 }PIDConfig;
 
 typedef struct{
-    float x; // xÖáÎ»ÖÃ
-    float y; // yÖáÎ»ÖÃ
-    float theta; // ·½Ïò½Ç
-    float initial_theta; // ³õÊ¼·½Ïò½Ç
+    float x; // xè½´ä½ç½®
+    float y; // yè½´ä½ç½®
+    float theta; // æ–¹å‘è§’
+    float initial_theta; // åˆå§‹æ–¹å‘è§’
 }Pose;
 
 typedef struct{
-    float linear_velocity; // ÏßËÙ¶È
-    float angular_velocity; // ½ÇËÙ¶È
+    float linear_velocity; // çº¿é€Ÿåº¦
+    float angular_velocity; // è§’é€Ÿåº¦
 }Speed;
 
 typedef struct{
-    float left_wheel_speed; // ×óÂÖËÙ¶È
-    float right_wheel_speed; // ÓÒÂÖËÙ¶È
+    float left_wheel_speed; // å·¦è½®é€Ÿåº¦
+    float right_wheel_speed; // å³è½®é€Ÿåº¦
 }WheelSpeed;
 
 typedef struct{
-    Speed speed; // ÏßËÙ¶ÈºÍ½ÇËÙ¶È
-    float yaw; // Æ«º½½Ç
+    Speed speed; // çº¿é€Ÿåº¦å’Œè§’é€Ÿåº¦
+    float yaw; // åèˆªè§’
 	float dt;
-}Data; //Õâ¸öÊı¾İ½á¹¹ÓÃÓÚ´Ó±àÂëÆ÷ºÍÍÓÂİÒÇÖĞ»ñÈ¡Êı¾İ
+}Data; //è¿™ä¸ªæ•°æ®ç»“æ„ç”¨äºä»ç¼–ç å™¨å’Œé™€èºä»ªä¸­è·å–æ•°æ®
 
 typedef struct{
-    Pose pose; // Î»ÖÃºÍ·½Ïò
-    Speed speed; // ÏßËÙ¶ÈºÍ½ÇËÙ¶È
-    WheelSpeed wheel_speed; // ×óÓÒÂÖËÙ¶È
+    Pose pose; // ä½ç½®å’Œæ–¹å‘
+    Speed speed; // çº¿é€Ÿåº¦å’Œè§’é€Ÿåº¦
+    WheelSpeed wheel_speed; // å·¦å³è½®é€Ÿåº¦
 }CarState;
 
 typedef struct{
-    CarState car_state; // Æû³µ×´Ì¬
-    PIDdata pid; // PIDÊı¾İ
+    CarState car_state; // æ±½è½¦çŠ¶æ€
+    PIDdata pid; // PIDæ•°æ®
 }CarKinematics;
 
 
-//PID º¯ÊıÉùÃ÷
+//PID å‡½æ•°å£°æ˜
 void PID_Init(PIDdata *pid);
 void PID_Update(PIDdata *pid, float target, float current, float dt);
 float PID_Compute(PIDdata *pid, float Kp, float Ki, float Kd);
 
-//Ğ¡³µ×´Ì¬´¦Àíº¯ÊıÉùÃ÷
+//å°è½¦çŠ¶æ€å¤„ç†å‡½æ•°å£°æ˜
 void CarState_Init(CarState *state);
 void CarState_Update(CarState *state,  Data d);
 
-// Ğ¡³µËÙ¶È»»Ëãº¯Êı
+// å°è½¦é€Ÿåº¦æ¢ç®—å‡½æ•°
 WheelSpeed SpeedToWheelSpeed(Speed speed);
 float sumTheta(float, float);
 
-// ÔË¶¯Ñ§º¯ÊıÉùÃ÷
+// è¿åŠ¨å­¦å‡½æ•°å£°æ˜
 Speed PID_Move(float v, float w, short isreload);
-bool runCircle(float radius, float speed, float angle, DIR dir); // Ô²ÖÜÔË¶¯º¯Êı
-bool Straight(float distance, float speed, float yaw, DIR dir); // Ö±ĞĞº¯Êı
+bool runCircle(float radius, float speed, float angle, DIR dir); // åœ†å‘¨è¿åŠ¨å‡½æ•°
+bool Straight(float distance, float speed, float target_theta, DIR dir); // ç›´è¡Œå‡½æ•°
+void track(float linear_velocity); // å·¡çº¿å‡½æ•°
 
- #endif
+#endif

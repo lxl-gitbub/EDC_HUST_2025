@@ -30,12 +30,12 @@ unsigned char Ping(void)
 	}	
 	else return 1;
 }
-void IIC_Get_Digtal(int Digtal[])
+void IIC_Get_Digital(int Digital[])
 {
 	unsigned char dat;
 	IIC_ReadBytes(GW_GRAY_ADDR_DEF<<1,GW_GRAY_DIGITAL_MODE,&dat,1);
 	for(int i=0; i<8; i++)
-		Digtal[i] = (dat>>i)&0x01;
+		Digital[i] = (dat>>i)&0x01;
 }
 unsigned char IIC_Get_Anolog(unsigned char * Result,unsigned char len)
 {

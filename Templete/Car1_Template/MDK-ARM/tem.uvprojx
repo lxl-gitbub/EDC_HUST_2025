@@ -138,7 +138,7 @@
             <DriverSelection>4101</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
-          <Flash2>BIN\UL2V8M.DLL</Flash2>
+          <Flash2>BIN\UL2CM3.DLL</Flash2>
           <Flash3></Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Drivers/BSP/ATK_MS601M;../Drivers/BSP/Motor_Encoder;../Drivers/BSP/GanWei;../Drivers/Mode;../Drivers/Visual;../Drivers/BSP/LED;../Drivers/BSP/OLED;..\Drivers\Initialize;..\Drivers\Motion;..\Drivers\SensorProc</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Drivers/BSP/ATK_MS601M;../Drivers/BSP/Motor_Encoder;../Drivers/BSP/GanWei;../Drivers/Mode;../Drivers/Visual;../Drivers/BSP/LED;../Drivers/BSP/OLED;../Drivers/Initialize;../Drivers/Motion;../Drivers/Sensor</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -722,7 +722,7 @@
             <File>
               <FileName>SensorProc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Drivers\SensorProc\SensorProc.c</FilePath>
+              <FilePath>..\Drivers\Sensor\SensorProc.c</FilePath>
             </File>
           </Files>
         </Group>

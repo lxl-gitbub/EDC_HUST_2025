@@ -19,7 +19,7 @@ const float Integral_max = 500.0f; // 积分限幅值
 int pid_output_IRR = 0;
 u8 trun_flag = 0;
 static int8_t err = 0;
-extern int Digtal[8];
+extern int Digital[8];
 
 // --- PID计算函数，参数可配置 ---
 float PID_IR_Calc_Custom(int16_t actual_value, float kp, float ki, float kd)
@@ -68,9 +68,9 @@ void lineWalking_core(int16_t speed, float kp, float ki, float kd)
 	// 索引:   0    1    2    3    4    5    6    7
 	// 权重: -3.5 -2.5 -1.5 -0.5  0.5  1.5  2.5  3.5
 	float sensor_positions[] = {-3.5f, -2.5f, -1.5f, -0.5f, 0.5f, 1.5f, 2.5f, 3.5f};
-
+    
 	for (int i = 0; i < 8; i++) {
-		if (Digtal[i] == 0) { // 如果传感器检测到线
+		if (Digital[i] == 0) { // 如果传感器检测到线
 				sum_position += sensor_positions[i];
 				num_active_sensors++;
 		}

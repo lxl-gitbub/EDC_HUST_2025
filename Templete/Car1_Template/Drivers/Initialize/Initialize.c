@@ -4,7 +4,7 @@
 Motor Le, Ri;  // Declare motors for left and right
 CarState car; // Declare car state for kinematics
 Data current_data;
-int Digtal[8];
+int Digital[8];
 
 
 void MECInit()
@@ -101,13 +101,14 @@ float CalibrateYawOffset()
 
 void UpdateData()
 {
+    const float speedCorrection = 1.03f; // Speed correction factor
     static uint32_t last_time = 0; // Last update time
     uint32_t now = HAL_GetTick(); // Get the current time
     static bool first_run = true; // Flag to indicate the first run
-    current_data.speed.linear_velocity = cSpeed(); // Get the current speed
+    current_data.speed.linear_velocity = cSpeed() * speedCorrection; // Get the current speed
     current_data.speed.angular_velocity = getWz(); // Get the current angular velocity
     current_data.yaw = getYaw(); // Get the current yaw angle
-    IIC_Get_Digtal(Digtal);
+    IIC_Get_Digital(Digital);
     if(first_run)
     {
         first_run = false; // Set the flag to false after the first run

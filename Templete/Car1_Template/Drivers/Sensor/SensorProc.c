@@ -7,6 +7,7 @@
  */
 #include "SensorProc.h"
 
+// 以下函数用于处理陀螺仪
 bool isInTheYaw(float targetYaw, float tolerance)
 {
     // Check if the current yaw is within the specified tolerance of the target yaw
@@ -20,11 +21,36 @@ bool isInTheYaw(float targetYaw, float tolerance)
     }
 }
 
+//以下函数用于处理灰度传感器
+
+float Grayscale_Num_To_Theta(int num)
+{
+    // Convert the sensor number to an angle in degrees
+    // The angle is calculated based on the sensor's position
+    return RAD_TO_DEG(atan(-(num - (SENSOR_COUNT - 1) / 2.0f) * DisSensor / DisSensorToWheel));
+}
+
+float thetaGrayscale()
+{
+    float theta = 0.0f;
+    int sum = 0;
+    // 计算灰度传感器的偏差而导致的误差值
+   for(int i = 0; i < SENSOR_COUNT; i++)
+    {
+        if(Digital[i] == 0) 
+        {
+            theta += Grayscale_Num_To_Theta(i);
+            sum++;
+        }
+    }
+    return theta / sum;
+}
+
 bool Road_detect(int nummin, int nummax)
 {
 		int sumIRDetect = 0;
 		int i = 0;
-		while(i < 8){	if(Digtal[i]==0) sumIRDetect ++; i++;}
+		while(i < 8){	if(Digital[i]==0) sumIRDetect ++; i++;}
 		if(sumIRDetect <= nummax && sumIRDetect >= nummin) 	return 1;
 		else return 0;
 }

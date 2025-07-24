@@ -52,7 +52,7 @@ extern "C" {
 #endif
 extern CarState car; // Declare car state for kinematics
 extern Data current_data; // Declare current data for kinematics
-extern int Digtal[8]; // Declare an array for digital sensor readings
+extern int Digital[8]; // Declare an array for digital sensor readings
 
 void MECInit();
 void LMotorSet(MOVETYPE type, uint16_t duty);
