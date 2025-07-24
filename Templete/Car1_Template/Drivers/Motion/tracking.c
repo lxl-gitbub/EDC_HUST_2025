@@ -1,33 +1,33 @@
 #include "tracking.h"
 #include "AllHeader.h"
 
-#define IRR_SPEED_HIGH  400  // ¸ßËÙÑ²ÏßËÙ¶È
-#define IRR_SPEED_LOW   200  // µÍËÙÑ²ÏßËÙ¶È
+#define IRR_SPEED_HIGH  400  // é«˜é€Ÿå·¡çº¿é€Ÿåº¦
+#define IRR_SPEED_LOW   200  // ä½é€Ÿå·¡çº¿é€Ÿåº¦
 
-// ¸ßËÙPID²ÎÊı
+// é«˜é€ŸPIDå‚æ•°
 #define IRTrack_Trun_KP_HIGH 50
 #define IRTrack_Trun_KI_HIGH 0
 #define IRTrack_Trun_KD_HIGH 0
 
-// µÍËÙPID²ÎÊı
+// ä½é€ŸPIDå‚æ•°
 #define IRTrack_Trun_KP_LOW  20
 #define IRTrack_Trun_KI_LOW  0
 #define IRTrack_Trun_KD_LOW  0.5
 
 const float pid_out_max = 5000.0f; 
-const float Integral_max = 500.0f; // »ı·ÖÏŞ·ùÖµ 
+const float Integral_max = 500.0f; // ç§¯åˆ†é™å¹…å€¼ 
 int pid_output_IRR = 0;
 u8 trun_flag = 0;
 static int8_t err = 0;
 extern int Digtal[8];
 
-// --- PID¼ÆËãº¯Êı£¬²ÎÊı¿ÉÅäÖÃ ---
+// --- PIDè®¡ç®—å‡½æ•°ï¼Œå‚æ•°å¯é…ç½® ---
 float PID_IR_Calc_Custom(int16_t actual_value, float kp, float ki, float kd)
 {
     float pid_out = 0;
     int16_t error; 
-    static int16_t error_last = 0; //ÉÏ´ÎµÄÎó²î³õÊ¼Îª0
-    static float Integral = 0; // ³õÊ¼»¯»ı·ÖÏî
+    static int16_t error_last = 0; //ä¸Šæ¬¡çš„è¯¯å·®åˆå§‹ä¸º0
+    static float Integral = 0; // åˆå§‹åŒ–ç§¯åˆ†é¡¹
 
     error = actual_value;
     Integral += error;
@@ -43,34 +43,34 @@ float PID_IR_Calc_Custom(int16_t actual_value, float kp, float ki, float kd)
     return pid_out;
 }
 
-// --- ¸ßËÙÑ²Ïß ---
+// --- é«˜é€Ÿå·¡çº¿ ---
 void lineWalking_high(void)
 {
     lineWalking_core(IRR_SPEED_HIGH, IRTrack_Trun_KP_HIGH, IRTrack_Trun_KI_HIGH, IRTrack_Trun_KD_HIGH);
 }
 
-// --- µÍËÙÑ²Ïß ---
+// --- ä½é€Ÿå·¡çº¿ ---
 void lineWalking_low(void)
 {
     lineWalking_core(IRR_SPEED_LOW, IRTrack_Trun_KP_LOW, IRTrack_Trun_KI_LOW, IRTrack_Trun_KD_LOW);
 }
 
-// --- ºËĞÄÑ²ÏßÂß¼­£¬²ÎÊı¿ÉÅäÖÃ ---
+// --- æ ¸å¿ƒå·¡çº¿é€»è¾‘ï¼Œå‚æ•°å¯é…ç½® ---
 void lineWalking_core(int16_t speed, float kp, float ki, float kd)
 {
-    // ÔÚ lineWalking_core º¯ÊıÖĞ
+    // åœ¨ lineWalking_core å‡½æ•°ä¸­
 	// ...
 	float sum_position = 0;
 	int num_active_sensors = 0;
 
-	// ÎªÃ¿¸ö´«¸ĞÆ÷·ÖÅäÒ»¸öÎ»ÖÃÈ¨ÖØ£¬ÖĞĞÄÎª0
-	// ¶ÔÓÚ8¸ö´«¸ĞÆ÷£¬¿ÉÒÔÕâÑù·ÖÅä£º
-	// Ë÷Òı:   0    1    2    3    4    5    6    7
-	// È¨ÖØ: -3.5 -2.5 -1.5 -0.5  0.5  1.5  2.5  3.5
+	// ä¸ºæ¯ä¸ªä¼ æ„Ÿå™¨åˆ†é…ä¸€ä¸ªä½ç½®æƒé‡ï¼Œä¸­å¿ƒä¸º0
+	// å¯¹äº8ä¸ªä¼ æ„Ÿå™¨ï¼Œå¯ä»¥è¿™æ ·åˆ†é…ï¼š
+	// ç´¢å¼•:   0    1    2    3    4    5    6    7
+	// æƒé‡: -3.5 -2.5 -1.5 -0.5  0.5  1.5  2.5  3.5
 	float sensor_positions[] = {-3.5f, -2.5f, -1.5f, -0.5f, 0.5f, 1.5f, 2.5f, 3.5f};
 
 	for (int i = 0; i < 8; i++) {
-		if (Digtal[i] == 0) { // Èç¹û´«¸ĞÆ÷¼ì²âµ½Ïß
+		if (Digtal[i] == 0) { // å¦‚æœä¼ æ„Ÿå™¨æ£€æµ‹åˆ°çº¿
 				sum_position += sensor_positions[i];
 				num_active_sensors++;
 		}
@@ -78,17 +78,17 @@ void lineWalking_core(int16_t speed, float kp, float ki, float kd)
 
 	if (num_active_sensors > 0) {
 		float average_position = sum_position / num_active_sensors;
-		// ½«Æ½¾ùÎ»ÖÃ³ËÒÔÒ»¸öËõ·ÅÒò×Ó£¬µÃµ½ÄúÆÚÍûµÄÎó²î·¶Î§
-		// ÀıÈç£¬³ËÒÔ10»ò20£¬ÈÃerrµÄ¾ø¶ÔÖµ¸ü´ó£¬ÒÔ±ãKPÄÜ¸üÃ÷ÏÔµØ×÷ÓÃ
-		err = (int8_t)(average_position * 10.0f); // ÕâÀïµÄ10.0fÊÇÊ¾Àı£¬ĞèÒª¸ù¾İÊµ¼ÊĞ§¹ûµ÷Õû
+		// å°†å¹³å‡ä½ç½®ä¹˜ä»¥ä¸€ä¸ªç¼©æ”¾å› å­ï¼Œå¾—åˆ°æ‚¨æœŸæœ›çš„è¯¯å·®èŒƒå›´
+		// ä¾‹å¦‚ï¼Œä¹˜ä»¥10æˆ–20ï¼Œè®©errçš„ç»å¯¹å€¼æ›´å¤§ï¼Œä»¥ä¾¿KPèƒ½æ›´æ˜æ˜¾åœ°ä½œç”¨
+		err = (int8_t)(average_position * 10.0f); // è¿™é‡Œçš„10.0fæ˜¯ç¤ºä¾‹ï¼Œéœ€è¦æ ¹æ®å®é™…æ•ˆæœè°ƒæ•´
 	} else {
-		// Èç¹ûËùÓĞ´«¸ĞÆ÷¶¼Ã»ÓĞ¼ì²âµ½Ïß£¬Í¨³£ÒâÎ¶×Å»úÆ÷ÈËÍêÈ«Æ«ÀëÁË¡£
-		// ÄúĞèÒªÔÚÕâÀïÊµÏÖÒ»¸ö¡°Ê§Ïß¡±»Ö¸´²ßÂÔ£¬ÀıÈçÍ£³µ¡¢Ğı×ªÑ°ÕÒÏßµÈ¡£
-		// ÔİÊ±¿ÉÒÔ±£³ÖÉÏÒ»´ÎµÄerr£¬»òÕß¸ù¾İÊµ¼ÊÇé¿öÉè¶¨Ò»¸öÄ¬ÈÏÖµ¡£
+		// å¦‚æœæ‰€æœ‰ä¼ æ„Ÿå™¨éƒ½æ²¡æœ‰æ£€æµ‹åˆ°çº¿ï¼Œé€šå¸¸æ„å‘³ç€æœºå™¨äººå®Œå…¨åç¦»äº†ã€‚
+		// æ‚¨éœ€è¦åœ¨è¿™é‡Œå®ç°ä¸€ä¸ªâ€œå¤±çº¿â€æ¢å¤ç­–ç•¥ï¼Œä¾‹å¦‚åœè½¦ã€æ—‹è½¬å¯»æ‰¾çº¿ç­‰ã€‚
+		// æš‚æ—¶å¯ä»¥ä¿æŒä¸Šä¸€æ¬¡çš„errï¼Œæˆ–è€…æ ¹æ®å®é™…æƒ…å†µè®¾å®šä¸€ä¸ªé»˜è®¤å€¼ã€‚
 	}
 
-	// È»ºó½«Õâ¸ö¸ü¾«Ï¸µÄ err ´«µİ¸ø PID_IR_Calc_Custom
-		pid_output_IRR = (int)(PID_IR_Calc_Custom(err, kp, ki, kd)); // ×¢ÒâÕâÀï²»ÔÙĞèÒª err * 3 
+	// ç„¶åå°†è¿™ä¸ªæ›´ç²¾ç»†çš„ err ä¼ é€’ç»™ PID_IR_Calc_Custom
+		pid_output_IRR = (int)(PID_IR_Calc_Custom(err, kp, ki, kd)); // æ³¨æ„è¿™é‡Œä¸å†éœ€è¦ err * 3 
     Motion_Car_Control(speed, 0, pid_output_IRR);
 }
 
@@ -103,7 +103,7 @@ static int speed_R2_setup = 0;
 
 void Motion_Car_Control(int16_t V_x, int16_t V_y, int16_t V_z)
 {
-	float robot_APB = 115; //ÂÖ¾àµÄÒ»°ë
+	float robot_APB = 115; //è½®è·çš„ä¸€åŠ
 	speed_lr = 0;
     speed_fb = V_x;
     speed_spin = (V_z / 1000.0f) * robot_APB;
@@ -133,22 +133,4 @@ void Motion_Car_Control(int16_t V_x, int16_t V_y, int16_t V_z)
 		LSet(speed_L2_setup);
 		RSet(speed_R2_setup);
 		
-}
-
-bool Road_detect(int nummin, int nummax)
-{
-		int sumIRDetect = 0;
-		int i = 0;
-		while(i < 8){	if(Digtal[i]==0) sumIRDetect ++; i++;}
-		if(sumIRDetect <= nummax && sumIRDetect >= nummin) 	return 1;
-		else return 0;
-}
-bool half_Detect(){
-//Èı²íÂ·¿Ú¼ì²â
-	return Road_detect(5, 7);
-}
-
-bool cross_Roads_Detect(){
-//Ê®×ÖÂ·¿Ú£¨¶¡×ÖÂ·¿Ú£©¼ì²â
-	return Road_detect(7, 8);
 }

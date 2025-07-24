@@ -12,39 +12,41 @@
 #include <string.h>
 #include <stdbool.h>
 
-// MS601M ´«¸ĞÆ÷Í·ÎÄ¼ş
+// MS601M ä¼ æ„Ÿå™¨å¤´æ–‡ä»¶
 #include "atk_ms601m.h"
 #include "atk_ms601m_uart.h"
 
-// ¸ĞÎª»Ò¶È´«¸ĞÆ÷Í·ÎÄ¼ş
+// æ„Ÿä¸ºç°åº¦ä¼ æ„Ÿå™¨å¤´æ–‡ä»¶
 #include "GanWei_i2c.h"
 #include "gw_grayscale_sensor.h"
 
-//Ñ²Ïß³ÌĞòÍ·ÎÄ¼ş
+//å·¡çº¿ç¨‹åºå¤´æ–‡ä»¶
 #include "tracking.h"
 #include "tracking_delay.h"
 
-// µç»úÇı¶¯Í·ÎÄ¼ş
+// ç”µæœºé©±åŠ¨å¤´æ–‡ä»¶
 #include "tb6612fng.h"
 
-// »ô¶û±àÂëÆ÷Í·ÎÄ¼ş
+// éœå°”ç¼–ç å™¨å¤´æ–‡ä»¶
 #include "Hall_Encoder.h"
 
-// ÄÚ´æ¹ÜÀíÍ·ÎÄ¼ş
+// å†…å­˜ç®¡ç†å¤´æ–‡ä»¶
 #include "Mem.h"
 
-// µç»úºÍ±àÂëÆ÷³õÊ¼»¯Í·ÎÄ¼ş
+// ç”µæœºå’Œç¼–ç å™¨åˆå§‹åŒ–å¤´æ–‡ä»¶
 #include "Initialize.h"
 
-//OLEDÏÔÊ¾ÆÁÍ·ÎÄ¼ş
+//OLEDæ˜¾ç¤ºå±å¤´æ–‡ä»¶
 #include "oled.h"
-//×´Ì¬»úÍ·ÎÄ¼ş,µ«ÊÇÎÒµÄmodeÎÄ¼şÔÚÂß¼­ÉÏÊôÓÚ×îÏÂ²ã£¬
-//Ò²¾ÍÊÇÊµ¼ÊÉÏËüÊ±½¨Á¢ÔÚÒÔÉÏÎÄ¼şµÄ»ù´¡ÉÏĞ´³ÉµÄ£¬°üº¬ÁËÎÒÔÚkinematicsÖĞĞ´³ÉµÄ·½ÏòµÈµÈ±äÁ¿ÀàĞÍ
-//ËùÒÔĞèÒªµ¥¶Àinclude£¬±ÜÃâÑ­»·³ö´í
-#include "Bluetooth.h"
+
+//è§†è§‰é€šé“å¤´æ–‡ä»¶
 #include "visual.h"
 
+// ledå¤´æ–‡ä»¶
 #include "led.h"
+
+// ä¼ æ„Ÿå™¨ä¿¡æ¯å¤„ç†å¤´æ–‡ä»¶
+#include "SensorProc.h"
 
 #ifdef __cplusplus
 extern "C" {

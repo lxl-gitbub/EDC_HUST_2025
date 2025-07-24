@@ -1,17 +1,18 @@
 #include "Initialize.h"
 
-//以下段落为车辆实例化代码，不改动车体的情况下，不进行改动
 
 Motor Le, Ri;  // Declare motors for left and right
 CarState car; // Declare car state for kinematics
 Data current_data;
+int Digtal[8];
 
-void MEInit(Motor* L, Motor* R)
+
+void MECInit()
 {
-    Motor_UI_Init(L, LEFT_MOTOR_IN1_PORT, LEFT_MOTOR_IN1_PIN,
+    Motor_UI_Init(&Le, LEFT_MOTOR_IN1_PORT, LEFT_MOTOR_IN1_PIN,
         LEFT_MOTOR_IN2_PORT, LEFT_MOTOR_IN2_PIN,
         LEFT_MOTOR_PWM_TIMER, LEFT_MOTOR_PWM_CHANNEL, LEFT_MOTOR_INIT_DUTY);
-    Motor_UI_Init(R, RIGHT_MOTOR_IN1_PORT, RIGHT_MOTOR_IN1_PIN,
+    Motor_UI_Init(&Ri, RIGHT_MOTOR_IN1_PORT, RIGHT_MOTOR_IN1_PIN,
         RIGHT_MOTOR_IN2_PORT, RIGHT_MOTOR_IN2_PIN,
         RIGHT_MOTOR_PWM_TIMER, RIGHT_MOTOR_PWM_CHANNEL, RIGHT_MOTOR_INIT_DUTY);
 
@@ -19,10 +20,7 @@ void MEInit(Motor* L, Motor* R)
            RIGHT_ENCODER_TIMER, RIGHT_ENCODER_CHANNEL_A, RIGHT_ENCODER_CHANNEL_B,
            WHEEL_DIAMETER, PPR * REDUCE, ENCODER_REAL_TIMER ); // Initialize the encoders with wheel length and pulses per revolution
     
-    Le = *L;  // Assign the left motor to Le
-    Ri = *R;  // Assign the right motor to Ri
-
-    CarState_Init(&car); // Initialize the car state
+   CarState_Init(&car); // Initialize the car state
     // Set the initial speed to default
     car.pose.initial_theta = CalibrateYawOffset(); // Calibrate the initial yaw offset
 }
@@ -93,11 +91,12 @@ float CalibrateYawOffset()
     int N = 100;
     for(int i = 0; i < N; ++i) {
         sum += getYaw();
-        HAL_Delay(10);  // 等待模块稳定输出
+        HAL_Delay(10);  
     }
     float yaw_offset = sum / N;
-    // 计算平均值作为偏移量
-    return yaw_offset; // 返回偏移量
+    // Calculate the average yaw offset over N samples
+    // This helps to reduce noise and improve accuracy
+    return yaw_offset; // Return the calibrated yaw offset
 }
 
 void UpdateData()
@@ -108,6 +107,7 @@ void UpdateData()
     current_data.speed.linear_velocity = cSpeed(); // Get the current speed
     current_data.speed.angular_velocity = getWz(); // Get the current angular velocity
     current_data.yaw = getYaw(); // Get the current yaw angle
+    IIC_Get_Digtal(Digtal);
     if(first_run)
     {
         first_run = false; // Set the flag to false after the first run
@@ -132,24 +132,6 @@ void UpdateData_Car()
 
 
 
-//以下代码为特殊题目下用到的车辆控制函数，在出现新题的情况下可以更改
+/* Check if the current yaw is within the specified tolerance of the target yaw */
 
-bool isInTheYaw(float targetYaw, float tolerance)
-{
-    // Check if the current yaw is within the specified tolerance of the target yaw
-    float currentYaw = getYaw(); // Get the current yaw angle
-    float dif = fabs(sumTheta(currentYaw, -targetYaw)); // Calculate the difference between current and target yaw
-    // If the absolute difference is less than the tolerance, return true
-    if (dif < tolerance || 180 - dif < tolerance) {
-        return true; // If within tolerance, return true
-    } else {
-        return false; // Otherwise, return false
-    }
-}
 
-void Back(float theta)
-{
-    float speed = 0.35f; // Set the speed for backward movement
-    float targetYaw = sumTheta(car.pose.initial_theta, theta); // Calculate the target yaw angle
-    Straight(0.3, speed, targetYaw, BACKWARD); // Move backward with the specified speed and target yaw
-}
