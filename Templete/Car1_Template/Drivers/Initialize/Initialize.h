@@ -53,6 +53,7 @@ extern "C" {
 extern CarState car; // Declare car state for kinematics
 extern Data current_data; // Declare current data for kinematics
 extern int Digital[8]; // Declare an array for digital sensor readings
+extern char error_message[100]; // Buffer for error messages
 
 void MECInit();
 void LMotorSet(MOVETYPE type, uint16_t duty);
@@ -64,13 +65,16 @@ void RSet(int16_t duty);
 void Break(); // Set both motors to break mode
 // This function sets both motors to break mode, stopping them quickly
 
-float getYaw(); // ��ȡ��ǰ��ƫ����
-float getWz(); // ��ȡ��ǰ�Ľ��ٶ�
-float CalibrateYawOffset(); // У׼ƫ����ƫ��
+// RotationAngles getRotationAngles(); // Get the current rotation angles from the MS601M sensor
+float getYaw(); // Get the current yaw angle from the MS601M sensor
+float getWz(); // Get the current angular velocity (wz) from the MS601M sensor
+float CalibrateYawOffset(); // Calibrate the yaw offset
 
-// ��ȡ���ݺ�������
+// Get the current data and update the car state
 void UpdateData(); // Update the current data with the latest sensor readings
 void UpdateData_Car(); // Update the car state with the latest sensor readings
+
+void error_handler(void); // Handle errors by stopping motors and displaying error messages
 
 #ifdef __cplusplus
 }

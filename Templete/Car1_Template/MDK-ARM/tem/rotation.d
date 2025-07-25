@@ -1,7 +1,6 @@
-tem/initialize.o: ..\Drivers\Initialize\Initialize.c \
-  ..\Drivers\Initialize\Initialize.h ..\Drivers\Motion\kinematics.h \
-  D:\keil_v5\ARM\ARMCLANG\include\stdbool.h ..\Core\Inc\AllHeader.h \
-  ..\Core\Inc\main.h ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
+tem/rotation.o: ..\Drivers\Sensor\Rotation.c ..\Drivers\Sensor\Rotation.h \
+  ..\Core\Inc\AllHeader.h ..\Core\Inc\main.h \
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
   ..\Core\Inc\stm32h7xx_hal_conf.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_rcc.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_def.h \
@@ -41,6 +40,7 @@ tem/initialize.o: ..\Drivers\Initialize\Initialize.c \
   ..\Core\Inc\i2c.h ..\Core\Inc\tim.h ..\Core\Inc\usart.h \
   ..\Core\Inc\gpio.h D:\keil_v5\ARM\ARMCLANG\include\stdio.h \
   D:\keil_v5\ARM\ARMCLANG\include\string.h \
+  D:\keil_v5\ARM\ARMCLANG\include\stdbool.h \
   ..\Drivers\BSP\ATK_MS601M\atk_ms601m.h \
   ..\Drivers\BSP\ATK_MS601M\atk_ms601m_uart.h \
   ..\Drivers\BSP\GanWei\GanWei_i2c.h \
@@ -49,6 +49,7 @@ tem/initialize.o: ..\Drivers\Initialize\Initialize.c \
   ..\Drivers\BSP\Motor_Encoder\tb6612fng.h \
   ..\Drivers\BSP\Motor_Encoder\Hall_Encoder.h \
   ..\Drivers\BSP\Motor_Encoder\Mem.h \
-  D:\keil_v5\ARM\ARMCLANG\include\stdlib.h ..\Drivers\BSP\OLED\oled.h \
-  ..\Drivers\Visual\visual.h ..\Drivers\BSP\LED\led.h \
-  ..\Drivers\Sensor\SensorProc.h ..\Drivers\Sensor\Rotation.h
+  D:\keil_v5\ARM\ARMCLANG\include\stdlib.h \
+  ..\Drivers\Initialize\Initialize.h ..\Drivers\Motion\kinematics.h \
+  ..\Drivers\BSP\OLED\oled.h ..\Drivers\Visual\visual.h \
+  ..\Drivers\BSP\LED\led.h ..\Drivers\Sensor\SensorProc.h

@@ -54,6 +54,10 @@ void CarState_Update(CarState *state, Data d) {
 // --- ??????? ---
 float sumTheta(float theta1, float theta2)
 {
+    if(theta1 < -180.0f || theta1 > 180.0f || theta2 < -180.0f || theta2 > 180.0f) {
+        snprintf(error_message, sizeof(error_message), "Theta values out of range: theta1 = %.2f, theta2 = %.2f", theta1, theta2);
+        Error_Handler(); 
+    }
     float sum = theta1 + theta2;
     while (sum < -180.0f) sum += 360.0f;
     while (sum > 180.0f) sum -= 360.0f;

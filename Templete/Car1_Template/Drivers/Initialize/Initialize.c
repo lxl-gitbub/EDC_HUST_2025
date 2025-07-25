@@ -5,6 +5,7 @@ Motor Le, Ri;  // Declare motors for left and right
 CarState car; // Declare car state for kinematics
 Data current_data;
 int Digital[8];
+char error_message[100]; // Buffer for error messages
 
 
 void MECInit()
@@ -73,8 +74,23 @@ float getYaw()
     // Get the yaw angle from the MS601M sensor
     atk_ms601m_attitude_data_t attitude_dat;
     atk_ms601m_get_attitude(&attitude_dat, 10);
+    
     return attitude_dat.yaw; // Return the yaw angle
 }
+
+/* RotationAngles getRotationAngles()
+{
+    // Get the rotation angles from the MS601M sensor
+    atk_ms601m_attitude_data_t attitude_dat;
+    atk_ms601m_get_attitude(&attitude_dat, 10);
+    
+    RotationAngles angles;
+    angles.yaw = attitude_dat.yaw; // Set yaw angle
+    angles.pitch = attitude_dat.pitch; // Set pitch angle
+    angles.roll = attitude_dat.roll; // Set roll angle
+    
+    return angles; // Return the rotation angles
+} */
 
 float getWz()
 {
@@ -107,7 +123,7 @@ void UpdateData()
     static bool first_run = true; // Flag to indicate the first run
     current_data.speed.linear_velocity = cSpeed() * speedCorrection; // Get the current speed
     current_data.speed.angular_velocity = getWz(); // Get the current angular velocity
-    current_data.yaw = getYaw(); // Get the current yaw angle
+    current_data.yaw = getYaw();// current_data.angles = getRotationAngles(); // Get the current rotation angles
     IIC_Get_Digital(Digital);
     if(first_run)
     {
@@ -131,8 +147,11 @@ void UpdateData_Car()
     CarState_Update(&car, current_data); // Update the car state with the current data
 }
 
-
-
-/* Check if the current yaw is within the specified tolerance of the target yaw */
-
-
+void error_handler(void)
+{
+    RED_up(); // Turn on the red LED to indicate an error
+    Break(); // Stop the motors
+    OLED_Clear(); // Clear the OLED display
+    OLED_ShowString(0, 0, error_message, 8); // Display the error message on the OLED
+    while(1); // Infinite loop to halt the program
+}

@@ -47,6 +47,7 @@
 
 // 传感器信息处理头文件
 #include "SensorProc.h"
+#include "Rotation.h"
 
 #ifdef __cplusplus
 extern "C" {

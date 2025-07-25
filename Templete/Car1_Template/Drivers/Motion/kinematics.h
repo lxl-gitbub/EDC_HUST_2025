@@ -32,6 +32,12 @@ typedef struct{
     float Kd; // 微分系数
 }PIDConfig;
 
+typedef struct {
+    float yaw;   // 偏航角
+    float pitch; // 俯仰角
+    float roll;  // 翻滚角
+} RotationAngles;
+
 typedef struct{
     float x; // x轴位置
     float y; // y轴位置
@@ -51,7 +57,7 @@ typedef struct{
 
 typedef struct{
     Speed speed; // 线速度和角速度
-    float yaw; // 偏航角
+    float yaw;//RotationAngles angles; // 方向角
 	float dt;
 }Data; //这个数据结构用于从编码器和陀螺仪中获取数据
 
