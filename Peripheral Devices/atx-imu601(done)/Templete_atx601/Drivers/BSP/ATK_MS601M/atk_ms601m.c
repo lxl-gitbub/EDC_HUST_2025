@@ -305,6 +305,8 @@ uint8_t atk_ms601m_write_reg_by_id(uint8_t id, uint8_t len, uint8_t *dat)
  */
 uint8_t atk_ms601m_init(uint32_t baudrate)
 {
+    HAL_Delay(10);
+    
     uint8_t ret;
     
     /* ATK-MS601M UART³õÊ¼»¯ */

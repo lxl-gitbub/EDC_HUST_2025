@@ -71,11 +71,8 @@ void Break()
 
 float getYaw()
 {
-    // Get the yaw angle from the MS601M sensor
-    atk_ms601m_attitude_data_t attitude_dat;
-    atk_ms601m_get_attitude(&attitude_dat, 10);
-    
-    return attitude_dat.yaw; // Return the yaw angle
+
+    return GyroscopeChannelData[8]; // Return the yaw angle
 }
 
 /* RotationAngles getRotationAngles()
@@ -94,11 +91,7 @@ float getYaw()
 
 float getWz()
 {
-    // Get the angular velocity (wz) from the MS601M sensor
-    atk_ms601m_gyro_data_t gyro_dat;
-		atk_ms601m_accelerometer_data_t accelerometer_dat;
-    atk_ms601m_get_gyro_accelerometer(&gyro_dat, &accelerometer_dat, 10);
-    return gyro_dat.z; // Return the angular velocity around the z-axis
+    return GyroscopeChannelData[5]; // Return the angular velocity around the z-axis
 }
 
 float CalibrateYawOffset()

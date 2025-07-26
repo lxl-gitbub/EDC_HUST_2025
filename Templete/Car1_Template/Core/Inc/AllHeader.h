@@ -12,9 +12,9 @@
 #include <string.h>
 #include <stdbool.h>
 
-// MS601M 传感器头文件
-#include "atk_ms601m.h"
-#include "atk_ms601m_uart.h"
+// JY61P 传感器头文件
+#include "REG.h"
+#include "wit_c_sdk.h"
 
 // 感为灰度传感器头文件
 #include "GanWei_i2c.h"
