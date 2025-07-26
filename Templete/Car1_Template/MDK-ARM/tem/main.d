@@ -51,6 +51,6 @@ tem/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Drivers\BSP\Motor_Encoder\Mem.h \
   D:\keil_v5\ARM\ARMCLANG\include\stdlib.h \
   ..\Drivers\Initialize\Initialize.h ..\Drivers\Motion\kinematics.h \
-  ..\Drivers\BSP\OLED\oled.h ..\Drivers\Visual\visual.h \
-  ..\Drivers\BSP\LED\led.h ..\Drivers\Sensor\SensorProc.h \
-  ..\Drivers\Sensor\Rotation.h
+  ..\Drivers\Motion\pid.h ..\Drivers\BSP\OLED\oled.h \
+  ..\Drivers\Visual\visual.h ..\Drivers\BSP\LED\led.h \
+  ..\Drivers\Sensor\SensorProc.h ..\Drivers\Sensor\Rotation.h

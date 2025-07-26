@@ -137,11 +137,9 @@ int main(void)
   while (1)
   {
     UpdateData_Car(); // Update the car state with the latest sensor readings
-    Straight(1.5, 0.2, 0.0, FORWARD); // Move forward with a speed of 1.0 m/s, acceleration of 0.2 m/s^2, and no steering
-    if(car.pose.x > 1.02)
-      GREEN_up(); // If the car has moved more than 1.02 meters, turn on the green LED
-//		PID_Move(0.5, 0, 0);
-//		runCircle(0.5, 0.6, 30, FORWARD);
+    float wz2 = getWz(); // Get the current angular velocity
+    sprintf(message, "Yaw: %.2f, wz: %.2f, wz2: %.2f", current_data.yaw, current_data.speed.angular_velocity, wz2);
+    OLED_ShowString(0, 0, message, 8); // Display the yaw
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

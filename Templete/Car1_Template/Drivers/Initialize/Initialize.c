@@ -120,22 +120,27 @@ void UpdateData()
     const float speedCorrection = 1.03f; // Speed correction factor
     static uint32_t last_time = 0; // Last update time
     uint32_t now = HAL_GetTick(); // Get the current time
-    static bool first_run = true; // Flag to indicate the first run
+    static volatile bool first_run = true; // Flag to indicate the first run
+    static float last_yaw = 0.0f; // Last yaw value for the first run
+
     current_data.speed.linear_velocity = cSpeed() * speedCorrection; // Get the current speed
-    current_data.speed.angular_velocity = getWz(); // Get the current angular velocity
     current_data.yaw = getYaw();// current_data.angles = getRotationAngles(); // Get the current rotation angles
     IIC_Get_Digital(Digital);
+
     if(first_run)
     {
         first_run = false; // Set the flag to false after the first run
         current_data.dt = 0; // Initialize dt on the first run
+        current_data.speed.angular_velocity = getWz(); // 因为没有相对时间，所以在第一次运行时直接获取当前的角速度
     }
     else
     {
         current_data.dt = (now - last_time) * 1e-3f; // Calculate the time difference in seconds
+        current_data.speed.angular_velocity = (current_data.yaw - last_yaw) / current_data.dt; // Calculate the angular velocity
     }
     if(current_data.dt <= 0.0f) current_data.dt = 0.01f; // Ensure dt is not zero to avoid division by zero 
     last_time = now; // Initialize last_time on the first run
+		last_yaw = current_data.yaw; // Store the last yaw value
 
     return; // Exit the function
 }
