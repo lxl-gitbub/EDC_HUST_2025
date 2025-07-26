@@ -46,10 +46,10 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-// MS601M ���������ݽṹ��
-atk_ms601m_attitude_data_t attitude_dat;
-atk_ms601m_gyro_data_t gyro_dat;
-atk_ms601m_accelerometer_data_t accelerometer_dat;
+//JY61P陀螺仪数据变量
+uint8_t GyroscopeUsart3RxBuffer[33];      //接收缓存
+double GyroscopeChannelData[10];
+uint8_t tempBuffer=0,RxBuffer;
 char message[256]; 
 const float back_angle_cor = -1.6;//���ھ��������ǵ�ϵͳ�����Ƕȹ�С����ʱ�벻����?
 //��Ϊ���������ݱ���
@@ -122,8 +122,7 @@ int main(void)
   MX_USART6_UART_Init();
   MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
-	HAL_Delay(10);
-	atk_ms601m_init(115200);
+	JY61P_Init(&huart2);
 	// ����ͱ�����ʼ��?
  	MECInit();
   uint32_t init_time = HAL_GetTick();
@@ -228,10 +227,21 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     UpdateAllSpeed(htim);
 }
 
-void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) //中断处理函数
 {
+  if(huart->Instance == USART2)
+	{
+		IT_JY61P();
+	}
 }
-
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) //中断回调函数
+{
+        if(RESET != __HAL_UART_GET_FLAG(huart,UART_FLAG_IDLE))   //判断是否是空闲中断
+        {
+            __HAL_UART_CLEAR_IDLEFLAG(&huart2);                     //清楚空闲中断标志（否则会一直不断进入中断）
+            HAL_UART_RxCpltCallback(&huart2);                          //调用中断处理函数
+        }	
+}
 
 /* USER CODE END 4 */
 

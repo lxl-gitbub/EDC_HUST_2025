@@ -6,5 +6,5 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "wit_c_sdk.h"
 #include "REG.h"
+#include "wit_c_sdk.h"
