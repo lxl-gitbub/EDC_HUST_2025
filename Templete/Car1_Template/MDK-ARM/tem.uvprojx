@@ -706,6 +706,11 @@
               <FileType>1</FileType>
               <FilePath>..\Drivers\Motion\tracking_delay.c</FilePath>
             </File>
+            <File>
+              <FileName>pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Motion\pid.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

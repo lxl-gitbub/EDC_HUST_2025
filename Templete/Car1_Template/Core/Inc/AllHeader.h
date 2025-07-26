@@ -33,8 +33,11 @@
 // 内存管理头文件
 #include "Mem.h"
 
-// 电机和编码器初始化头文件
+// 电机和编码器初始化头文件（内部包括了运动控制头文件
 #include "Initialize.h"
+
+//pid基本函数头文件
+#include "pid.h"
 
 //OLED显示屏头文件
 #include "oled.h"

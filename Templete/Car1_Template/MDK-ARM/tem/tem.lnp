@@ -41,6 +41,7 @@
 "tem\kinematics.o"
 "tem\tracking.o"
 "tem\tracking_delay.o"
+"tem\pid.o"
 "tem\initialize.o"
 "tem\sensorproc.o"
 "tem\rotation.o"

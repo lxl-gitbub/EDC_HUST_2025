@@ -7,12 +7,12 @@ tem/tim.o: ..\Core\Src\tim.c ..\Core\Inc\tim.h ..\Core\Inc\main.h \
   ..\Drivers\CMSIS\Device\ST\STM32H7xx\Include\stm32h743xx.h \
   ..\Drivers\CMSIS\Include\core_cm7.h \
   D:\keil_v5\ARM\ARMCLANG\include\stdint.h \
-  d:\code\stm32\EDC_\Templete\Car1_Template\Drivers\CMSIS\Include\cmsis_version.h \
-  d:\code\stm32\EDC_\Templete\Car1_Template\Drivers\CMSIS\Include\cmsis_compiler.h \
-  d:\code\stm32\EDC_\Templete\Car1_Template\Drivers\CMSIS\Include\cmsis_armclang.h \
+  D:\code\stm32\EDC_\Templete\Car1_Template\Drivers\CMSIS\Include\cmsis_version.h \
+  D:\code\stm32\EDC_\Templete\Car1_Template\Drivers\CMSIS\Include\cmsis_compiler.h \
+  D:\code\stm32\EDC_\Templete\Car1_Template\Drivers\CMSIS\Include\cmsis_armclang.h \
   D:\keil_v5\ARM\ARMCLANG\include\arm_compat.h \
   D:\keil_v5\ARM\ARMCLANG\include\arm_acle.h \
-  d:\code\stm32\EDC_\Templete\Car1_Template\Drivers\CMSIS\Include\mpu_armv7.h \
+  D:\code\stm32\EDC_\Templete\Car1_Template\Drivers\CMSIS\Include\mpu_armv7.h \
   ..\Drivers\CMSIS\Device\ST\STM32H7xx\Include\system_stm32h7xx.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\Legacy\stm32_hal_legacy.h \
   D:\keil_v5\ARM\ARMCLANG\include\stddef.h \

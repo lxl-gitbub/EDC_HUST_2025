@@ -20,18 +20,6 @@ typedef enum {
 extern "C" {
 #endif
 
-typedef struct{
-    float error; // 误差
-    float sum; // 积分
-    float difference; // 微分
-}PIDdata;
-
-typedef struct{
-    float Kp; // 比例系数
-    float Ki; // 积分系数
-    float Kd; // 微分系数
-}PIDConfig;
-
 typedef struct {
     float yaw;   // 偏航角
     float pitch; // 俯仰角
@@ -66,17 +54,6 @@ typedef struct{
     Speed speed; // 线速度和角速度
     WheelSpeed wheel_speed; // 左右轮速度
 }CarState;
-
-typedef struct{
-    CarState car_state; // 汽车状态
-    PIDdata pid; // PID数据
-}CarKinematics;
-
-
-//PID 函数声明
-void PID_Init(PIDdata *pid);
-void PID_Update(PIDdata *pid, float target, float current, float dt);
-float PID_Compute(PIDdata *pid, float Kp, float Ki, float Kd);
 
 //小车状态处理函数声明
 void CarState_Init(CarState *state);
