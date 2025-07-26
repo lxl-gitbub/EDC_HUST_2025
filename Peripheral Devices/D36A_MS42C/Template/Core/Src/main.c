@@ -24,7 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "SMotor.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -102,18 +102,15 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET); // Enable the motor driver
-  HAL_GPIO_WritePin(DIR_GPIO_Port, DIR_Pin, GPIO_PIN_SET); // Set the direction to clockwise                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
-  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1); // Start PWM on TIM2 Channel 1
-  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 500); // Set PWM duty cycle to 50%
+  SMotor motor;
+  SMotor_Init(&motor, DIR_GPIO_Port, DIR_Pin, &htim2, TIM_CHANNEL_1);
+  SMotor_SetSpeed(&motor, 6 * 360.0f);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    
-      __HAL_TIM_SET_PRESCALER(&htim2, 100);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

@@ -3,6 +3,9 @@
 
 #include "main.h"
 
+#define STEP_ANGULAR 1.8f
+#define STEP_DIVISOR 32.0f // 32 steps per revolution
+
 typedef enum {
     ANTI_CLOCKWISE = 0, // Counter-clockwise rotation
     CLOCKWISE = 1,      // Clockwise rotation
@@ -20,6 +23,8 @@ void SMotor_Init(SMotor *motor,
                  GPIO_TypeDef *Dir_port, uint16_t Dir_pin,
                  TIM_HandleTypeDef *pwm_timer, uint32_t pwm_channel);
 
-void SMotor_SetSpeed(SMotor *motor, uint8_t speed);
-	
+void SMotor_SetSpeed(SMotor *motor, float angular_speed);
+uint32_t GetClockFre(TIM_HandleTypeDef *htim);
+uint32_t GetStepFrequency(float angular_speed);
+
 #endif
