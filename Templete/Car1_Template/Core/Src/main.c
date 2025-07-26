@@ -137,13 +137,17 @@ int main(void)
   while (1)
   {
     UpdateData_Car(); // Update the car state with the latest sensor readings
-    float wz2 = getWz(); // Get the current angular velocity
-    sprintf(message, "Yaw: %.2f, wz: %.2f, wz2: %.2f", current_data.yaw, current_data.speed.angular_velocity, wz2);
-    OLED_ShowString(0, 0, message, 8); // Display the yaw
+    if(runCircle(0.3, 0.3, 90, LEFT)) // Run a circle with radius 0.3m
+      break; // If the circle run is successful, break the loop
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 	}
+  Break(); // Break the loop to stop the car
+  OLED_Clear(); // Clear the OLED display
+  sprintf(message, "x: %.2f, y: %.2f, theta: %.2f", 
+          car.pose.x, car.pose.y, car.pose.theta);
+  OLED_ShowString(0, 0, message, 8); // Display the car's pose on the OLED
   /* USER CODE END 3 */
 }
 
