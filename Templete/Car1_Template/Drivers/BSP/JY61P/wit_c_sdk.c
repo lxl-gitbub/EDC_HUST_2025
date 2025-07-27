@@ -569,6 +569,15 @@ void GYROSCOPE_DATA_Decoder(uint8_t *buf)
 }
 
 void JY61P_Init(UART_HandleTypeDef *huart){
-		//保证从帧头开始接收
-	  while(GyroscopeUsart3RxBuffer[0] != 0x55)	HAL_UART_Receive_IT(huart, (uint8_t *)GyroscopeUsart3RxBuffer,33);  
+    //保证从帧头开始接收
+    HAL_Delay(100);
+    int32_t init_time = HAL_GetTick();
+	  while(GyroscopeUsart3RxBuffer[0] != 0x55)	{
+        HAL_UART_Receive_IT(huart, (uint8_t *)GyroscopeUsart3RxBuffer,33);
+        if(HAL_GetTick() - init_time > 500) {
+            snprintf(error_message, sizeof(error_message), "JY61P Init Failed");
+            Error_Handler(); // Handle error if yaw is out of range
+            break;  // 超时退出\
+        }
+    }
 }

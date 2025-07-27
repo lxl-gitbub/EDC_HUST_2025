@@ -570,5 +570,6 @@ void GYROSCOPE_DATA_Decoder(uint8_t *buf)
 
 void JY61P_Init(UART_HandleTypeDef *huart){
 		//保证从帧头开始接收
-	  while(GyroscopeUsart3RxBuffer[0] != 0x55)	HAL_UART_Receive_IT(huart, (uint8_t *)GyroscopeUsart3RxBuffer,33);  
+    HAL_Delay(100);
+	while(GyroscopeUsart3RxBuffer[0] != 0x55)	HAL_UART_Receive_IT(huart, (uint8_t *)GyroscopeUsart3RxBuffer,33);  
 }

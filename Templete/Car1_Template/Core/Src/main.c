@@ -120,14 +120,13 @@ int main(void)
   MX_USART6_UART_Init();
   MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
-	HAL_Delay(10);
 	JY61P_Init(&huart2);
  	MECInit();
   uint32_t init_time = HAL_GetTick();
 	//OLED�Ļ��ʼ��??
 	OLED_Init();
 	OLED_Clear();
-  float s =   0.0f;
+  float s =  0.0f;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -150,7 +149,7 @@ int main(void)
       sprintf(message, "yaw: %.2f, wz: %.2f, wz2: %.2f", current_data.yaw, current_data.speed.angular_velocity, wz2);
       OLED_ShowString(0, 0, message, 8); // Display the current yaw and angular velocity on the OLED
 
- */    /* USER CODE END WHILE */
+    /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 	}
