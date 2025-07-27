@@ -46,12 +46,12 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-//JY61P�?螺仪数据变量
+//JY61P�??螺仪数据变量
 uint8_t GyroscopeUsart3RxBuffer[33];      //接收缓存
 double GyroscopeChannelData[10];
 uint8_t tempBuffer=0,RxBuffer;
 char message[256]; 
-const float back_angle_cor = -1.6;//���ھ��������ǵ�ϵͳ�����Ƕȹ�С����ʱ�벻����??
+const float back_angle_cor = -1.6;//���ھ��������ǵ�ϵͳ�����Ƕȹ�С����ʱ�벻����???
 //��Ϊ���������ݱ���
 
 /* USER CODE END PV */
@@ -124,7 +124,7 @@ int main(void)
 	JY61P_Init(&huart2);
  	MECInit();
   uint32_t init_time = HAL_GetTick();
-	//OLED�Ļ��ʼ��??
+	//OLED�Ļ��ʼ��???
 	OLED_Init();
 	OLED_Clear();
   float s =   0.0f;
@@ -150,7 +150,7 @@ int main(void)
       sprintf(message, "yaw: %.2f, wz: %.2f, wz2: %.2f", current_data.yaw, current_data.speed.angular_velocity, wz2);
       OLED_ShowString(0, 0, message, 8); // Display the current yaw and angular velocity on the OLED
 
- */    /* USER CODE END WHILE */
+    /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 	}
@@ -250,14 +250,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) //中断处理函数
 	{
 		IT_JY61P();
 	}
-}
-void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) //中断回调函数
-{
-        if(RESET != __HAL_UART_GET_FLAG(huart,UART_FLAG_IDLE))   //判断是否是空闲中�?
-        {
-            __HAL_UART_CLEAR_IDLEFLAG(&huart2);                     //清楚空闲中断标志（否则会�?直不断进入中断）
-            HAL_UART_RxCpltCallback(&huart2);                          //调用中断处理函数
-        }	
 }
 
 /* USER CODE END 4 */

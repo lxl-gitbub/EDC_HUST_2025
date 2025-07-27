@@ -13,10 +13,18 @@ typedef enum {
 } SMOTOR_MODE;
 
 typedef struct {
+    GPIO_PinState Anti_Dir; // Anti-clockwise direction pin state
+    float step_angular; // Step angular speed in degrees
+    float step_divisor; // Step divisor for speed calculation
+} SMotorParameters;
+
+
+typedef struct {
     GPIO_TypeDef *Dir_port; // GPIO port for direction pin
     uint16_t Dir_pin; // GPIO pin for direction pin
     TIM_HandleTypeDef *pwm_timer; // Timer handle for PWM
     uint32_t pwm_channel; // PWM channel
+    SMotorParameters parameters; // Motor parameters
 } SMotor;
 
 void SMotor_Init(SMotor *motor,

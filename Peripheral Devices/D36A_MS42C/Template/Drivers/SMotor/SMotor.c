@@ -3,7 +3,10 @@
 void SMotor_Init(SMotor *motor, GPIO_TypeDef *Dir_port, uint16_t Dir_pin,
                  TIM_HandleTypeDef *pwm_timer, uint32_t pwm_channel) {
     if (motor == NULL || pwm_timer == NULL) {
-        // Handle error: motor or timer is NULL
+        #ifdef INITIALIZE_H
+        sprintf(error_message, "SMotor_Init: motor or pwm_timer is NULL");
+        Error_Handler();
+        #endif
         return;
     }
     motor->Dir_port = Dir_port;
@@ -15,6 +18,19 @@ void SMotor_Init(SMotor *motor, GPIO_TypeDef *Dir_port, uint16_t Dir_pin,
     HAL_GPIO_WritePin(motor->Dir_port, motor->Dir_pin, GPIO_PIN_RESET);
      HAL_TIM_PWM_Start(motor->pwm_timer, motor->pwm_channel); // Start PWM
     __HAL_TIM_SET_COMPARE(motor->pwm_timer, motor->pwm_channel, 0); // Set initial PWM duty cycle to 0
+}
+
+void SMotor_Parameters_Init(SMotor *motor, GPIO_PinState Anti_Dir, float step_angular, float step_divisor) {
+    if (motor == NULL) {
+        #ifdef INITIALIZE_H
+        sprintf(error_message, "SMotor_Parameters_Init: motor is NULL");
+        Error_Handler();
+        #endif
+        return;
+    }
+    motor->parameters.Anti_Dir = Anti_Dir;
+    motor->parameters.step_angular = step_angular;
+    motor->parameters.step_divisor = step_divisor;
 }
 
 void SMotor_SetSpeed(SMotor *motor, float angular_speed) {
@@ -29,7 +45,7 @@ void SMotor_SetSpeed(SMotor *motor, float angular_speed) {
     }
     uint32_t tim_clk = GetClockFre(motor->pwm_timer);
     uint32_t target_frequency = GetStepFrequency(angular_speed);
-    uint32_t target_prcs = (tim_clk / target_frequency / 1000) - 1; // Calculate prescaler value
+    uint32_t target_prcs = (tim_clk / target_frequency / (__HAL_TIM_GET_AUTORELOAD(motor->pwm_timer) + 1)) - 1; // Calculate prescaler value
     float target_arr = 1;
     if (target_prcs > 0xFFFF ) {
         target_prcs = 0xFFFF; // Limit prescaler to maximum value
@@ -42,7 +58,10 @@ void SMotor_SetSpeed(SMotor *motor, float angular_speed) {
 
 uint32_t GetClockFre(TIM_HandleTypeDef *htim) {
     if (htim == NULL || htim->Instance == NULL) {
-        // Handle error: timer handle or instance is NULL
+        #ifdef INITIALIZE_H
+        sprintf(error_message, "GetClockFre: htim or htim->Instance is NULL");
+        Error_Handler();
+        #endif
         return 0;
     }
     uint32_t pclk1 = HAL_RCC_GetPCLK1Freq();
@@ -59,11 +78,17 @@ uint32_t GetClockFre(TIM_HandleTypeDef *htim) {
     return tim_clk;
 }
 
-uint32_t GetStepFrequency(float angular_speed)
-{
+uint32_t GetStepFrequency(float angular_speed, SMotor *motor) {
+    if (motor == NULL) {
+        #ifdef INITIALIZE_H
+        sprintf(error_message, "GetStepFrequency: motor is NULL");
+        Error_Handler();
+        #endif
+        return 0;
+    }
     if (angular_speed < 0) {
         angular_speed = -angular_speed; // Ensure speed is positive
     }
-    uint32_t step_frequency = (uint32_t)(angular_speed / STEP_ANGULAR * STEP_DIVISOR);
+    uint32_t step_frequency = (uint32_t)(angular_speed / motor->parameters.step_angular * motor->parameters.step_divisor);
     return step_frequency;
 }
