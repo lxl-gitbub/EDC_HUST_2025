@@ -46,12 +46,12 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-//JY61P陀螺仪数据变量
+//JY61P�?螺仪数据变量
 uint8_t GyroscopeUsart3RxBuffer[33];      //接收缓存
 double GyroscopeChannelData[10];
 uint8_t tempBuffer=0,RxBuffer;
 char message[256]; 
-const float back_angle_cor = -1.6;//���ھ��������ǵ�ϵͳ�����Ƕȹ�С����ʱ�벻����?
+const float back_angle_cor = -1.6;//���ھ��������ǵ�ϵͳ�����Ƕȹ�С����ʱ�벻����??
 //��Ϊ���������ݱ���
 
 /* USER CODE END PV */
@@ -61,8 +61,6 @@ void SystemClock_Config(void);
 static void MPU_Initialize(void);
 static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
-bool CheckAndTurn(void);
-bool CheckAndEnd(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -122,13 +120,14 @@ int main(void)
   MX_USART6_UART_Init();
   MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
+	HAL_Delay(10);
 	JY61P_Init(&huart2);
-	// ����ͱ�����ʼ��?
  	MECInit();
   uint32_t init_time = HAL_GetTick();
-	//OLED�Ļ��ʼ��?
+	//OLED�Ļ��ʼ��??
 	OLED_Init();
 	OLED_Clear();
+  float s =   0.0f;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -136,17 +135,31 @@ int main(void)
   while (1)
   {
     UpdateData_Car(); // Update the car state with the latest sensor readings
+    /* LSet(300);
+    RSet(300);
+    s += current_data.speed.linear_velocity * current_data.dt; // Update the distance traveled
+    OLED_Clear(); // Clear the OLED display
+  sprintf(message, "x: %.2f, y: %.2f, theta: %.2f, s: %.2f, v: %.2f, dt: %.2f", 
+          car.pose.x, car.pose.y, car.pose.theta);
+  OLED_ShowString(0, 0, message, 8); // Display the car's pose on the OLED
+ */
     if(runCircle(0.3, 0.3, 90, LEFT)) // Run a circle with radius 0.3m
-      break; // If the circle run is successful, break the loop
-    /* USER CODE END WHILE */
+     break; // Break the loop after running the circle
+      HAL_Delay(5);
+           /* float wz2 = getWz();
+      sprintf(message, "yaw: %.2f, wz: %.2f, wz2: %.2f", current_data.yaw, current_data.speed.angular_velocity, wz2);
+      OLED_ShowString(0, 0, message, 8); // Display the current yaw and angular velocity on the OLED
+
+ */    /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 	}
-  Break(); // Break the loop to stop the car
-  OLED_Clear(); // Clear the OLED display
-  sprintf(message, "x: %.2f, y: %.2f, theta: %.2f", 
-          car.pose.x, car.pose.y, car.pose.theta);
-  OLED_ShowString(0, 0, message, 8); // Display the car's pose on the OLED
+   sprintf(message, "x: %.2f, y: %.2f, theta: %.2f, s: %.2f, v: %.2f, dt: %.2f", 
+            car.pose.x, car.pose.y, car.pose.theta,
+            s, current_data.speed.linear_velocity, current_data.dt);
+          Break();
+          OLED_ShowString(0, 0, message, 8); // Display the car's pose on the OLED
+
   /* USER CODE END 3 */
 }
 
@@ -240,9 +253,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) //中断处理函数
 }
 void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) //中断回调函数
 {
-        if(RESET != __HAL_UART_GET_FLAG(huart,UART_FLAG_IDLE))   //判断是否是空闲中断
+        if(RESET != __HAL_UART_GET_FLAG(huart,UART_FLAG_IDLE))   //判断是否是空闲中�?
         {
-            __HAL_UART_CLEAR_IDLEFLAG(&huart2);                     //清楚空闲中断标志（否则会一直不断进入中断）
+            __HAL_UART_CLEAR_IDLEFLAG(&huart2);                     //清楚空闲中断标志（否则会�?直不断进入中断）
             HAL_UART_RxCpltCallback(&huart2);                          //调用中断处理函数
         }	
 }

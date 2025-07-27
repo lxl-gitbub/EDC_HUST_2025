@@ -1,3 +1,3 @@
 tem/pid.o: ..\Drivers\Motion\pid.c ..\Drivers\Motion\pid.h \
-  D:\Application\Keil5\ARM\ARMCLANG\include\stdio.h \
-  D:\Application\Keil5\ARM\ARMCLANG\include\stdint.h
+  D:\keil_v5\ARM\ARMCLANG\include\stdio.h \
+  D:\keil_v5\ARM\ARMCLANG\include\stdint.h

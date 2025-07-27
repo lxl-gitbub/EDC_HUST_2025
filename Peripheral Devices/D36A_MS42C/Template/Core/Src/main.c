@@ -102,14 +102,17 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  SMotor motor;
+  SMotor motor, motor2;
   SMotor_Init(&motor, DIR_GPIO_Port, DIR_Pin, &htim2, TIM_CHANNEL_1);
-  SMotor_SetSpeed(&motor, 6 * 360.0f);
+  SMotor_Init(&motor2, DIR2_GPIO_Port, DIR2_Pin, &htim2, TIM_CHANNEL_2);
+  SMotor_SetSpeed(&motor,  36.0);
+  SMotor_SetSpeed(&motor2,  36.0);
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
+   while (1)
   {
     /* USER CODE END WHILE */
 
