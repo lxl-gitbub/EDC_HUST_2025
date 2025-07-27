@@ -28,6 +28,8 @@
 "tem\stm32h7xx_hal_uart_ex.o"
 "tem\system_stm32h7xx.o"
 "tem\smotor.o"
+"tem\cont_smotor.o"
+"tem\init_smotor.o"
 --strict --scatter "tem\tem.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

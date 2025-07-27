@@ -120,7 +120,7 @@ int main(void)
   MX_USART6_UART_Init();
   MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
-	HAL_Delay(10);
+	HAL_Delay(100);
 	JY61P_Init(&huart2);
  	MECInit();
   uint32_t init_time = HAL_GetTick();

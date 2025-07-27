@@ -10,8 +10,8 @@
       <TargetName>tem</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pArmCC>6210000::V6.21::ARMCLANG</pArmCC>
-      <pCCUsed>6210000::V6.21::ARMCLANG</pCCUsed>
+      <pArmCC>6230000::V6.23::ARMCLANG</pArmCC>
+      <pCCUsed>6230000::V6.23::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -549,6 +549,16 @@
               <FileName>SMotor.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Drivers\SMotor\SMotor.c</FilePath>
+            </File>
+            <File>
+              <FileName>Cont_SMotor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\SMotor\Cont_SMotor.c</FilePath>
+            </File>
+            <File>
+              <FileName>Init_SMotor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\SMotor\Init_SMotor.c</FilePath>
             </File>
           </Files>
         </Group>

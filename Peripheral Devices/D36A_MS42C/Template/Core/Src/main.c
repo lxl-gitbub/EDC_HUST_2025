@@ -25,6 +25,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "SMotor.h"
+#include "Init_SMotor.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -100,20 +101,22 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM7_Init();
   MX_USART1_UART_Init();
-  MX_TIM2_Init();
+  MX_TIM5_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
-  SMotor motor, motor2;
-  SMotor_Init(&motor, DIR_GPIO_Port, DIR_Pin, &htim2, TIM_CHANNEL_1);
-  SMotor_Init(&motor2, DIR2_GPIO_Port, DIR2_Pin, &htim2, TIM_CHANNEL_2);
-  SMotor_SetSpeed(&motor,  36.0);
-  SMotor_SetSpeed(&motor2,  36.0);
-  
+  YP_SMotor_Init();
+	YP_SMotor_SetSpeed(90, -90);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
    while (1)
   {
+		YP_SMotor_UpdateState();
+//		if(GetYaw() > 90) {
+//      YP_SMotor_SetSpeed(0, 0); // Stop motors if speed is very low
+//    }
+		HAL_ResumeTick();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
