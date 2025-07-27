@@ -54,6 +54,7 @@ extern CarState car; // Declare car state for kinematics
 extern Data current_data; // Declare current data for kinematics
 extern int Digital[8]; // Declare an array for digital sensor readings
 extern char error_message[100]; // Buffer for error messages
+extern double GyroscopeChannelData[10]; // Array to hold gyroscope data
 
 void MECInit();
 void LMotorSet(MOVETYPE type, uint16_t duty);
