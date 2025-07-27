@@ -46,13 +46,13 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-//JY61P�?螺仪数据变量
-uint8_t GyroscopeUsart3RxBuffer[33];      //接收缓存
+//JY61Pďż??čşäťŞć°ćŽĺé
+uint8_t GyroscopeUsart3RxBuffer[33];      //ćĽćśçźĺ­
 double GyroscopeChannelData[10];
 uint8_t tempBuffer=0,RxBuffer;
 char message[256]; 
-const float back_angle_cor = -1.6;//���ھ��������ǵ�ϵͳ�����Ƕȹ�С����ʱ�벻����??
-//��Ϊ���������ݱ���
+const float back_angle_cor = -1.6;//ďż˝ďż˝ďż˝Úžďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝Çľďż˝ĎľÍłďż˝ďż˝îŁŹďż˝ďż˝ďż˝ÇśČšďż˝ĐĄďż˝ďż˝ďż˝ďż˝Ęąďż˝ë˛ťďż˝ďż˝ďż˝ďż???
+//ďż˝ďż˝ÎŞďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝Ýąďż˝ďż˝ďż˝
 
 /* USER CODE END PV */
 
@@ -123,7 +123,7 @@ int main(void)
 	JY61P_Init(&huart2);
  	MECInit();
   uint32_t init_time = HAL_GetTick();
-	//OLED�Ļ��ʼ��??
+	//OLEDďż˝Äťďż˝ďż˝Ęźďż˝ďż???
 	OLED_Init();
 	OLED_Clear();
   float s =  0.0f;
@@ -226,7 +226,7 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-//���ڸ��������ṩ1us�Ķ�ʱ
+//ďż˝ďż˝ďż˝Ú¸ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ášŠ1usďż˝Äśďż˝Ęą
 void delay_us_hal(uint16_t nus)
 {
     __HAL_TIM_SET_COUNTER(&htim6, 0);
@@ -236,27 +236,19 @@ void delay_us_hal(uint16_t nus)
 }
 
 
-// ��ʱ���жϻص����������ڸ��±������ٶ�
+// ďż˝ďż˝Ęąďż˝ďż˝ďż˝ĐśĎťŘľďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝Ú¸ďż˝ďż˝Âąďż˝ďż˝ďż˝ďż˝ďż˝ďż˝Ůśďż˝
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-    // �������б��������ٶ�����
+    // ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝Đąďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝Ůśďż˝ďż˝ďż˝ďż˝ďż˝
     UpdateAllSpeed(htim);
 }
 
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) //中断处理函数
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) //ä¸­ć­ĺ¤çĺ˝ć°
 {
   if(huart->Instance == USART2)
 	{
 		IT_JY61P();
 	}
-}
-void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) //中断回调函数
-{
-        if(RESET != __HAL_UART_GET_FLAG(huart,UART_FLAG_IDLE))   //判断是否是空闲中�?
-        {
-            __HAL_UART_CLEAR_IDLEFLAG(&huart2);                     //清楚空闲中断标志（否则会�?直不断进入中断）
-            HAL_UART_RxCpltCallback(&huart2);                          //调用中断处理函数
-        }	
 }
 
 /* USER CODE END 4 */
