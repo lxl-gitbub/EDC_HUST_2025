@@ -6,6 +6,16 @@ Coordinate laser_position = {0.0f, 0.0f}; // 激光雷达位置
 Coordinate target_position = {0.0f, 0.0f}; // 目标位置
 bool is_updated = false; // 是否更新了数据
 bool is_new_mode = true; // 是否进入了新模式
+TargetPositionFunctions target_functions = {
+    .t_to_x = NULL, // 时间到X轴位置的转换函数
+    .t_to_y = NULL, // 时间到Y轴位置的转换函数
+    .init_t = 0.0f // 初始化时间
+};
+
+float r = 0;
+float angular_speed = 0;
+Coordinate O_pos = {0.0f, 0.0f}; // 圆心位置
+
 
 Attitude CoordinateToAttitude(Coordinate coord) {
     Attitude attitude;
@@ -51,3 +61,39 @@ void PID_SMotor_Cont(void)
     is_updated = true; // 设置数据已更新标志
     #endif
 }
+
+void TargetPositionUpdate(void)
+{
+    target_position.x = target_functions.t_to_x(HAL_GetTick() * 0.001f - target_functions.init_t);
+    target_position.y = target_functions.t_to_y(HAL_GetTick() * 0.001f - target_functions.init_t);
+    return;
+}
+
+void TargetPositionSetFunctions(float (*t_to_x)(float), float (*t_to_y)(float), float init_t)
+{
+    target_functions.t_to_x = t_to_x;
+    target_functions.t_to_y = t_to_y;
+    target_functions.init_t = init_t;
+    return;
+}
+
+float circle_t_to_x(float t)
+{
+    return O_pos.x + r * cosf(angular_speed * t);
+}
+
+float circle_t_to_y(float t)
+{
+    return O_pos.y + r * sinf(angular_speed * t);
+}
+
+void SetTargetCircle(float radius, float center_x, float center_y, float angular_velocity)
+{
+    r = radius; // 圆的半径
+    O_pos.x = center_x; // 圆心X坐标
+    O_pos.y = center_y; // 圆心Y坐标
+    angular_speed = angular_velocity; // 角速度
+    // 设置时间到X轴和Y轴位置的转换函数
+    TargetPositionSetFunctions(circle_t_to_x, circle_t_to_y, HAL_GetTick() * 0.001f);
+}
+

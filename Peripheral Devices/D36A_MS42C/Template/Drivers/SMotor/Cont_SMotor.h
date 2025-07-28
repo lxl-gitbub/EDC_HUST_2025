@@ -21,7 +21,18 @@ typedef struct{
     float pitch; // 俯仰角
 } Attitude;
 
+typedef struct {
+    float (*t_to_x)(float t); // 时间到X轴位置的转换函数
+    float (*t_to_y)(float t); // 时间到Y轴位置的转换函数
+    float init_t; // 初始化时间
+} TargetPositionFunctions;
+
 void PID_SMotor_Cont(void); // 控制函数
 Attitude CoordinateToAttitude(Coordinate coord); // 坐标转换函数
+
+void TargetPositionUpdate(void); // 更新目标位置
+void TargetPositionSetFunctions(float (*t_to_x)(float t), float (*t_to_y)(float t), float init_t); // 设置目标位置转换函数
+void SetTargetCircle(float radius, float center_x, float center_y, float angular_velocity);
+
 
 #endif // CONT_SMOTOR_H
