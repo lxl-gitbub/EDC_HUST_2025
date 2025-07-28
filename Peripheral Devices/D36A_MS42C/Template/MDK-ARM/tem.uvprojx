@@ -560,6 +560,16 @@
               <FileType>1</FileType>
               <FilePath>..\Drivers\SMotor\Init_SMotor.c</FilePath>
             </File>
+            <File>
+              <FileName>pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\SMotor\pid.c</FilePath>
+            </File>
+            <File>
+              <FileName>Laser.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\SMotor\Laser.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

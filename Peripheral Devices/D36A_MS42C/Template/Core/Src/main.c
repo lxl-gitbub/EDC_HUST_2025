@@ -26,6 +26,9 @@
 /* USER CODE BEGIN Includes */
 #include "SMotor.h"
 #include "Init_SMotor.h"
+#include "Laser.h"
+#include "Cont_SMotor.h"
+#include "stdbool.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -59,6 +62,14 @@ static void MPU_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+extern uint8_t USART_LASER_RX_BUF[] ;
+extern int Laser_Loc[] ;
+
+// ��������
+int error;
+#ifdef SMOTOR_DEBUG
+extern bool is_updated; // 是否更新了数据
+#endif
 
 /* USER CODE END 0 */
 
@@ -105,18 +116,17 @@ int main(void)
   MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
   YP_SMotor_Init();
-	YP_SMotor_SetSpeed(90, -90);
+  HAL_UARTEx_ReceiveToIdle_IT(&HUART_LASER, USART_LASER_RX_BUF, USART_LASER_RX_BUF_LEN);
+  #ifdef SMOTOR_DEBUG
+  is_updated = true; // 初始化数据未更新标志
+  #endif
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
    while (1)
   {
-		YP_SMotor_UpdateState();
-		if(GetYaw() > 90) {
-      YP_SMotor_SetSpeed(0, 0); // Stop motors if speed is very low
-    }
-		HAL_Delay(10);
+		PID_SMotor_Cont();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -188,6 +198,10 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+{
+	Laser_Mode(USART_LASER_RX_BUF , huart) ;
+}
 
 /* USER CODE END 4 */
 

@@ -5,7 +5,7 @@
 Coordinate laser_position = {0.0f, 0.0f}; // 激光雷达位置
 Coordinate target_position = {0.0f, 0.0f}; // 目标位置
 bool is_updated = false; // 是否更新了数据
-bool is_new_mode = false; // 是否进入了新模式
+bool is_new_mode = true; // 是否进入了新模式
 
 Attitude CoordinateToAttitude(Coordinate coord) {
     Attitude attitude;
@@ -19,6 +19,8 @@ void PID_SMotor_Cont(void)
 {
     static PIDdata pid_yaw, pid_pitch;
     static uint32_t last_update_time = 0;
+    PIDConfig config_yaw = {1.0f, 0.1f, 0.01f};
+    PIDConfig config_pitch = {1.0f, 0.1f, 0.01f};
     uint32_t current_time = HAL_GetTick();
     if(is_new_mode) {
         PID_Init(&pid_yaw);
@@ -29,15 +31,23 @@ void PID_SMotor_Cont(void)
     }
     if(!is_updated) return; // 如果数据未更新则返回
     is_updated = false; // 重置更新标志
+    float dt = (current_time - last_update_time) / 1000.0f; // 时间间隔
     Attitude target_attitude = CoordinateToAttitude(target_position);
     Attitude attitude = CoordinateToAttitude(laser_position);
-    PID_Update(&pid_yaw, target_attitude.yaw, attitude.yaw, current_time - last_update_time);
-    PID_Update(&pid_pitch, target_attitude.pitch, attitude.pitch, current_time - last_update_time);
+    PID_Update(&pid_yaw, target_attitude.yaw, attitude.yaw, dt);
+    PID_Update(&pid_pitch, target_attitude.pitch, attitude.pitch, dt);
     last_update_time = current_time; // 更新上次更新时间
     // 计算PID输出
-    float output_yaw = PID_Compute(&pid_yaw, 1.0f, 0.1f, 0.01f);
-    float output_pitch = PID_Compute(&pid_pitch, 1.0f, 0.1f, 0.01f);
+    float output_yaw = PID_Compute(&pid_yaw, config_yaw.Kp, config_yaw.Ki, config_yaw.Kd);
+    float output_pitch = PID_Compute(&pid_pitch, config_pitch.Kp, config_pitch.Ki, config_pitch.Kd);
     // 发送控制命令
     YP_SMotor_SetSpeed(output_yaw, output_pitch); // 设置舵机速度
     YP_SMotor_UpdateState(); // 更新舵机状态
+    #ifdef SMOTOR_DEBUG
+    target_position.x = 1.0f; // 调试时将目标位置设置为激光雷达位置
+    target_position.y = 1.0f; // 调试时将目标位置设置为激光雷达位置
+    laser_position.x += output_yaw * dt * (-0.01f); // 模拟激光雷达位置变化
+    laser_position.y += output_pitch * dt * (0.01f); // 模拟激光雷达位置变化
+    is_updated = true; // 设置数据已更新标志
+    #endif
 }

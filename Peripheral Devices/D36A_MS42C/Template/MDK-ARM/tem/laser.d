@@ -1,4 +1,5 @@
-tem/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
+tem/laser.o: ..\Drivers\SMotor\Laser.c RTE\_tem\RTE_Components.h \
+  ..\Drivers\SMotor\Laser.h ..\Core\Inc\usart.h ..\Core\Inc\main.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
   ..\Core\Inc\stm32h7xx_hal_conf.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_rcc.h \
@@ -27,7 +28,6 @@ tem/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_tim_ex.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart_ex.h \
-  ..\Core\Inc\tim.h ..\Core\Inc\usart.h ..\Core\Inc\gpio.h \
-  ..\Drivers\SMotor\SMotor.h ..\Drivers\SMotor\Init_SMotor.h \
-  ..\Drivers\SMotor\Laser.h ..\Drivers\SMotor\Cont_SMotor.h \
-  ..\Drivers\SMotor\pid.h
+  ..\Drivers\SMotor\Cont_SMotor.h ..\Drivers\SMotor\SMotor.h \
+  ..\Drivers\SMotor\pid.h ..\Drivers\SMotor\Init_SMotor.h \
+  ..\Core\Inc\tim.h

@@ -21,4 +21,7 @@ typedef struct{
     float pitch; // 俯仰角
 } Attitude;
 
+void PID_SMotor_Cont(void); // 控制函数
+Attitude CoordinateToAttitude(Coordinate coord); // 坐标转换函数
+
 #endif // CONT_SMOTOR_H
