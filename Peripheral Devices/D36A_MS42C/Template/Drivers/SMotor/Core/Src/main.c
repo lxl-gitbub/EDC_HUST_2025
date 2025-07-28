@@ -18,14 +18,14 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "i2c.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "SMotor.h"
-#include "Init_SMotor.h"
+#include "AllHeader.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -46,6 +46,13 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+//JY61Pďż??čşäťŞć°ćŽĺé
+uint8_t GyroscopeUsart3RxBuffer[33];      //ćĽćśçźĺ­
+double GyroscopeChannelData[10];
+uint8_t tempBuffer=0,RxBuffer;
+char message[256]; 
+const float back_angle_cor = -1.6;//ďż˝ďż˝ďż˝Úžďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝Çľďż˝ĎľÍłďż˝ďż˝îŁŹďż˝ďż˝ďż˝ÇśČšďż˝ĐĄďż˝ďż˝ďż˝ďż˝Ęąďż˝ë˛ťďż˝ďż˝ďż˝ďż???
+//ďż˝ďż˝ÎŞďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝Ýąďż˝ďż˝ďż˝
 
 /* USER CODE END PV */
 
@@ -54,11 +61,13 @@ void SystemClock_Config(void);
 static void MPU_Initialize(void);
 static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
-
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+
+
 
 /* USER CODE END 0 */
 
@@ -101,26 +110,55 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM7_Init();
   MX_USART1_UART_Init();
+  MX_TIM1_Init();
+  MX_TIM3_Init();
   MX_TIM5_Init();
   MX_TIM6_Init();
+  MX_USART2_UART_Init();
+  MX_USART3_UART_Init();
+  MX_I2C1_Init();
+  MX_USART6_UART_Init();
+  MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
-  YP_SMotor_Init();
-	YP_SMotor_SetSpeed(90, -90);
+	JY61P_Init(&huart2);
+ 	MECInit();
+  uint32_t init_time = HAL_GetTick();
+	//OLEDďż˝Äťďż˝ďż˝Ęźďż˝ďż???
+	OLED_Init();
+	OLED_Clear();
+  float s =  0.0f;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-   while (1)
+  while (1)
   {
-		YP_SMotor_UpdateState();
-		if(GetYaw() > 90) {
-      YP_SMotor_SetSpeed(0, 0); // Stop motors if speed is very low
-    }
-		HAL_Delay(10);
+    UpdateData_Car(); // Update the car state with the latest sensor readings
+    /* LSet(300);
+    RSet(300);
+    s += current_data.speed.linear_velocity * current_data.dt; // Update the distance traveled
+    OLED_Clear(); // Clear the OLED display
+  sprintf(message, "x: %.2f, y: %.2f, theta: %.2f, s: %.2f, v: %.2f, dt: %.2f", 
+          car.pose.x, car.pose.y, car.pose.theta);
+  OLED_ShowString(0, 0, message, 8); // Display the car's pose on the OLED
+ */
+    if(runCircle(0.3, 0.3, 90, LEFT)) // Run a circle with radius 0.3m
+     break; // Break the loop after running the circle
+      HAL_Delay(5);
+           /* float wz2 = getWz();
+      sprintf(message, "yaw: %.2f, wz: %.2f, wz2: %.2f", current_data.yaw, current_data.speed.angular_velocity, wz2);
+      OLED_ShowString(0, 0, message, 8); // Display the current yaw and angular velocity on the OLED
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
+	}
+   sprintf(message, "x: %.2f, y: %.2f, theta: %.2f, s: %.2f, v: %.2f, dt: %.2f", 
+            car.pose.x, car.pose.y, car.pose.theta,
+            s, current_data.speed.linear_velocity, current_data.dt);
+          Break();
+          OLED_ShowString(0, 0, message, 8); // Display the car's pose on the OLED
+
   /* USER CODE END 3 */
 }
 
@@ -188,6 +226,30 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+//ďż˝ďż˝ďż˝Ú¸ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ášŠ1usďż˝Äśďż˝Ęą
+void delay_us_hal(uint16_t nus)
+{
+    __HAL_TIM_SET_COUNTER(&htim6, 0);
+    HAL_TIM_Base_Start(&htim6);       
+    while (__HAL_TIM_GET_COUNTER(&htim6) < nus); 
+    HAL_TIM_Base_Stop(&htim6);        
+}
+
+
+// ďż˝ďż˝Ęąďż˝ďż˝ďż˝ĐśĎťŘľďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝Ú¸ďż˝ďż˝Âąďż˝ďż˝ďż˝ďż˝ďż˝ďż˝Ůśďż˝
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+    // ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝Đąďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝ďż˝Ůśďż˝ďż˝ďż˝ďż˝ďż˝
+    UpdateAllSpeed(htim);
+}
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) //ä¸­ć­ĺ¤çĺ˝ć°
+{
+  if(huart->Instance == USART2)
+	{
+		IT_JY61P();
+	}
+}
 
 /* USER CODE END 4 */
 
@@ -261,6 +323,7 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
+  error_handler(); // Call the error handler function to handle the error
   __disable_irq();
   while (1)
   {
