@@ -25,6 +25,8 @@
 #include <string.h>
 #include "core_cm4.h"
 
+#include "Laser.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
@@ -60,28 +62,12 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN 0 */
 
 
-// ------´®¿ÚÍ¨ÐÅÏà¹Ø²ÎÊý³õÊ¼»¯----------
-// ´®¿Ú½ÓÏß:(°´ÕÕÎÒµÄf4°å×ÓºÍCanMV)
-// STM32_TX == PA9  ----- 12 == CanMV_RX(ÉÏ)
-// STM32_RX == PA10 ----- 11 == CanMV_TX(ÏÂ)
+// æ¿€å…‰ä½ç½®ä¸²å£é€šä¿¡
+extern uint8_t USART_LASER_RX_BUF[] ;
+extern int Laser_Loc[] ;
 
-// ¶¨Òå½ÓÊÜ³¤¶È
-#define USART_RX_BUF_LEN 25 
-// ½ÓÊÕ×´Ì¬ºÍ»º³åÇø(ÓÃÓÚ¸Ã´®¿ÚÍ¨ÐÅµÄ¸÷ÖÖÐÅÏ¢µÄÌáÈ¡)
-uint8_t USART_RX_BUF[USART_RX_BUF_LEN] ;
-// ¼¤¹â×ø±ê¼ÇÂ¼Êý×é
-uint8_t Laser_Loc[USART_RX_BUF_LEN] ;
-
-// ------´®¿Ú-¼¤¹âÍ¨ÐÅÏà¹Ø²ÎÊý³õÊ¼»¯------
-// Ä¿±ê¼¤¹â(×Ï¹â)µÄ(x,y)
-int target_x ;
-int target_y ;
-// µ±Ç°Ö´ÐÐ×·×ÙÈÎÎñµÄ¼¤¹âµÄ(6x,y)
-int real_x ;
-int real_y ;
-
-// ±êÖ¾Î»´¦ÀíÂß¼­,ÓÉÓÚ¸Ã³ÌÐòÄ¿Ç°×÷Îª²¿·Ö¹¦ÄÜ²âÊÔ,flagÖ±½ÓÖÃ1
-int flag = 1 ; // flag = 0 : ¿ÕÏÐ	 flag = 1 : ¼¤¹â×·×ÙÄ£Ê½
+// æŠ¥é”™æœºåˆ¶
+int error ;
 
 /* USER CODE END 0 */
 
@@ -119,12 +105,12 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
-	// -------------Ö÷³ÌÐò(setup)-------------
+	// -------------ä¸»ç¨‹åº(setup)-------------
 	
-  // ½ÓÊÕÖÐ¶Ï
-  HAL_UARTEx_ReceiveToIdle_IT(&huart1, USART_RX_BUF, USART_RX_BUF_LEN);
-  // µÎ´ð¶¨Ê±Æ÷Æô¶¯
-  HAL_SYSTICK_Config(SystemCoreClock/1000) ;
+	
+  // æŽ¥æ”¶ä¸­æ–­
+  HAL_UARTEx_ReceiveToIdle_IT(&HUART_LASER, USART_LASER_RX_BUF, USART_LASER_RX_BUF_LEN);
+
 
   /* USER CODE END 2 */
 
@@ -132,7 +118,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   
 
-  // -------------Ö÷³ÌÐò(loop)-------------
+  // -------------ä¸»ç¨‹åº(loop)-------------
   while (1)
   {
     /* USER CODE END WHILE */
@@ -186,68 +172,9 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
-	if (huart->Instance == USART1)
-	{
- 		// ------------¼¤¹âÄ£Ê½ÅÐ¶¨------------
-		if ( flag == 1 )
-		{
-			// ·¢²¼¼¤¹â×ø±êÊý¾ÝÇëÇó
-		  if (huart1.gState == HAL_UART_STATE_READY) 
-			{ 
-				HAL_UART_Transmit_IT(&huart1, (uint8_t *)"L", 1); // ·¢ËÍÇëÇó
-			}
-				
-			// ¼¤¹âÎ»ÖÃ·µ»ØÖ¡: 0x12 target_x target_y real_x real_y 0x5B
-			if ( USART_RX_BUF[0] == 0x12 && USART_RX_BUF[5] == 0x5B )
-			{
-				// LEDµçÆ½·­×ª,Ö¸Ê¾³É¹¦¶ÁÈ¡Ïà¹ØÊý¾Ý
-				HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
-				
-				
-				// µÃµ½¼¤¹âÏà¹ØÊý¾Ý
-				for ( int j = 0 ; j < 4; j ++ )
-				{
-					Laser_Loc[j] = (int)USART_RX_BUF[j + 1] * 4 ; // µÃµ½ÕæÊµ×ø±ê
-				}
-			}
-			else
-			{
-				// ±¨´í»úÖÆ,´ý¿ª·¢
-			}
-		}
-		
-		// ------------ÆäËûÄ£Ê½ÅÐ¶¨------------
-		// ´ý¿ª·¢
-		
-		// ------------½ÓÊÕÐÅÏ¢Í¨ÓÃ´¦Àí---------
-
-		// ÖØÆô½ÓÊÕÇ°Çå³ý»º´æÇø
-		memset(USART_RX_BUF, 0, USART_RX_BUF_LEN);
- 
-	  // ÔÙ´Î½ÓÊÕ
-		HAL_UARTEx_ReceiveToIdle_IT(&huart1, USART_RX_BUF, USART_RX_BUF_LEN);
-	}
+	Laser_Mode(USART_LASER_RX_BUF , huart) ;
 }
 
-// ÔÝÊ±²»ÓÃ
-void HAL_SYSTICK_Callback(void)
-{
-//	static uint32_t count = 0 ;
-//	count ++ ;
-
-//	if (count >= 1000) // 1s
-//	{
-//		count = 0 ;
-//		const char *Send_MCU = "Check"; // ´ø»»ÐÐµÄ»ØÏÔ×Ö·û´®
-//		uint16_t Send_MCU_len = strlen(Send_MCU); // ¼ÆËã³¤¶È	
-//		
-//		
-//		if (huart1.gState == HAL_UART_STATE_READY) 
-//		{ 
-//		  HAL_UART_Transmit_IT(&huart1, (uint8_t *)Send_MCU, Send_MCU_len); // ¼ì²éUARTÊÇ·ñ¾ÍÐ÷
-//		}
-//	}
-}
 
 /* USER CODE END 4 */
 
