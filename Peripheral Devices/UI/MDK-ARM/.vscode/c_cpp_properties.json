@@ -10,6 +10,7 @@
                 "d:\\code\\stm32\\EDC_\\Peripheral Devices\\UI\\Drivers\\CMSIS\\Include",
                 "d:\\code\\stm32\\EDC_\\Peripheral Devices\\UI\\Drivers\\BSP\\OLED",
                 "d:\\code\\stm32\\EDC_\\Peripheral Devices\\UI\\Drivers\\BSP\\key",
+                "d:\\code\\stm32\\EDC_\\Peripheral Devices\\UI\\Drivers\\Mode",
                 "D:\\keil_v5\\ARM\\ARMCLANG\\include",
                 "D:\\keil_v5\\ARM\\ARMCLANG\\include\\arm_linux",
                 "D:\\keil_v5\\ARM\\ARMCLANG\\include\\arm_linux_compat",

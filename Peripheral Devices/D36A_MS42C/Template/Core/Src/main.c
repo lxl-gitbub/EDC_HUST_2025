@@ -116,6 +116,7 @@ int main(void)
   MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
   YP_SMotor_Init();
+	YP_SMotor_SetSpeed(-20, 20);
   HAL_UARTEx_ReceiveToIdle_IT(&HUART_LASER, USART_LASER_RX_BUF, USART_LASER_RX_BUF_LEN);
   #ifdef SMOTOR_DEBUG
   is_updated = true; // 初始化数据未更新标志
@@ -126,7 +127,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
    while (1)
   {
-		PID_SMotor_Cont();
+		//PID_SMotor_Cont();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

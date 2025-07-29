@@ -3,7 +3,7 @@
 <title>Static Call Graph - [tem\tem.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image tem\tem.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6230001: Last Updated: Tue Jul 29 16:02:41 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6230001: Last Updated: Tue Jul 29 17:56:23 2025
 <BR><P>
 <H3>Maximum Stack Usage =        432 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -721,6 +721,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
 <BR>[Called By]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OLED_Init
+<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_function
 </UL>
 
 <P><STRONG><a name="[b1]"></a>HAL_GPIO_Init</STRONG> (Thumb, 964 bytes, Stack size 64 bytes, stm32h7xx_hal_gpio.o(.text.HAL_GPIO_Init))
@@ -1322,10 +1323,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[98]"></a>menu_function</STRONG> (Thumb, 364 bytes, Stack size 40 bytes, menu.o(.text.menu_function))
+<P><STRONG><a name="[98]"></a>menu_function</STRONG> (Thumb, 370 bytes, Stack size 40 bytes, menu.o(.text.menu_function))
 <BR><BR>[Stack]<UL><LI>Max Depth = 268<LI>Call Chain = menu_function &rArr; OLED_ShowString &rArr; OLED_ShowChar &rArr; OLED_Set_Pos &rArr; OLED_WR_CMD &rArr; HAL_I2C_Mem_Write &rArr; I2C_RequestMemoryWrite &rArr; I2C_WaitOnTXISFlagUntilTimeout &rArr; I2C_IsErrorOccurred &rArr; I2C_Flush_TXDR
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OLED_Clear
+<BR>[Calls]<UL><LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
+<LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OLED_Clear
 <LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;select_menu
 <LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getNextSibling
 <LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getFirstChild

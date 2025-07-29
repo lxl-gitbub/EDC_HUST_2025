@@ -38,7 +38,7 @@ void menu_init(void)
     OLED_Clear(); // Clear the OLED display
     now_mode_tree->nodes.mode_function = menu_function; // Set the function pointer for the root node
     now_mode_tree->nodes.mode_name = "Main Menu"; // Set the name for the root node
-    // Add more nodes to the mode tree as needed\
+    // Add more nodes to the mode tree as needed
     now_mode_tree->parent = NULL; // Set the parent of the root node to NULL 
     OLED_Clear(); // Clear the OLED display
     
@@ -102,7 +102,14 @@ void menu_function(void)
     int index = 0; // Index for displaying menu items
     do{
         if (current->data != NULL && current->data->nodes.mode_name != NULL) {
-            OLED_ShowString(0, index, current->data->nodes.mode_name, 8); // Display the mode name on the OLED
+            if(current->data == now_mode_tree->parent)
+            {
+                OLED_ShowString(0, index, "..", 8); // Show parent node with ".."
+            }
+            else
+            {
+                OLED_ShowString(0, index, current->data->nodes.mode_name, 8); // Display the mode name on the OLED
+            }
             index++;
         }
         current = current->next; // Move to the next node in the circular list
@@ -116,6 +123,7 @@ void menu_function(void)
         if(Key1_short_press()) 
         {
             // If Key1 is pressed, select the current menu item
+            HAL_Delay(200); // Delay to avoid rapid selection
             select_menu(current->data);
             break; // Exit the menu function after selection
         }
