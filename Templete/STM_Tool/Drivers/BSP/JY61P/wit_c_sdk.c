@@ -577,7 +577,7 @@ void JY61P_Init(UART_HandleTypeDef *huart){
         if(HAL_GetTick() - init_time > 500) {
             snprintf(error_message, sizeof(error_message), "JY61P Init Failed");
             Error_Handler(); // Handle error if yaw is out of range
-            break;  // 超时退出\
+            break;  // 超时退出
         }
     }
 }
