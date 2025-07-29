@@ -84,7 +84,7 @@ void SMotor_UpdateState(SMotor *motor) {
         return;
     }
     uint32_t current_time = HAL_GetTick();
-    motor->state.current_position += motor->state.angular_speed * (current_time - motor->state.last_update_time); // Update current position
+    motor->state.current_position += motor->state.angular_speed * (current_time - motor->state.last_update_time) * 1e-3; // Update current position
 		motor->state.last_update_time = current_time;
 }
 

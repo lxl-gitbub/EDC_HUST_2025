@@ -152,7 +152,11 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
+<<<<<<< HEAD
           <LineNumber>108</LineNumber>
+=======
+          <LineNumber>201</LineNumber>
+>>>>>>> 5dbf4a7b0de1d64024bf0cc694ab194691d50c1d
           <EnabledFlag>1</EnabledFlag>
           <Address>134252628</Address>
           <ByteObject>0</ByteObject>
@@ -160,22 +164,34 @@
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
+<<<<<<< HEAD
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>../Core/Src/main.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\tem\../Core/Src/main.c\108</Expression>
+=======
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>../Core/Src/main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+>>>>>>> 5dbf4a7b0de1d64024bf0cc694ab194691d50c1d
         </Bp>
       </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>yawMotor</ItemText>
+          <ItemText>huart1</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>uwTick</ItemText>
+          <ItemText>Laser_Loc,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>2</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>error,0x0A</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>
@@ -637,6 +653,30 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\Drivers\SMotor\Init_SMotor.c</PathWithFileName>
       <FilenameWithoutPath>Init_SMotor.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>5</GroupNumber>
+      <FileNumber>32</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\Drivers\SMotor\pid.c</PathWithFileName>
+      <FilenameWithoutPath>pid.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>5</GroupNumber>
+      <FileNumber>33</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>1</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\Drivers\SMotor\Laser.c</PathWithFileName>
+      <FilenameWithoutPath>Laser.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
