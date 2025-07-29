@@ -1,4 +1,6 @@
-tem/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
+tem/menu.o: ..\Drivers\Mode\menu.c ..\Drivers\Mode\menu.h \
+  ..\Drivers\Mode\mode_tree.h ..\Drivers\BSP\OLED\oled.h \
+  ..\Core\Inc\i2c.h ..\Core\Inc\main.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
   ..\Core\Inc\stm32h7xx_hal_conf.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_rcc.h \
@@ -27,6 +29,5 @@ tem/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_tim_ex.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart_ex.h \
-  ..\Core\Inc\i2c.h ..\Core\Inc\tim.h ..\Core\Inc\usart.h \
-  ..\Core\Inc\gpio.h ..\Drivers\BSP\OLED\oled.h ..\Drivers\BSP\key\key.h \
-  ..\Drivers\Mode\menu.h ..\Drivers\Mode\mode_tree.h
+  ..\Drivers\Mode\circle_list.h ..\Drivers\BSP\key\key.h \
+  ..\Core\Inc\gpio.h

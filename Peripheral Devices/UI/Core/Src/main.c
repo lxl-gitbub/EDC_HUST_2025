@@ -30,6 +30,7 @@
 #include "oled.h"
 #include "stdio.h"
 #include "key.h"
+#include "menu.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -110,13 +111,15 @@ int main(void)
 	//��ʼ��OLED��Ļ
 	OLED_Init();
 	OLED_Clear(); // ����
+	menu_init();
+	menu_begin();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		OLED_ShowChar(120, 0, 'O', 8);
+		
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

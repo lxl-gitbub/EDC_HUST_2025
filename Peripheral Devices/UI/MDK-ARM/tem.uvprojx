@@ -341,7 +341,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Drivers/BSP/OLED;../Drivers/BSP/key</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Drivers/BSP/OLED;../Drivers/BSP/key;..\Drivers\Mode</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -564,6 +564,31 @@
               <FileName>key.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Drivers\BSP\key\key.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Mode</GroupName>
+          <Files>
+            <File>
+              <FileName>circle_list.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Mode\circle_list.c</FilePath>
+            </File>
+            <File>
+              <FileName>menu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Mode\menu.c</FilePath>
+            </File>
+            <File>
+              <FileName>mode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Mode\mode.c</FilePath>
+            </File>
+            <File>
+              <FileName>mode_tree.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Mode\mode_tree.c</FilePath>
             </File>
           </Files>
         </Group>

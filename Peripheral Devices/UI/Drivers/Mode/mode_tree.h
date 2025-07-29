@@ -17,9 +17,9 @@ typedef struct{
 
 typedef struct ModeTree {
     ModeNode nodes; 
-    ModeTree *firstChild; // Pointer to the first child node
-    ModeTree *nextSibling; // Pointer to the next sibling node
-    ModeTree *parent; // Pointer to the parent node, if needed
+    struct ModeTree *firstChild; // Pointer to the first child node
+    struct ModeTree *nextSibling; // Pointer to the next sibling node
+    struct ModeTree *parent; // Pointer to the parent node, if needed
 } ModeTree;
 
 ModeTree *createModeTree(ModeNode node); // Function to create a new mode tree
@@ -27,7 +27,5 @@ void addChild(ModeTree *parent, ModeTree *child); // Function to add a child to 
 
 ModeTree *getFirstChild(ModeTree *node); // Function to get the first child of a node
 ModeTree *getNextSibling(ModeTree *node); // Function to get the next sibling of a node
-
-void freeModeTree(ModeTree *tree); // Function to free the mode tree
 
 #endif // MODE_TREE_H

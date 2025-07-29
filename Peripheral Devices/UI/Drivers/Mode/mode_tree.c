@@ -1,4 +1,7 @@
 #include "mode_tree.h"
+#include "stdio.h"
+#include "main.h"
+#include "stdlib.h"
 
 ModeTree *createModeTree(ModeNode node) {
     ModeTree *newTree = (ModeTree *)malloc(sizeof(ModeTree));
@@ -39,20 +42,4 @@ ModeTree *getNextSibling(ModeTree *node) {
         return NULL; // Return NULL if the node is NULL
     }
     return node->nextSibling; // Return the next sibling node
-}
-
-void freeModeTree(ModeTree *tree) {
-    if (tree == NULL) {
-        return; // Nothing to free
-    }
-    // Recursively free children
-    if (tree->firstChild != NULL) {
-        freeModeTree(tree->firstChild);
-    }
-    // Free next sibling
-    if (tree->nextSibling != NULL) {
-        freeModeTree(tree->nextSibling);
-    }
-    // Free the current node
-    free(tree);
 }

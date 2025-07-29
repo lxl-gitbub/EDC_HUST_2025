@@ -1,4 +1,5 @@
 #include "circle_list.h"
+#include "stdlib.h"
 
 void CircleList_Init(CircleList *list) {
     list->head = NULL; // Initialize head to NULL

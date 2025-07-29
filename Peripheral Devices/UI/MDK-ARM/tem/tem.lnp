@@ -30,6 +30,10 @@
 "tem\system_stm32h7xx.o"
 "tem\oled.o"
 "tem\key.o"
+"tem\circle_list.o"
+"tem\menu.o"
+"tem\mode.o"
+"tem\mode_tree.o"
 --library_type=microlib --strict --scatter "tem\tem.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
