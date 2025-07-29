@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+tem/cont_smotor.o: ..\Drivers\SMotor\Cont_SMotor.c
+=======
 tem/cont_smotor.o: ..\Drivers\SMotor\Cont_SMotor.c \
   ..\Drivers\SMotor\Cont_SMotor.h ..\Drivers\SMotor\SMotor.h \
   ..\Core\Inc\main.h ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
@@ -30,3 +33,4 @@ tem/cont_smotor.o: ..\Drivers\SMotor\Cont_SMotor.c \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart_ex.h \
   ..\Drivers\SMotor\pid.h ..\Drivers\SMotor\Init_SMotor.h \
   ..\Core\Inc\tim.h
+>>>>>>> 5dbf4a7b0de1d64024bf0cc694ab194691d50c1d

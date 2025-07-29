@@ -7,8 +7,17 @@ tem/stm32h7xx_hal_pwr.o: \
   ..\Drivers\CMSIS\Device\ST\STM32H7xx\Include\stm32h7xx.h \
   ..\Drivers\CMSIS\Device\ST\STM32H7xx\Include\stm32h743xx.h \
   ..\Drivers\CMSIS\Include\core_cm7.h \
+  D:\Application\Keil5\ARM\ARMCLANG\include\stdint.h \
+  C:\Users\14437\Desktop\EDC_HUST_2025\Peripheral\ Devices\D36A_MS42C\Template\Drivers\CMSIS\Include\cmsis_version.h \
+  C:\Users\14437\Desktop\EDC_HUST_2025\Peripheral\ Devices\D36A_MS42C\Template\Drivers\CMSIS\Include\cmsis_compiler.h \
+  C:\Users\14437\Desktop\EDC_HUST_2025\Peripheral\ Devices\D36A_MS42C\Template\Drivers\CMSIS\Include\cmsis_armclang.h \
+  D:\Application\Keil5\ARM\ARMCLANG\include\arm_compat.h \
+  D:\Application\Keil5\ARM\ARMCLANG\include\arm_acle.h \
+  C:\Users\14437\Desktop\EDC_HUST_2025\Peripheral\ Devices\D36A_MS42C\Template\Drivers\CMSIS\Include\mpu_armv7.h \
   ..\Drivers\CMSIS\Device\ST\STM32H7xx\Include\system_stm32h7xx.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\Legacy\stm32_hal_legacy.h \
+  D:\Application\Keil5\ARM\ARMCLANG\include\stddef.h \
+  D:\Application\Keil5\ARM\ARMCLANG\include\math.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_rcc_ex.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_gpio.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_gpio_ex.h \

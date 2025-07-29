@@ -25,7 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "AllHeader.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -46,6 +46,13 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+//OLED 
+char message[256]; 
+
+//JY61P
+uint8_t GyroscopeUsart3RxBuffer[33];
+double GyroscopeChannelData[10];
+uint8_t tempBuffer=0,RxBuffer;
 
 /* USER CODE END PV */
 
@@ -112,13 +119,29 @@ int main(void)
   MX_TIM4_Init();
   MX_TIM12_Init();
   /* USER CODE BEGIN 2 */
+	YELLOW_up();
+	
+	//OLED Init
+	OLED_Init();
+	OLED_Clear();
+	OLED_ShowString(20,0,"Hello NUEDC", 8);
+	//JY61P Init
+	JY61P_Init(&huart2);
+	//Motor,Encoder,CarPosition Init
+ 	MECInit();
 
+	YELLOW_down();
+	GREEN_up();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		UpdateData_Car(); 
+		snprintf(message,sizeof(message),"Yaw = %.1f", GyroscopeChannelData[8]);
+		OLED_ShowString(0,2,message,16);
+		
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -190,6 +213,28 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+//Generate 1us delay
+void delay_us_hal(uint16_t nus)
+{
+    __HAL_TIM_SET_COUNTER(&htim6, 0);
+    HAL_TIM_Base_Start(&htim6);       
+    while (__HAL_TIM_GET_COUNTER(&htim6) < nus); 
+    HAL_TIM_Base_Stop(&htim6);        
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{  
+	//Update Speed
+	UpdateAllSpeed(htim);
+}
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) 
+{
+  if(huart->Instance == USART2)
+	{
+		IT_JY61P();
+	}
+}
 
 /* USER CODE END 4 */
 
