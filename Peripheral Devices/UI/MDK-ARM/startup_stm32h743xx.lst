@@ -1262,13 +1262,12 @@ ARM Macro Assembler    Page 20
   608 0000001C                 END
               00000000 
               00000000 
-Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M7.fp.dp --depen
-d=tem\startup_stm32h743xx.d -otem\startup_stm32h743xx.o -I.\RTE\_tem -ID:\Appli
-cation\Keil5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include -ID:\Application\Keil5
-\ARM\PACK\Keil\STM32H7xx_DFP\3.1.1\Drivers\CMSIS\Device\ST\STM32H7xx\Include --
-predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 527" --predef
-ine="_RTE_ SETA 1" --predefine="STM32H743xx SETA 1" --list=startup_stm32h743xx.
-lst startup_stm32h743xx.s
+Command Line: --debug --xref --diag_suppress=9931,A1950W --cpu=Cortex-M7.fp.dp 
+--depend=tem\startup_stm32h743xx.d -otem\startup_stm32h743xx.o -I.\RTE\_tem -ID
+:\keil_v5\ARM\PACK\ARM\CMSIS\6.1.0\CMSIS\Core\Include --predefine="__MICROLIB S
+ETA 1" --predefine="__UVISION_VERSION SETA 542" --predefine="STM32H743xx SETA 1
+" --predefine="_RTE_ SETA 1" --list=startup_stm32h743xx.lst startup_stm32h743xx
+.s
 
 
 

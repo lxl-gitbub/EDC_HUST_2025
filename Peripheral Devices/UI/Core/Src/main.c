@@ -25,10 +25,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-//ÐèÒªincludeµÄ²¿·Ö£¨¿É·â×°µ½AllHeader.hÍ·ÎÄ¼þÖÐ£©
+//ï¿½ï¿½Òªincludeï¿½Ä²ï¿½ï¿½Ö£ï¿½ï¿½É·ï¿½×°ï¿½ï¿½AllHeader.hÍ·ï¿½Ä¼ï¿½ï¿½Ð£ï¿½
 #include "string.h"
 #include "oled.h"
 #include "stdio.h"
+#include "key.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -106,20 +107,16 @@ int main(void)
   MX_USART1_UART_Init();
   MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
-	//³õÊ¼»¯OLEDÆÁÄ»
+	//ï¿½ï¿½Ê¼ï¿½ï¿½OLEDï¿½ï¿½Ä»
 	OLED_Init();
-	OLED_Clear(); // ÇåÆÁ
+	OLED_Clear(); // ï¿½ï¿½ï¿½ï¿½
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		OLED_ShowString(11, 0, "EDC-HUST-2025",8);
-		//OLED_ShowString(10, 0, "EDC-HUST-2025",16);
-		OLED_ShowString(15, 2, "Vincent Wang",16);
-		OLED_ShowString(15, 4, "QingHan Yang",16);
-		OLED_ShowString(40, 6, "Xin Liu",16);
+		OLED_ShowChar(120, 0, 'O', 8);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
