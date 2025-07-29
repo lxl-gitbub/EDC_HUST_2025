@@ -113,10 +113,9 @@ int main(void)
    while (1)
   {
 		YP_SMotor_UpdateState();
-//		if(GetYaw() > 90) {
-//      YP_SMotor_SetSpeed(0, 0); // Stop motors if speed is very low
-//    }
-		HAL_ResumeTick();
+		if(GetYaw() > 90) {
+      YP_SMotor_SetSpeed(0, 0); // Stop motors if speed is very low
+    }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

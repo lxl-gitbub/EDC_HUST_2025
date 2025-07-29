@@ -3,19 +3,19 @@
         {
             "name": "tem",
             "includePath": [
-                "d:\\code\\stm32\\EDC_\\Peripheral Devices\\D36A_MS42C\\Template\\Core\\Inc",
-                "d:\\code\\stm32\\EDC_\\Peripheral Devices\\D36A_MS42C\\Template\\Drivers\\STM32H7xx_HAL_Driver\\Inc",
-                "d:\\code\\stm32\\EDC_\\Peripheral Devices\\D36A_MS42C\\Template\\Drivers\\STM32H7xx_HAL_Driver\\Inc\\Legacy",
-                "d:\\code\\stm32\\EDC_\\Peripheral Devices\\D36A_MS42C\\Template\\Drivers\\CMSIS\\Device\\ST\\STM32H7xx\\Include",
-                "d:\\code\\stm32\\EDC_\\Peripheral Devices\\D36A_MS42C\\Template\\Drivers\\CMSIS\\Include",
-                "d:\\code\\stm32\\EDC_\\Peripheral Devices\\D36A_MS42C\\Template\\Drivers\\SMotor",
-                "D:\\keil_v5\\ARM\\ARMCLANG\\include",
-                "D:\\keil_v5\\ARM\\ARMCLANG\\include\\arm_linux",
-                "D:\\keil_v5\\ARM\\ARMCLANG\\include\\arm_linux_compat",
-                "D:\\keil_v5\\ARM\\ARMCLANG\\include\\libcxx",
-                "d:\\code\\stm32\\EDC_\\Peripheral Devices\\D36A_MS42C\\Template\\MDK-ARM",
-                "d:\\code\\stm32\\EDC_\\Peripheral Devices\\D36A_MS42C\\Template\\Core\\Src",
-                "d:\\code\\stm32\\EDC_\\Peripheral Devices\\D36A_MS42C\\Template\\Drivers\\STM32H7xx_HAL_Driver\\Src"
+                "c:\\Users\\14437\\Desktop\\EDC_HUST_2025\\Peripheral Devices\\D36A_MS42C\\Template\\Core\\Inc",
+                "c:\\Users\\14437\\Desktop\\EDC_HUST_2025\\Peripheral Devices\\D36A_MS42C\\Template\\Drivers\\STM32H7xx_HAL_Driver\\Inc",
+                "c:\\Users\\14437\\Desktop\\EDC_HUST_2025\\Peripheral Devices\\D36A_MS42C\\Template\\Drivers\\STM32H7xx_HAL_Driver\\Inc\\Legacy",
+                "c:\\Users\\14437\\Desktop\\EDC_HUST_2025\\Peripheral Devices\\D36A_MS42C\\Template\\Drivers\\CMSIS\\Device\\ST\\STM32H7xx\\Include",
+                "c:\\Users\\14437\\Desktop\\EDC_HUST_2025\\Peripheral Devices\\D36A_MS42C\\Template\\Drivers\\CMSIS\\Include",
+                "c:\\Users\\14437\\Desktop\\EDC_HUST_2025\\Peripheral Devices\\D36A_MS42C\\Template\\Drivers\\SMotor",
+                "D:\\Application\\Keil5\\ARM\\ARMCLANG\\include",
+                "D:\\Application\\Keil5\\ARM\\ARMCLANG\\include\\arm_linux",
+                "D:\\Application\\Keil5\\ARM\\ARMCLANG\\include\\arm_linux_compat",
+                "D:\\Application\\Keil5\\ARM\\ARMCLANG\\include\\libcxx",
+                "c:\\Users\\14437\\Desktop\\EDC_HUST_2025\\Peripheral Devices\\D36A_MS42C\\Template\\MDK-ARM",
+                "c:\\Users\\14437\\Desktop\\EDC_HUST_2025\\Peripheral Devices\\D36A_MS42C\\Template\\Core\\Src",
+                "c:\\Users\\14437\\Desktop\\EDC_HUST_2025\\Peripheral Devices\\D36A_MS42C\\Template\\Drivers\\STM32H7xx_HAL_Driver\\Src"
             ],
             "defines": [
                 "USE_HAL_DRIVER",
